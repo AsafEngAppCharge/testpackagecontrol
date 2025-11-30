@@ -2,8 +2,7 @@
     "name": "Appcharge.PaymentLinks.Platforms.Base",
     "rootNamespace": "",
     "references": [
-        "GUID:06252861033e64bcb90f10c2dd0c2305",
-        "GUID:8ec04333ae3e14d6080595c1fa548f8e"
+        "GUID:fa3aeb143e13540ce9346fc645c7f133"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

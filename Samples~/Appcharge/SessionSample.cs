@@ -19,10 +19,10 @@ public class SessionSample: MonoBehaviour
 
         switch(environment) {
             case "sandbox":
-                sessionUrl = "SANDBOX_SESSION";
+                sessionUrl = "https://api-sandbox.appcharge.com/checkout/v1/session";
                 break;
             case "production":
-                sessionUrl = "PROD_SESSION";
+                sessionUrl = "https://api.appcharge.com/checkout/v1/session";
                 break;
         }
 
@@ -44,7 +44,7 @@ public class SessionSample: MonoBehaviour
             ""items"": [
                 {
                     ""name"": ""Coin Pack"",
-                    ""assetUrl"": """",
+                    ""assetUrl"": ""https://media.appcharge.com/media/demos/royalblast_coin_chest.png"",
                     ""sku"": ""coins_xoxoxo"",
                     ""quantity"": 100,
                     ""quantityDisplay"": ""24h""

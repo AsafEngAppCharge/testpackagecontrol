@@ -383,12 +383,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 301855104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ddb19badaad648b28a8505728eae556, type: 3}
+  m_Script: {fileID: 11500000, guid: 741efa7e538414f47af28e80018b3a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Environment: 0
-  PublisherToken: c18170041fc168061f5613eb8c3e947f713b6311b151fecf19e7437e858f3ca9
-  CustomerId: stardew
+  PublisherToken: 
+  CustomerId: John Doe
   _btnOpenCheckout: {fileID: 1748013138}
   _btnGetPricePoints: {fileID: 2120375002}
   _txtLogger: {fileID: 1054705960}
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111726036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1906c314503a54f2190634e0dd831ef3, type: 3}
+  m_Script: {fileID: 11500000, guid: f5dbf5b4fe71543bc8126d10d93f24bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1166460637
@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 301855109}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CheckoutSample, Assembly-CSharp
         m_MethodName: OpenCheckout
         m_Mode: 1
@@ -1259,7 +1259,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 301855109}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CheckoutSample, Assembly-CSharp
         m_MethodName: GetPricePoints
         m_Mode: 1

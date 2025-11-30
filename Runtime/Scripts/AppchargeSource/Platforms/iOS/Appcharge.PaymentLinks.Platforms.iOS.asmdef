@@ -2,9 +2,9 @@
     "name": "Appcharge.PaymentLinks.Platforms.iOS",
     "rootNamespace": "",
     "references": [
-        "GUID:8ec04333ae3e14d6080595c1fa548f8e",
-        "GUID:06252861033e64bcb90f10c2dd0c2305",
-        "GUID:2cac8a4cdd1d54552a3250731ae7a69c"
+        "GUID:df32b228a9068435b82a2da27e4108e7",
+        "GUID:fa3aeb143e13540ce9346fc645c7f133",
+        "GUID:5791b316b62224addbc5409df5c3defe"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -2,16 +2,11 @@
     "name": "Appcharge.PaymentLinks",
     "rootNamespace": "",
     "references": [
-        "GUID:06252861033e64bcb90f10c2dd0c2305",
-        "GUID:8ec04333ae3e14d6080595c1fa548f8e",
-        "GUID:b3562de1dc3914b039300eb310883336",
-        "GUID:2cac8a4cdd1d54552a3250731ae7a69c",
-        "GUID:306bf0824f6a742648979492e919e655",
-        "GUID:e3a187030731e4e1595d5efbe27e6039",
-        "GUID:790e2e2658ee342ff91b05612d10fbe6",
-        "GUID:b94f27ff663714f7fb2fb0e963771ff3",
-        "GUID:b7ecc53167e72436d9e6e0b5938f2cd7",
-        "GUID:a680c0853d7b74b2dab766463a136351"
+        "GUID:fa3aeb143e13540ce9346fc645c7f133",
+        "GUID:903d4b743a6f541e6b7db0175c174281",
+        "GUID:76599339b847d45e4a19830c0a535d51",
+        "GUID:4c8b8718632094ae0a24b5620a06d980",
+        "GUID:7ea17062dfbb4476288f1ef407f66853"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
