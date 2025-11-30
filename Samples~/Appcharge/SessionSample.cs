@@ -19,10 +19,10 @@ public class SessionSample: MonoBehaviour
 
         switch(environment) {
             case "sandbox":
-                sessionUrl = "https://api-sandbox.appcharge.com/checkout/v1/session";
+                sessionUrl = "SESSION_URL";
                 break;
             case "production":
-                sessionUrl = "https://api.appcharge.com/checkout/v1/session";
+                sessionUrl = "SESSION_URL";
                 break;
         }
 
