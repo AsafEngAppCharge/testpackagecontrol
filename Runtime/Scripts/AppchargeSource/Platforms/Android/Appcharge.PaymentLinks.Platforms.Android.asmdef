@@ -1,0 +1,18 @@
+{
+    "name": "Appcharge.PaymentLinks.Platforms.Android",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ec04333ae3e14d6080595c1fa548f8e",
+        "GUID:06252861033e64bcb90f10c2dd0c2305",
+        "GUID:2cac8a4cdd1d54552a3250731ae7a69c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,7 @@
+Appcharge Unity Payment Links Asset
+Copyright 2022 Appcharge
+
+This product includes software developed at
+Appcharge (IL), Inc. (https://www.appcharge.com/).
+
+This software contains customized native support for iOS and Android platforms.

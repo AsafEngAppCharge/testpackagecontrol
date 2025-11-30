@@ -1,0 +1,16 @@
+{
+    "name": "Appcharge.PaymentLinks.Config",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ec04333ae3e14d6080595c1fa548f8e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

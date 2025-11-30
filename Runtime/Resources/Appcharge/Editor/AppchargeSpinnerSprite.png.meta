@@ -1,0 +1,2199 @@
+fileFormatVersion: 2
+guid: 64f7ea4dee9f44e31b6dea302c45dbbf
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64fd746840e1e4f7f90454147d55ed49
+      internalID: 1966641070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_1
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f4c6fff620ec4bbc87c3b80765f6d9b
+      internalID: 144578248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_2
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5248cacd5b2ec4a128979fdf96bab549
+      internalID: 624106983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_3
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287d6398dd97347b5b3cbfda1aa8f43b
+      internalID: 1424137079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_4
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d33fc947aac24fc48f294288d7be9d4
+      internalID: -1346626198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_5
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 192d42ffe75814b1985214051b48927c
+      internalID: -670085561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_6
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd798c57bf8cd48e9b17c237a18ccd6b
+      internalID: 1623404976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_7
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28de020bac63f4db7896625e7fd2b749
+      internalID: 399516380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_8
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1220
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3c4fd377e9c9413e897ea41d60326e2
+      internalID: 1960442927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2fa5a4cfb5f94e33ba9c387616cb28b
+      internalID: -295279215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_10
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bec9f7cd95d141d7a237075fc55f400
+      internalID: -68853223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_11
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc72f545bbc1f4bffb2fb4d367aa9b7e
+      internalID: -433798323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_12
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce4e21e2bd1e54bb5901acc61bf2294b
+      internalID: -1487035737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_13
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99b4e1047cb154209a9d7b8e09979b3d
+      internalID: -1769033337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_14
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13bc0f6328c2e4cf0a3615615fc6128e
+      internalID: 1825571138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_15
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75fa5e8e694594d5c8318c8bd749b7b2
+      internalID: -97932116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_16
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd01eeff60b4846969ce417e6f890716
+      internalID: -145271615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_17
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1098
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f75f3147628894c27a31698b65c51232
+      internalID: -961416920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44ac1a9dcb1f146d7a0e7cfc4fa5a114
+      internalID: -1889222857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_19
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e45f3e4d82f7401586165684ecea391
+      internalID: -415164848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_20
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24b041eb0c87441eaa760b1e61cf36ce
+      internalID: 531338766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_21
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8d823505b49f4083903f04123e031fe
+      internalID: -1422182591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_22
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64f196e33a849402c9224730804c77be
+      internalID: 2137147865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_23
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddc2f1a398d2c485cb58522b6889d991
+      internalID: 1995132122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_24
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2be1636b6d004a04a0017b56576485f
+      internalID: -902724213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_25
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1891a841177d547aa9b44eb6ccdacee1
+      internalID: 1321778450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_26
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 976
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0168fc6a11498417bb486c55ab43379c
+      internalID: -2101178684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce1c440b1e76e4bb698803f896e21d9d
+      internalID: -964388022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_28
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09b4509cf310a4ba7bb93168e688f3d9
+      internalID: -623746582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_29
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bc5a0d949b7d4831a4f17375f786d42
+      internalID: 567481772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_30
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 995a3d4bba1494c138435b012629659a
+      internalID: 560362867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_31
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5320f56fa30e943cbb0184314e3af902
+      internalID: -1825827904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_32
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae08ac3c0fe6040a8a45d6cc36e1edf2
+      internalID: -1867326663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_33
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdc5dd1e08f4944c1bc025a7965f1932
+      internalID: -745847488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_34
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 244a25fe62b064a2aa10801f630b3469
+      internalID: 21545112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_35
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 854
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35a569f08e53a4e7d9fe67912089393f
+      internalID: -421612428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad8a1b495208d42eeba1c1824290edf3
+      internalID: -1976705579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_37
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e71a831b2710c44e0b483eeaa21500ca
+      internalID: -106013170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_38
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da88e0b7c6cdb4e759692aa92e39721f
+      internalID: -555256186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_39
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a122d7a18ac2a497fb58eb399bd87346
+      internalID: -1227428464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_40
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df6b5fc78fa754d0eb91bf806c67dd38
+      internalID: 301039537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_41
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 101801a48e0894ffd9923f6ab64367c8
+      internalID: 997304423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_42
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 029ffafd27e9b4918878f00af6a0657c
+      internalID: -1227678507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_43
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef43fc14c64344990bb5629fa34b20d8
+      internalID: 90595376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_44
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 732
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de08a6276811f47529868fbb8035e786
+      internalID: -1089141227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c112a9e804a9a45a792d6c766147205b
+      internalID: 288952633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_46
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0488a76dcde4346089b71f09b6d39104
+      internalID: 921326991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_47
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 610d6d2fcba304e2381c33985e980567
+      internalID: -337293056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_48
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7117d285919f84bf89966b4bf92f7886
+      internalID: 1754570997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_49
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fe13b95e708b413e8dda843e87e5e72
+      internalID: 589315803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_50
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eab8051a208934ff8b8929e92535b198
+      internalID: 766314270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_51
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f15fd7b0b321f42198ea4a7079e4b49b
+      internalID: 353126810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_52
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7f77c5f24c644863b471e4cc3d34ea3
+      internalID: -1767256323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_53
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 610
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6776bb47f5c8345b2be37a817334f858
+      internalID: -2011238620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef2ac40fd724145cd8a4d9800f886fa7
+      internalID: -1013213094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_55
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51af48a594d604d61962a549e538118a
+      internalID: -670556533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_56
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0471e9f264f6b453285b8a51a651f67f
+      internalID: -869157322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_57
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d4ee20287e2c46799b895eb429d4240
+      internalID: 2018148280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_58
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee99222e58552427a903cb0b0c8a8064
+      internalID: -634383415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_59
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f308728dd365f448e97cc671bdeadca9
+      internalID: 1106659923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_60
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ea335624e3d64dad9c6e2242433bc0c
+      internalID: -1583603788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_61
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28a78d5c791d74191be61f705fa13730
+      internalID: -1480033971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_62
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 488
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e988d0e225fe46ea962dbd1985e884e
+      internalID: -1572404524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_63
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67be6bf37dff647e1be5a495314cbc7f
+      internalID: 2067775175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_64
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 759215dcb23ea4898bb06294b8014846
+      internalID: -339743597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_65
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ac6c4fdac6d1449b852b5c15669aac4
+      internalID: 439904351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_66
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04f51d98acdb14daa8f5930dddb6bc8d
+      internalID: 1306996533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_67
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d767848bcb6845dbb78faf1e2a281b3
+      internalID: 1185567414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_68
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 290ab4012e6264512934000402882651
+      internalID: 102454802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_69
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e0c9e3e6aa6f4fe68c342c3f1cf56b4
+      internalID: 467050092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_70
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc307ea6a27e141f7bbb0c1be7caa304
+      internalID: -1408261557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_71
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 366
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f21d5727eb04437a4f3ea648015750
+      internalID: 2101154711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fe362ab01a6a459d8f353eee1fabf64
+      internalID: -560768716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_73
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aba9e76b48c44046ba6973ccb6c9171
+      internalID: 2053863730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_74
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa2876d619f254591bf2ae158ec3ba50
+      internalID: 2144328663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_75
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39198a51866ca4ee6b49ac58ca7b558f
+      internalID: 955547341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_76
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43dd9d805566342ccbfb5d7295282d7a
+      internalID: 1671429844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_77
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c5f545bc07c743a4a5d33d8b85f238e
+      internalID: 1338299667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_78
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e50591e11d64479488a883f331523f7
+      internalID: -168705066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_79
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c40343cea2754f13a5ed43202a36199
+      internalID: 2008513799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_80
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 244
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe63116fe85804a9689aa6339ee52bca
+      internalID: 357143402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_81
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e538afe8eba4b47328e74ebc0ed39d86
+      internalID: 531701042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_82
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f803ab79669c4b229320159dd13490e
+      internalID: 1567150398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_83
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18543ae32bbe046d6818ca259340e57b
+      internalID: -284189816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_84
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90f8ca2163d504e4c9cbcf9167a4158e
+      internalID: -809353655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_85
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f89f1c0ae16b48e6ac490aebf2af87d
+      internalID: 809790558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_86
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0a91330db8994b9f82c1d089fbebcf7
+      internalID: -1118946004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_87
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84d554c53de6340e2944481dac49f29b
+      internalID: -1275610877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_88
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e24e2e29d47324506ace9a223f9e77e8
+      internalID: -157354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_89
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 122
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6d77a6bdf3154556a5a38395fb6bda1
+      internalID: -2110002496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c81879677243d470791cb45f8c2ea9b5
+      internalID: -323569408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_91
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 818f66eceff894a4bbcbd11a3622ee8a
+      internalID: -1251440686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AppchargeSpinnerSprite_92
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 112
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1ab4c1f43969437081faf764a1775b2
+      internalID: 1458174983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AppchargeSpinnerSprite_0: 1966641070
+      AppchargeSpinnerSprite_1: 144578248
+      AppchargeSpinnerSprite_10: -68853223
+      AppchargeSpinnerSprite_11: -433798323
+      AppchargeSpinnerSprite_12: -1487035737
+      AppchargeSpinnerSprite_13: -1769033337
+      AppchargeSpinnerSprite_14: 1825571138
+      AppchargeSpinnerSprite_15: -97932116
+      AppchargeSpinnerSprite_16: -145271615
+      AppchargeSpinnerSprite_17: -961416920
+      AppchargeSpinnerSprite_18: -1889222857
+      AppchargeSpinnerSprite_19: -415164848
+      AppchargeSpinnerSprite_2: 624106983
+      AppchargeSpinnerSprite_20: 531338766
+      AppchargeSpinnerSprite_21: -1422182591
+      AppchargeSpinnerSprite_22: 2137147865
+      AppchargeSpinnerSprite_23: 1995132122
+      AppchargeSpinnerSprite_24: -902724213
+      AppchargeSpinnerSprite_25: 1321778450
+      AppchargeSpinnerSprite_26: -2101178684
+      AppchargeSpinnerSprite_27: -964388022
+      AppchargeSpinnerSprite_28: -623746582
+      AppchargeSpinnerSprite_29: 567481772
+      AppchargeSpinnerSprite_3: 1424137079
+      AppchargeSpinnerSprite_30: 560362867
+      AppchargeSpinnerSprite_31: -1825827904
+      AppchargeSpinnerSprite_32: -1867326663
+      AppchargeSpinnerSprite_33: -745847488
+      AppchargeSpinnerSprite_34: 21545112
+      AppchargeSpinnerSprite_35: -421612428
+      AppchargeSpinnerSprite_36: -1976705579
+      AppchargeSpinnerSprite_37: -106013170
+      AppchargeSpinnerSprite_38: -555256186
+      AppchargeSpinnerSprite_39: -1227428464
+      AppchargeSpinnerSprite_4: -1346626198
+      AppchargeSpinnerSprite_40: 301039537
+      AppchargeSpinnerSprite_41: 997304423
+      AppchargeSpinnerSprite_42: -1227678507
+      AppchargeSpinnerSprite_43: 90595376
+      AppchargeSpinnerSprite_44: -1089141227
+      AppchargeSpinnerSprite_45: 288952633
+      AppchargeSpinnerSprite_46: 921326991
+      AppchargeSpinnerSprite_47: -337293056
+      AppchargeSpinnerSprite_48: 1754570997
+      AppchargeSpinnerSprite_49: 589315803
+      AppchargeSpinnerSprite_5: -670085561
+      AppchargeSpinnerSprite_50: 766314270
+      AppchargeSpinnerSprite_51: 353126810
+      AppchargeSpinnerSprite_52: -1767256323
+      AppchargeSpinnerSprite_53: -2011238620
+      AppchargeSpinnerSprite_54: -1013213094
+      AppchargeSpinnerSprite_55: -670556533
+      AppchargeSpinnerSprite_56: -869157322
+      AppchargeSpinnerSprite_57: 2018148280
+      AppchargeSpinnerSprite_58: -634383415
+      AppchargeSpinnerSprite_59: 1106659923
+      AppchargeSpinnerSprite_6: 1623404976
+      AppchargeSpinnerSprite_60: -1583603788
+      AppchargeSpinnerSprite_61: -1480033971
+      AppchargeSpinnerSprite_62: -1572404524
+      AppchargeSpinnerSprite_63: 2067775175
+      AppchargeSpinnerSprite_64: -339743597
+      AppchargeSpinnerSprite_65: 439904351
+      AppchargeSpinnerSprite_66: 1306996533
+      AppchargeSpinnerSprite_67: 1185567414
+      AppchargeSpinnerSprite_68: 102454802
+      AppchargeSpinnerSprite_69: 467050092
+      AppchargeSpinnerSprite_7: 399516380
+      AppchargeSpinnerSprite_70: -1408261557
+      AppchargeSpinnerSprite_71: 2101154711
+      AppchargeSpinnerSprite_72: -560768716
+      AppchargeSpinnerSprite_73: 2053863730
+      AppchargeSpinnerSprite_74: 2144328663
+      AppchargeSpinnerSprite_75: 955547341
+      AppchargeSpinnerSprite_76: 1671429844
+      AppchargeSpinnerSprite_77: 1338299667
+      AppchargeSpinnerSprite_78: -168705066
+      AppchargeSpinnerSprite_79: 2008513799
+      AppchargeSpinnerSprite_8: 1960442927
+      AppchargeSpinnerSprite_80: 357143402
+      AppchargeSpinnerSprite_81: 531701042
+      AppchargeSpinnerSprite_82: 1567150398
+      AppchargeSpinnerSprite_83: -284189816
+      AppchargeSpinnerSprite_84: -809353655
+      AppchargeSpinnerSprite_85: 809790558
+      AppchargeSpinnerSprite_86: -1118946004
+      AppchargeSpinnerSprite_87: -1275610877
+      AppchargeSpinnerSprite_88: -157354
+      AppchargeSpinnerSprite_89: -2110002496
+      AppchargeSpinnerSprite_9: -295279215
+      AppchargeSpinnerSprite_90: -323569408
+      AppchargeSpinnerSprite_91: -1251440686
+      AppchargeSpinnerSprite_92: 1458174983
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

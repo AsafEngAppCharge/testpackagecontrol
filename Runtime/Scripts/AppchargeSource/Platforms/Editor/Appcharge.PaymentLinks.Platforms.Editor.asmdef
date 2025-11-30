@@ -1,0 +1,23 @@
+{
+    "name": "Appcharge.PaymentLinks.Platforms.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ec04333ae3e14d6080595c1fa548f8e",
+        "GUID:06252861033e64bcb90f10c2dd0c2305",
+        "GUID:2cac8a4cdd1d54552a3250731ae7a69c",
+        "GUID:b3562de1dc3914b039300eb310883336",
+        "GUID:306bf0824f6a742648979492e919e655"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "iOS"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": ["UNITY_EDITOR"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
