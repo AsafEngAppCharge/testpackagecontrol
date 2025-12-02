@@ -19,10 +19,10 @@ public class SessionSample: MonoBehaviour
 
         switch(environment) {
             case "sandbox":
-                sessionUrl = "SESSION_URL";
+                sessionUrl = "SESSION_URL_SANDBOX";
                 break;
             case "production":
-                sessionUrl = "SESSION_URL";
+                sessionUrl = "SESSION_URL_PRODUCTION";
                 break;
         }
 
