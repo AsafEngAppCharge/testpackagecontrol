@@ -46,7 +46,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			Callback = callback;
 			var callbackProxy = new CallbackProxy(callback);
 			var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutToken, environment);
-			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, "Unity " + Application.unityVersion + ", Unity SDK 2.0.0", callbackProxy);
+			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, "Unity " + Application.unityVersion + ", Unity SDK 2.1.0", callbackProxy);
 		}
 
 		public void OpenCheckout(string url, string sessionToken, string purchaseId)

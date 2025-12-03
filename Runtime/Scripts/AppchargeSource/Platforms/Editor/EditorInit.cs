@@ -58,7 +58,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 {"deviceModel", "Unity Editor"},
                 {"deviceManufacturer", "Unity Technologies"},
                 {"packageName", Application.identifier},
-                {"sdkV", "2.0.0"},
+                {"sdkV", "2.1.0"},
                 {"sdkType", "Unity-Editor"},
                 {"deviceId", SystemInfo.deviceUniqueIdentifier},
                 {"customerId", customerId},

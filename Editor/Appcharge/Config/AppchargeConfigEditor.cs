@@ -79,7 +79,6 @@ public class AppchargeConfigEditor : Editor
     {
         serializedObject.Update();
 
-        // Publisher Info (always shown)
         EditorGUILayout.LabelField("Publisher Info", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(environment);
         EditorGUILayout.PropertyField(checkoutPublicKey);
@@ -88,11 +87,9 @@ public class AppchargeConfigEditor : Editor
         EditorGUILayout.LabelField("Auto Integration Settings", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox("The following settings are automatically applied during the build process.\nIn order to manually configure the settings, you can disable each setting individually or turn off the auto integration option.", MessageType.Info);
         
-        // Detect current platform
         bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
         bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
-        // Show platform-specific settings if auto integration is enabled
         if (enableIntegrationOptions.boolValue)
         {
             if (isIOS)
@@ -131,18 +128,12 @@ public class AppchargeConfigEditor : Editor
             }
         }
 
-        // Auto Integration (always shown)
         if (isAndroid || isIOS)
         {
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(enableIntegrationOptions);
-        }
 
-        // Debug Mode (always shown when auto integration is enabled)
-        if (enableIntegrationOptions.boolValue)
-        {
-            if (isAndroid || isIOS)
-            {
+            if (enableIntegrationOptions.boolValue) {
                 EditorGUILayout.PropertyField(useInternalBrowser);
             }
 
