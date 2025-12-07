@@ -84,52 +84,52 @@ public class AppchargeConfigEditor : Editor
         EditorGUILayout.PropertyField(checkoutPublicKey);
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Auto Integration Settings", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("The following settings are automatically applied during the build process.\nIn order to manually configure the settings, you can disable each setting individually or turn off the auto integration option.", MessageType.Info);
-        
+       
         bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
         bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
-        if (enableIntegrationOptions.boolValue)
-        {
-            if (isIOS)
-            {
-                EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(portraitOrientationLock);
-                EditorGUILayout.PropertyField(addFrameworkToXcodeProject);
-                EditorGUILayout.PropertyField(associatedDomain);
-                EditorGUILayout.PropertyField(addURLScheme);
-            }
+        if (isAndroid || isIOS) {
+            EditorGUILayout.LabelField("Auto Integration Settings", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("The following settings are automatically applied during the build process.\nIn order to manually configure the settings, you can disable each setting individually or turn off the auto integration option.", MessageType.Info);
 
-            if (isAndroid)
+            if (enableIntegrationOptions.boolValue)
             {
-                EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(excludeAndroidX);
-                EditorGUILayout.PropertyField(excludeJetifier);
-                EditorGUILayout.PropertyField(excludeAppcompat);
-                EditorGUILayout.PropertyField(excludeAndroidbrowser);
-                EditorGUILayout.PropertyField(excludeKotlin);
-
-                EditorGUILayout.PropertyField(excludeInternetPermission);
-                EditorGUILayout.PropertyField(excludeQueriesBlock);
-                EditorGUILayout.PropertyField(excludeAppchargeActivity);
-                
-                if (!excludeAppchargeActivity.boolValue)
+                if (isIOS)
                 {
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.PropertyField(excludeExportedAttribute);
-                    EditorGUILayout.PropertyField(excludeDiscouragedApiTool);
-                    EditorGUILayout.PropertyField(excludeAppchargeActivityIntentFilters);
-                    EditorGUILayout.PropertyField(excludeCustomScheme);
-                    EditorGUILayout.PropertyField(excludeCustomHost);
-                    EditorGUILayout.PropertyField(excludeHttpsSchemeInActivity);
-                    EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.PropertyField(portraitOrientationLock);
+                    EditorGUILayout.PropertyField(addFrameworkToXcodeProject);
+                    EditorGUILayout.PropertyField(associatedDomain);
+                    EditorGUILayout.PropertyField(addURLScheme);
+                }
+
+                if (isAndroid)
+                {
+                    EditorGUILayout.Space();
+                    EditorGUILayout.PropertyField(excludeAndroidX);
+                    EditorGUILayout.PropertyField(excludeJetifier);
+                    EditorGUILayout.PropertyField(excludeAppcompat);
+                    EditorGUILayout.PropertyField(excludeAndroidbrowser);
+                    EditorGUILayout.PropertyField(excludeKotlin);
+
+                    EditorGUILayout.PropertyField(excludeInternetPermission);
+                    EditorGUILayout.PropertyField(excludeQueriesBlock);
+                    EditorGUILayout.PropertyField(excludeAppchargeActivity);
+                    
+                    if (!excludeAppchargeActivity.boolValue)
+                    {
+                        EditorGUI.indentLevel++;
+                        EditorGUILayout.PropertyField(excludeExportedAttribute);
+                        EditorGUILayout.PropertyField(excludeDiscouragedApiTool);
+                        EditorGUILayout.PropertyField(excludeAppchargeActivityIntentFilters);
+                        EditorGUILayout.PropertyField(excludeCustomScheme);
+                        EditorGUILayout.PropertyField(excludeCustomHost);
+                        EditorGUILayout.PropertyField(excludeHttpsSchemeInActivity);
+                        EditorGUI.indentLevel--;
+                    }
                 }
             }
-        }
 
-        if (isAndroid || isIOS)
-        {
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(enableIntegrationOptions);
 

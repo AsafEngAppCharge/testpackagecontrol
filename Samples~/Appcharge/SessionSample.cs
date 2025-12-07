@@ -40,16 +40,7 @@ public class SessionSample: MonoBehaviour
                 ""sku"": ""CoinsShop"",
                 ""assetUrl"": """",
                 ""description"": ""Coin Pack Bundle""
-            },
-            ""items"": [
-                {
-                    ""name"": ""Coin Pack"",
-                    ""assetUrl"": ""https://media.appcharge.com/media/demos/royalblast_coin_chest.png"",
-                    ""sku"": ""coins_xoxoxo"",
-                    ""quantity"": 100,
-                    ""quantityDisplay"": ""24h""
-                }
-            ]
+            }
         }";
 
         using (var request = new UnityWebRequest(sessionUrl, UnityWebRequest.kHttpVerbPOST))
