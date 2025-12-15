@@ -127,7 +127,7 @@ namespace Appcharge.PaymentLinks.Editor {
             <activity
                 android:name=""com.appcharge.core.CheckoutActivity""
                 android:theme=""@style/UnityThemeSelector""
-                android:launchMode=""standard""
+                android:launchMode=""singleTask""
                 android:configChanges=""orientation|screenSize""
                 android:screenOrientation=""unspecified""
                 {exported}

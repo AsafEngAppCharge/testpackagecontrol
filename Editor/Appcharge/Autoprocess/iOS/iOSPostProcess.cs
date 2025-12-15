@@ -15,13 +15,65 @@ public static class iOSPostProcess
 {
     private static PrebuildLogger _logger;
 
+    // File names
+    private const string ENTITLEMENTS_FILE_NAME = "Appcharge.entitlements";
+    private const string INFO_PLIST_FILE_NAME = "Info.plist";
+    private const string XCFRAMEWORK_NAME = "ACPaymentLinks.xcframework";
+    
+    // Build property names
+    private const string BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES";
+    private const string BUILD_PROP_LD_RUNPATH_SEARCH_PATHS = "LD_RUNPATH_SEARCH_PATHS";
+    private const string BUILD_PROP_SWIFT_VERSION = "SWIFT_VERSION";
+    private const string BUILD_PROP_CODE_SIGN_ENTITLEMENTS = "CODE_SIGN_ENTITLEMENTS";
+    private const string BUILD_PROP_CODE_SIGN_STYLE = "CODE_SIGN_STYLE";
+    private const string BUILD_PROP_FRAMEWORK_SEARCH_PATHS = "FRAMEWORK_SEARCH_PATHS";
+    
+    // Build property values
+    private const string BUILD_VALUE_NO = "NO";
+    private const string BUILD_VALUE_YES = "YES";
+    private const string BUILD_VALUE_EXECUTABLE_PATH_FRAMEWORKS = "@executable_path/Frameworks";
+    private const string BUILD_VALUE_SWIFT_VERSION = "5.0";
+    private const string BUILD_VALUE_CODE_SIGN_STYLE_AUTOMATIC = "Automatic";
+    
+    // Plist keys
+    private const string PLIST_KEY_ASSOCIATED_DOMAINS = "com.apple.developer.associated-domains";
+    private const string PLIST_KEY_CFBUNDLE_URL_NAME = "CFBundleURLName";
+    private const string PLIST_KEY_CFBUNDLE_TYPE_ROLE = "CFBundleTypeRole";
+    private const string PLIST_KEY_CFBUNDLE_URL_SCHEMES = "CFBundleURLSchemes";
+    private const string PLIST_VALUE_TYPE_ROLE_EDITOR = "Editor";
+    
+    // URL scheme constants
+    private const string APPLINKS_PREFIX = "applinks:";
+    private const string URL_IDENTIFIER = "action";
+    private const string URL_SCHEME_TEMPLATE = "acnative-$(PRODUCT_BUNDLE_IDENTIFIER)";
+    
+    // Path constants
+    private const string PATH_FRAMEWORKS_PLUGINS_IOS = "$(PROJECT_DIR)/Frameworks/Plugins/iOS";
+    private const string PATH_PACKAGES_PLUGINS_IOS = "$(PROJECT_DIR)/Assets/Packages/com.appcharge.paymentlinks/Runtime/Plugins/iOS";
+    private const string PATH_SEGMENT_RUNTIME = "Runtime";
+    private const string PATH_SEGMENT_PLUGINS = "Plugins";
+    private const string PATH_SEGMENT_IOS = "iOS";
+    private const string PATH_SEGMENT_PACKAGES = "Packages";
+    private const string PATH_SEGMENT_FRAMEWORKS = "Frameworks";
+    private const string PATH_SEGMENT_LIBRARIES = "Libraries";
+    
+    // Target names
+    private const string TARGET_UNITY_IPHONE = "Unity-iPhone";
+    private const string TARGET_UNITY_FRAMEWORK = "UnityFramework";
+    
+    // Package name
+    private const string SDK_PACKAGE_NAME = "com.appcharge.paymentlinks";
+    
+    // Config path
+    private const string CONFIG_ASSET_PATH = "Assets/Resources/Appcharge/AppchargeConfig.asset";
+
     [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget target, string pathToBuiltProject)
     {
         if (target != BuildTarget.iOS) 
             return;
 
-        var config = AssetDatabase.LoadAssetAtPath<AppchargeConfig>("Assets/Resources/Appcharge/AppchargeConfig.asset");
+        var config = AssetDatabase.LoadAssetAtPath<AppchargeConfig>(CONFIG_ASSET_PATH);
         
         if (config == null)
         {
@@ -35,25 +87,23 @@ public static class iOSPostProcess
         _logger = new PrebuildLogger();
         _logger.ClearLogs();
         _logger.Log("[Appcharge PostBuild] Starting iOS post-build processing...");
-        Debug.Log("[Appcharge PostBuild] Starting iOS post-build processing...");
 
-        if (config.AssociatedDomain != "")
-            ProcessEntitlements(pathToBuiltProject, config.AssociatedDomain);
+        if (config.EnableIOSEntitlementsIntegration && config.AssociatedDomain != "")
+            ProcessEntitlements(pathToBuiltProject, config.AssociatedDomain, config);
         
-        if (config.AddFrameworkToXcodeProject)
-            ProcessFramework(pathToBuiltProject);
+        if (config.EnableIOSFrameworkIntegration)
+            ProcessFramework(pathToBuiltProject, config);
         
-        if (config.AddURLScheme)
-            ProcessURLSchemes(pathToBuiltProject);
+        if (config.EnableIOSURLSchemeIntegration)
+            ProcessURLSchemes(pathToBuiltProject, config);
 
         if (config.EnableDebugMode)
             _logger.PrintLog();
     }
 
-    private static void ProcessEntitlements(string pathToBuiltProject, string applinksDomain)
+    private static void ProcessEntitlements(string pathToBuiltProject, string applinksDomain, AppchargeConfig config)
     {
-        string entitlementFileName = "Appcharge.entitlements";
-        string entitlementPath = Path.Combine(pathToBuiltProject, entitlementFileName);
+        string entitlementPath = Path.Combine(pathToBuiltProject, ENTITLEMENTS_FILE_NAME);
 
         try
         {
@@ -65,11 +115,11 @@ public static class iOSPostProcess
                 string existingContent = existingEntitlements.WriteToString();
                 _logger.Log($"Current entitlements file content:\n{existingContent}");
                 
-                if (existingEntitlements.root.values.ContainsKey("com.apple.developer.associated-domains"))
+                if (existingEntitlements.root.values.ContainsKey(PLIST_KEY_ASSOCIATED_DOMAINS))
                 {
-                    PlistElementArray existingDomains = existingEntitlements.root.values["com.apple.developer.associated-domains"].AsArray();
+                    PlistElementArray existingDomains = existingEntitlements.root.values[PLIST_KEY_ASSOCIATED_DOMAINS].AsArray();
                     bool domainExists = false;
-                    string applinksDomainWithPrefix = "applinks:" + applinksDomain;
+                    string applinksDomainWithPrefix = APPLINKS_PREFIX + applinksDomain;
                     
                     for (int i = 0; i < existingDomains.values.Count; i++)
                     {
@@ -88,40 +138,55 @@ public static class iOSPostProcess
                     }
                     else
                     {
-                        existingDomains.AddString(applinksDomainWithPrefix);
-                        File.WriteAllText(entitlementPath, existingEntitlements.WriteToString());
-                        string message = $"[Appcharge PostBuild] Added applinks domain '{applinksDomain}' to existing entitlements";
-                        _logger.Log(message);
-                        Debug.Log(message);
-                        string finalContent = existingEntitlements.WriteToString();
-                        _logger.Log($"Final entitlements file content:\n{finalContent}");
+                        if (!config.ExcludeAddAssociatedDomain)
+                        {
+                            existingDomains.AddString(applinksDomainWithPrefix);
+                            File.WriteAllText(entitlementPath, existingEntitlements.WriteToString());
+                            string message = $"[Appcharge PostBuild] Added applinks domain '{applinksDomain}' to existing entitlements";
+                            _logger.Log(message);
+                            string finalContent = existingEntitlements.WriteToString();
+                            _logger.Log($"Final entitlements file content:\n{finalContent}");
+                        }
                         return;
                     }
                 }
                 else
                 {
-                    PlistElementArray newDomains = existingEntitlements.root.CreateArray("com.apple.developer.associated-domains");
-                    newDomains.AddString("applinks:" + applinksDomain);
-                    File.WriteAllText(entitlementPath, existingEntitlements.WriteToString());
-                    string message = $"[Appcharge PostBuild] Added applinks domain '{applinksDomain}' to existing entitlements";
-                    _logger.Log(message);
-                    Debug.Log(message);
-                    string finalContent = existingEntitlements.WriteToString();
-                    _logger.Log($"Final entitlements file content:\n{finalContent}");
+                    if (!config.ExcludeCreateAssociatedDomainsKey)
+                    {
+                        PlistElementArray newDomains = existingEntitlements.root.CreateArray(PLIST_KEY_ASSOCIATED_DOMAINS);
+                        if (!config.ExcludeAddAssociatedDomain)
+                        {
+                            newDomains.AddString(APPLINKS_PREFIX + applinksDomain);
+                        }
+                        File.WriteAllText(entitlementPath, existingEntitlements.WriteToString());
+                        string message = $"[Appcharge PostBuild] Added applinks domain '{applinksDomain}' to existing entitlements";
+                        _logger.Log(message);
+                        string finalContent = existingEntitlements.WriteToString();
+                        _logger.Log($"Final entitlements file content:\n{finalContent}");
+                    }
                     return;
                 }
             }
 
-            PlistDocument entitlements = new PlistDocument();
-            PlistElementArray domains = entitlements.root.CreateArray("com.apple.developer.associated-domains");
-            domains.AddString("applinks:" + applinksDomain);
+            if (!config.ExcludeCreateEntitlementsFile)
+            {
+                PlistDocument entitlements = new PlistDocument();
+                if (!config.ExcludeCreateAssociatedDomainsKey)
+                {
+                    PlistElementArray domains = entitlements.root.CreateArray(PLIST_KEY_ASSOCIATED_DOMAINS);
+                    if (!config.ExcludeAddAssociatedDomain)
+                    {
+                        domains.AddString(APPLINKS_PREFIX + applinksDomain);
+                    }
+                }
 
-            File.WriteAllText(entitlementPath, entitlements.WriteToString());
-            string createMessage = $"[Appcharge PostBuild] Created new entitlements file with applinks domain '{applinksDomain}'";
-            _logger.Log(createMessage);
-            Debug.Log(createMessage);
-            string finalContentNew = entitlements.WriteToString();
-            _logger.Log($"Final entitlements file content:\n{finalContentNew}");
+                File.WriteAllText(entitlementPath, entitlements.WriteToString());
+                string createMessage = $"[Appcharge PostBuild] Created new entitlements file with applinks domain '{applinksDomain}'";
+                _logger.Log(createMessage);
+                string finalContentNew = entitlements.WriteToString();
+                _logger.Log($"Final entitlements file content:\n{finalContentNew}");
+            }
         }
         catch (System.Exception e)
         {
@@ -130,7 +195,7 @@ public static class iOSPostProcess
         }
     }
 
-    private static void ProcessFramework(string pathToBuiltProject)
+    private static void ProcessFramework(string pathToBuiltProject, AppchargeConfig config)
     {
         string projPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
 
@@ -151,58 +216,82 @@ public static class iOSPostProcess
             string mainTarget = proj.GetUnityMainTargetGuid();
             string unityFrameworkTarget = proj.GetUnityFrameworkTargetGuid();
     #else
-            string mainTarget = proj.TargetGuidByName("Unity-iPhone");
-            string unityFrameworkTarget = proj.TargetGuidByName("UnityFramework");
+            string mainTarget = proj.TargetGuidByName(TARGET_UNITY_IPHONE);
+            string unityFrameworkTarget = proj.TargetGuidByName(TARGET_UNITY_FRAMEWORK);
     #endif
 
-            SetBuildPropertyIfDifferent(proj, unityFrameworkTarget, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
+            if (!config.ExcludeSetSwiftStandardLibrariesForFramework)
+            {
+                SetBuildPropertyIfDifferent(proj, unityFrameworkTarget, BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES, BUILD_VALUE_NO);
+            }
 
             // Add framework search paths for both standard location and UPM package location
-            AddFrameworkSearchPath(proj, mainTarget, "$(PROJECT_DIR)/Frameworks/Plugins/iOS");
-            
-            // Get the actual package path and calculate relative path for framework search
-            string packagePath = GetPackagePath();
-            if (!string.IsNullOrEmpty(packagePath))
+            if (!config.ExcludeAddFrameworkSearchPaths)
             {
-                string packagePluginsPath = Path.Combine(packagePath, "Runtime", "Plugins", "iOS");
-                string relativePluginsPath = GetRelativePath(pathToBuiltProject, packagePluginsPath);
-                if (!string.IsNullOrEmpty(relativePluginsPath))
+                AddFrameworkSearchPath(proj, mainTarget, PATH_FRAMEWORKS_PLUGINS_IOS);
+                
+                // Get the SDK package path and calculate relative path for framework search
+                string sdkPackagePath = GetSDKPackagePath();
+                if (!string.IsNullOrEmpty(sdkPackagePath))
                 {
-                    // Use relative path if it can be calculated
-                    string frameworkSearchPath = "$(PROJECT_DIR)/" + relativePluginsPath.Replace("\\", "/");
-                    AddFrameworkSearchPath(proj, mainTarget, frameworkSearchPath);
+                    string packagePluginsPath = Path.Combine(sdkPackagePath, PATH_SEGMENT_RUNTIME, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS);
+                    string relativePluginsPath = GetRelativePath(pathToBuiltProject, packagePluginsPath);
+                    if (!string.IsNullOrEmpty(relativePluginsPath))
+                    {
+                        // Use relative path if it can be calculated
+                        string frameworkSearchPath = "$(PROJECT_DIR)/" + relativePluginsPath.Replace("\\", "/");
+                        AddFrameworkSearchPath(proj, mainTarget, frameworkSearchPath);
+                    }
+                    else
+                    {
+                        // Fallback: use absolute path
+                        AddFrameworkSearchPath(proj, mainTarget, packagePluginsPath);
+                    }
                 }
                 else
                 {
-                    // Fallback: use absolute path
-                    AddFrameworkSearchPath(proj, mainTarget, packagePluginsPath);
+                    // Fallback: try standard Packages path
+                    AddFrameworkSearchPath(proj, mainTarget, PATH_PACKAGES_PLUGINS_IOS);
                 }
             }
-            else
+            
+            if (!config.ExcludeSetLDRunpathSearchPaths)
             {
-                // Fallback: try standard Packages path
-                AddFrameworkSearchPath(proj, mainTarget, "$(PROJECT_DIR)/Assets/Packages/com.appcharge.paymentlinks/Runtime/Plugins/iOS");
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_LD_RUNPATH_SEARCH_PATHS, BUILD_VALUE_EXECUTABLE_PATH_FRAMEWORKS);
             }
             
-            SetBuildPropertyIfDifferent(proj, mainTarget, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks");
-            SetBuildPropertyIfDifferent(proj, mainTarget, "SWIFT_VERSION", "5.0");
-            SetBuildPropertyIfDifferent(proj, mainTarget, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
-
-            string entitlementFileName = "Appcharge.entitlements";
-            string entitlementPath = Path.Combine(pathToBuiltProject, entitlementFileName);
-            if (File.Exists(entitlementPath))
+            if (!config.ExcludeSetSwiftVersion)
             {
-                SetBuildPropertyIfDifferent(proj, mainTarget, "CODE_SIGN_ENTITLEMENTS", entitlementFileName);
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_SWIFT_VERSION, BUILD_VALUE_SWIFT_VERSION);
+            }
+            
+            if (!config.ExcludeSetSwiftStandardLibrariesForMain)
+            {
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES, BUILD_VALUE_YES);
             }
 
-            SetBuildPropertyIfDifferent(proj, mainTarget, "CODE_SIGN_STYLE", "Automatic");
+            if (!config.ExcludeSetCodeSignEntitlements)
+            {
+                string entitlementPath = Path.Combine(pathToBuiltProject, ENTITLEMENTS_FILE_NAME);
+                if (File.Exists(entitlementPath))
+                {
+                    SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_CODE_SIGN_ENTITLEMENTS, ENTITLEMENTS_FILE_NAME);
+                }
+            }
 
-            AddXCFrameworkToProject(proj, pathToBuiltProject, mainTarget, "ACCheckoutSDK.xcframework");
+            if (!config.ExcludeSetCodeSignStyle)
+            {
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_CODE_SIGN_STYLE, BUILD_VALUE_CODE_SIGN_STYLE_AUTOMATIC);
+            }
+
+            if (!config.ExcludeAddXCFramework)
+            {
+                AddXCFrameworkToProject(proj, pathToBuiltProject, mainTarget, XCFRAMEWORK_NAME);
+            }
 
             proj.WriteToFile(projPath);
             string message = "[Appcharge PostBuild] Framework embedding and project processing complete.";
             _logger.Log(message);
-            Debug.Log(message);
         }
         catch (System.Exception e)
         {
@@ -212,9 +301,9 @@ public static class iOSPostProcess
         }
     }
 
-    private static void ProcessURLSchemes(string pathToBuiltProject)
+    private static void ProcessURLSchemes(string pathToBuiltProject, AppchargeConfig config)
     {
-        string plistPath = Path.Combine(pathToBuiltProject, "Info.plist");
+        string plistPath = Path.Combine(pathToBuiltProject, INFO_PLIST_FILE_NAME);
         if (!File.Exists(plistPath))
         {
             string errorMessage = $"[Appcharge PostBuild] Info.plist not found at: {plistPath}";
@@ -234,12 +323,11 @@ public static class iOSPostProcess
             ? plist.root[URLTypesKey].AsArray()
             : plist.root.CreateArray(URLTypesKey);
 
-        string urlIdentifier = "action";
         bool identifierExists = false;
         foreach (var urlType in urlTypes.values)
         {
             var dict = urlType.AsDict();
-            if (dict.values.ContainsKey("CFBundleURLName") && dict["CFBundleURLName"].AsString() == urlIdentifier)
+            if (dict.values.ContainsKey(PLIST_KEY_CFBUNDLE_URL_NAME) && dict[PLIST_KEY_CFBUNDLE_URL_NAME].AsString() == URL_IDENTIFIER)
             {
                 identifierExists = true;
                 break;
@@ -254,15 +342,26 @@ public static class iOSPostProcess
         }
 
         PlistElementDict newURLType = urlTypes.AddDict();
-        newURLType.SetString("CFBundleTypeRole", "Editor");
-        newURLType.SetString("CFBundleURLName", urlIdentifier);
-        PlistElementArray urlSchemes = newURLType.CreateArray("CFBundleURLSchemes");
-        urlSchemes.AddString("acnative-$(PRODUCT_BUNDLE_IDENTIFIER)");
+        
+        if (!config.ExcludeSetURLSchemeTypeRole)
+        {
+            newURLType.SetString(PLIST_KEY_CFBUNDLE_TYPE_ROLE, PLIST_VALUE_TYPE_ROLE_EDITOR);
+        }
+        
+        if (!config.ExcludeSetURLSchemeName)
+        {
+            newURLType.SetString(PLIST_KEY_CFBUNDLE_URL_NAME, URL_IDENTIFIER);
+        }
+        
+        if (!config.ExcludeAddURLScheme)
+        {
+            PlistElementArray urlSchemes = newURLType.CreateArray(PLIST_KEY_CFBUNDLE_URL_SCHEMES);
+            urlSchemes.AddString(URL_SCHEME_TEMPLATE);
+        }
 
         plist.WriteToFile(plistPath);
-        string successMessage = "[Appcharge PostBuild] Successfully added URL scheme 'acnative-$(PRODUCT_BUNDLE_IDENTIFIER)' to Info.plist.";
+        string successMessage = $"[Appcharge PostBuild] Successfully added URL scheme '{URL_SCHEME_TEMPLATE}' to Info.plist.";
         _logger.Log(successMessage);
-        Debug.Log(successMessage);
         string finalContentAdded = plist.WriteToString();
         _logger.Log($"Final Info.plist content:\n{finalContentAdded}");
     }
@@ -273,33 +372,33 @@ public static class iOSPostProcess
         if (string.IsNullOrEmpty(existingValue))
         {
             proj.AddBuildProperty(target, property, value);
-            Debug.Log($"[Appcharge PostBuild] Added {property} = {value} to target");
+            _logger.Log($"[Appcharge PostBuild] Added {property} = {value} to target");
         }
     }
 
     private static void AddFrameworkSearchPath(PBXProject proj, string target, string path)
     {
-        string existingValue = proj.GetBuildPropertyForAnyConfig(target, "FRAMEWORK_SEARCH_PATHS");
+        string existingValue = proj.GetBuildPropertyForAnyConfig(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS);
         if (string.IsNullOrEmpty(existingValue))
         {
-            proj.AddBuildProperty(target, "FRAMEWORK_SEARCH_PATHS", path);
-            Debug.Log($"[Appcharge PostBuild] Added FRAMEWORK_SEARCH_PATHS = {path} to target");
+            proj.AddBuildProperty(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS, path);
+            _logger.Log($"[Appcharge PostBuild] Added {BUILD_PROP_FRAMEWORK_SEARCH_PATHS} = {path} to target");
         }
         else if (!existingValue.Contains(path))
         {
             // Append the path if it doesn't already exist
-            proj.AddBuildProperty(target, "FRAMEWORK_SEARCH_PATHS", path);
-            Debug.Log($"[Appcharge PostBuild] Appended FRAMEWORK_SEARCH_PATHS with {path}");
+            proj.AddBuildProperty(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS, path);
+            _logger.Log($"[Appcharge PostBuild] Appended {BUILD_PROP_FRAMEWORK_SEARCH_PATHS} with {path}");
         }
     }
 
-    private static string GetPackagePath()
+    private static string GetSDKPackagePath()
     {
-        // Use Unity's PackageManager API to get the actual resolved path of the package
+        // Use Unity's PackageManager API to get the resolved path of the Appcharge SDK package
         try
         {
             var packageInfo = UnityEditor.PackageManager.PackageInfo.GetAllRegisteredPackages()
-                .FirstOrDefault(p => p.name == "com.appcharge.paymentlinks");
+                .FirstOrDefault(p => p.name == SDK_PACKAGE_NAME);
             
             if (packageInfo != null && !string.IsNullOrEmpty(packageInfo.resolvedPath))
             {
@@ -308,8 +407,8 @@ public static class iOSPostProcess
         }
         catch (System.Exception e)
         {
-            _logger?.Log($"Failed to get package path via PackageManager: {e.Message}", true);
-            Debug.LogWarning($"[Appcharge PostBuild] Failed to get package path via PackageManager: {e.Message}");
+            _logger?.Log($"Failed to get SDK package path via PackageManager: {e.Message}", true);
+            Debug.LogWarning($"[Appcharge PostBuild] Failed to get SDK package path via PackageManager: {e.Message}");
         }
         
         return null;
@@ -340,7 +439,7 @@ public static class iOSPostProcess
         if (existingValue != value)
         {
             proj.SetBuildProperty(target, property, value);
-            Debug.Log($"[Appcharge PostBuild] Set {property} = {value} (was: {existingValue})");
+            _logger.Log($"[Appcharge PostBuild] Set {property} = {value} (was: {existingValue})");
         }
     }
 
@@ -352,12 +451,12 @@ public static class iOSPostProcess
             // Check common paths where Unity might have added it
             string[] possiblePaths = new string[]
             {
-                Path.Combine("Packages", "com.appcharge.paymentlinks", "Runtime", "Plugins", "iOS", xcframeworkName).Replace("\\", "/"),
-                Path.Combine("Frameworks", "Plugins", "iOS", xcframeworkName).Replace("\\", "/"),
-                Path.Combine("Libraries", "Plugins", "iOS", xcframeworkName).Replace("\\", "/"),
-                "Packages/com.appcharge.paymentlinks/Runtime/Plugins/iOS/" + xcframeworkName,
-                "Frameworks/Plugins/iOS/" + xcframeworkName,
-                "Libraries/Plugins/iOS/" + xcframeworkName,
+                Path.Combine(PATH_SEGMENT_PACKAGES, SDK_PACKAGE_NAME, PATH_SEGMENT_RUNTIME, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                Path.Combine(PATH_SEGMENT_FRAMEWORKS, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                Path.Combine(PATH_SEGMENT_LIBRARIES, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                $"{PATH_SEGMENT_PACKAGES}/{SDK_PACKAGE_NAME}/{PATH_SEGMENT_RUNTIME}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
+                $"{PATH_SEGMENT_FRAMEWORKS}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
+                $"{PATH_SEGMENT_LIBRARIES}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
                 xcframeworkName
             };
             
@@ -380,7 +479,7 @@ public static class iOSPostProcess
                 {
                     string pbxContent = File.ReadAllText(projPath);
                     
-                    // Find file reference by name in comment: GUID /* ACCheckoutSDK.xcframework */
+                    // Find file reference by name in comment: GUID /* ACPaymentLinks.xcframework */
                     Regex commentPattern = new Regex(
                         $@"([A-F0-9]{{24}})\s*\/\*\s*{Regex.Escape(xcframeworkName)}\s*\*\/\s*=\s*{{isa\s*=\s*PBXFileReference;",
                         RegexOptions.IgnoreCase);
@@ -410,7 +509,6 @@ public static class iOSPostProcess
             
             string successMessage = $"[Appcharge PostBuild] Added '{xcframeworkName}' to Unity-iPhone target's Frameworks, Libraries and Embedded Content with Embed & Sign";
             _logger.Log(successMessage);
-            Debug.Log(successMessage);
         }
         catch (System.Exception e)
         {

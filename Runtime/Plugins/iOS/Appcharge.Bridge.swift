@@ -1,21 +1,21 @@
 import Foundation
-import ACCheckoutSDK
+import ACPaymentLinks
 
 private let UNITY_CALLBACK_HANDLER = "ACCallbackHandler"
-private var delegateRef: ACCheckoutPurchaseDelegate?
+private var delegateRef: ACPaymentLinksDelegate?
 
 @_silgen_name("UnitySendMessage")
 func UnitySendMessage(_ obj: UnsafePointer<CChar>, _ method: UnsafePointer<CChar>, _ msg: UnsafePointer<CChar>)
 
 @_cdecl("acbridge_initialize")
-public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>) {
+public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>, platformIntegrationVersionCString: UnsafePointer<CChar>) {
     let configJson = String(cString: configJsonCString)
     let customerId = String(cString: customerIdCString)
-
+    let platformIntegrationVersion = String(cString: platformIntegrationVersionCString)
     do {
         let config = try JSONDecoder().decode(ACConfigModel.self, from: Data(configJson.utf8))
-        ACBridgeAPI.initialize(configModel: config, customerId: customerId)
-        let unityDelegate = ACUnityCheckoutDelegate()
+        ACBridgeAPI.initialize(configModel: config, customerId: customerId, platformIntegrationVersion: platformIntegrationVersion)
+        let unityDelegate = ACUnityPaymentLinksDelegate()
         delegateRef = unityDelegate
         ACBridgeAPI.delegate = unityDelegate
     
@@ -50,14 +50,21 @@ public func acbridge_freeCString(ptr: UnsafeMutablePointer<CChar>?) {
     free(ptr)
 }
 
-@_cdecl("acbridge_setUseExternalBrowser")
-public func acbridge_setUseExternalBrowser(useExternal: Bool) {
-    ACBridgeAPI.useExternalBrowser = useExternal
+@_cdecl("acbridge_setBrowserMode")
+public func acbridge_setBrowserMode(modeCString: UnsafePointer<CChar>) {
+    let modeString = String(cString: modeCString).lowercased()
+    let browserMode: BrowserMode = (modeString == "external") ? .external : .sfsvc
+    _ = ACBridgeAPI.setBrowserMode(browserMode)
 }
 
 @_cdecl("acbridge_setPortraitOrientationLock")
 public func acbridge_setPortraitOrientationLock(portraitOrientationLock: Bool) {
     ACBridgeAPI.portraitOrientationLock = portraitOrientationLock
+}
+
+@_cdecl("acbridge_setDebugModeEnabled")
+public func acbridge_setDebugModeEnabled(debugModeEnabled: Bool) {
+    ACBridgeAPI.isDebugModeEnabled = debugModeEnabled
 }
 
 @_cdecl("acbridge_getPricePoints")
@@ -71,7 +78,7 @@ public func acbridge_openSubscriptionManager(urlCString: UnsafePointer<CChar>) {
     ACBridgeAPI.openSubscriptionManager(url: url)
 }
 
-class ACUnityCheckoutDelegate: ACCheckoutPurchaseDelegate {
+class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
     func onInitialized() {
         UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnInitialized", "")
     }
@@ -119,14 +126,5 @@ class ACUnityCheckoutDelegate: ACCheckoutPurchaseDelegate {
         } catch {
             print("[UnityBridge] Failed to encode error message: \(errorMessage.message)")
         }
-    }
-
-    func onAward(success: Bool) {
-    }
-
-    func onNoneAwardedSuccess(orderIds: [String]) {
-    }
-
-    func onNoneAwardedFailed(error: ACErrorMessage) {
     }
 }

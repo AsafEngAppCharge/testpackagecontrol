@@ -1,5 +1,6 @@
 using Appcharge.PaymentLinks.Config;
 using Appcharge.PaymentLinks.Interfaces;
+using Appcharge.PaymentLinks.Models;
 using UnityEngine;
 
 namespace Appcharge.PaymentLinks.Platforms.Android
@@ -8,7 +9,10 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 	{
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
-
+		private const string UNITY_SDK_VERSION = "2.2.0";
+		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
+		private bool _debugMode = false;
+		private bool _portraitOrientationLock = false;
 		public ICheckoutPurchase Callback { get; set; }
 
 		private void EnsureInitialized()
@@ -31,22 +35,30 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 				return;
 			}
 
+			_browserMode = editorConfig.AndroidBrowserMode;
 			Init(editorConfig.CheckoutPublicKey, editorConfig.Environment.ToString().ToLowerInvariant(), customerId, callback);
 		}
 
 		public void Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
 		{
 			EnsureInitialized();
+			
 			if (_bridgeApi == null)
 			{
 				Debug.LogError("BridgeAPI is not initialized.");
 				return;
 			}
 
+			AppchargeConfig editorConfig = ConfigUtility.GetConfig();
+			if (editorConfig != null)
+			{
+				_browserMode = editorConfig.AndroidBrowserMode;
+			}
+
 			Callback = callback;
-			var callbackProxy = new CallbackProxy(callback);
+			var callbackProxy = new CallbackProxy(callback, this);
 			var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutToken, environment);
-			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, "Unity " + Application.unityVersion + ", Unity SDK 2.1.0", callbackProxy);
+			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, "Unity " + Application.unityVersion + ", Unity SDK " + UNITY_SDK_VERSION, callbackProxy);
 		}
 
 		public void OpenCheckout(string url, string sessionToken, string purchaseId)
@@ -99,29 +111,82 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 
 		public void ConfigurePlatform(string property, object value)
 		{
-			if (property.Equals("useInternalBrowser") && value is bool)
+			if (property.Equals("browserMode") && value is AndroidBrowserMode)
 			{
-				SetUseExternalBrowser(!(bool)value);
+				SetBrowserMode((AndroidBrowserMode)value);
+			}
+
+			if (property.Equals("debugMode") && value is bool)
+			{
+				SetDebugMode((bool)value);
+			}
+
+			if (property.Equals("portraitOrientationLock") && value is bool)
+			{
+				SetPortraitOrientationLock((bool)value);
 			}
 		}
 
-		public void SetUseExternalBrowser(bool useExternalBrowser)
+		private void SetBrowserMode(AndroidBrowserMode mode)
 		{
-			_bridgeApi.Call("useExternalBrowser", useExternalBrowser);
+			EnsureInitialized();
+			if (_bridgeApi == null)
+			{
+				Debug.LogError("BridgeAPI is not initialized.");
+				return;
+			}
+
+			_browserMode = mode;
+			string modeString = mode.ToString().ToLowerInvariant();
+			_bridgeApi.Call<string>("setBrowserMode", modeString);
+		}
+
+		private void SetDebugMode(bool debugMode) {
+			EnsureInitialized();
+			if (_bridgeApi == null)
+			{
+				Debug.LogError("BridgeAPI is not initialized.");
+				return;
+			}
+
+			_debugMode = debugMode;
+			_bridgeApi.Call<bool>("setDebugMode", debugMode);
+		}
+
+		private void SetPortraitOrientationLock(bool portraitOrientationLock) {
+			EnsureInitialized();
+			if (_bridgeApi == null)
+			{
+				Debug.LogError("BridgeAPI is not initialized.");
+				return;
+			}
+
+			_portraitOrientationLock = portraitOrientationLock;
+			_bridgeApi.Call<bool>("setPortraitOrientationLock", portraitOrientationLock);
+		}
+
+		public void OnInitialized()
+		{
+			SetBrowserMode(_browserMode);
+			SetDebugMode(_debugMode);
+			SetPortraitOrientationLock(_portraitOrientationLock);
 		}
 
 		private class CallbackProxy : AndroidJavaProxy
 		{
 			private readonly ICheckoutPurchase _callback;
+			private readonly AndroidPlatform _platform;
 
-			public CallbackProxy(ICheckoutPurchase callback) : base("com.appcharge.core.interfaces.ICheckoutPurchase")
+			public CallbackProxy(ICheckoutPurchase callback, AndroidPlatform platform) : base("com.appcharge.core.interfaces.ICheckoutPurchase")
 			{
 				_callback = callback;
+				_platform = platform;
 			}
 
 			public void onInitialized()
 			{
 				_callback.OnInitialized();
+				_platform.OnInitialized();
 			}
 
 			public void onInitializeFailed(AndroidJavaObject errorMessage)

@@ -29,7 +29,6 @@ public class AndroidPostProcess : IPreprocessBuildWithReport
         
         if (report.summary.platform == BuildTarget.Android)
         {
-            Debug.Log("AndroidPostProcess: OnPreprocessBuild");
             _appchargePrebuildEditor.OnPreprocessBuild();
             AssetDatabase.Refresh();
         }

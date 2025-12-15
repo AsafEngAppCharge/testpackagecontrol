@@ -13,22 +13,74 @@ namespace Appcharge.PaymentLinks.Config {
         public string CheckoutPublicKey;
 
         //iOS Integration Settings
-        [Tooltip("Whether the checkout opens in internal browser mode.")]
-        public bool UseInternalBrowser = true;
-
-        [Tooltip("Whether to force the portrait orientation.")]
-        public bool PortraitOrientationLock = false;
-
-        [Tooltip("Whether to automatically include and sign the Appcharge iOS frameworks in your Xcode project.")]
-        public bool AddFrameworkToXcodeProject = true;
+        [Tooltip("The browser mode to use for the checkout flow.")]
+        public iOSBrowserMode iOSBrowserMode = iOSBrowserMode.SFSVC;
 
         [Tooltip("The domain used to redirect players back to your game, without HTTP protocol. For example, my-best-game.com .")]
         public string AssociatedDomain = "";
 
-        [Tooltip("Whether to enable deeplink support when opening the checkout in an embedded browser.")]
-        public bool AddURLScheme = true;
+        [Tooltip("Whether to force the portrait orientation.")]
+        public bool PortraitOrientationLock = false;
+
+        [Tooltip("When enabled, automatically configures iOS entitlements integration (associated domains). Use the exclusion options below to disable specific operations.")]
+        public bool EnableIOSEntitlementsIntegration = true;
+
+        [InspectorName("Enable IOS URL Scheme Integration")]
+        [Tooltip("When enabled, automatically configures iOS URL scheme integration in Info.plist. Use the exclusion options below to disable specific operations.")]
+        public bool EnableIOSURLSchemeIntegration = true;
+
+        [Tooltip("When enabled, automatically configures iOS framework integration in your Xcode project (build properties, search paths, and XCFramework embedding). Use the exclusion options below to disable specific operations.")]
+        public bool EnableIOSFrameworkIntegration = true;
+
+        [Header("iOS Entitlements Integration Exclusions")]
+        [Tooltip("When enabled, skips creating the entitlements file if it doesn't exist.")]
+        public bool ExcludeCreateEntitlementsFile = false;
+        
+        [Tooltip("When enabled, skips creating the associated-domains key in the entitlements file if it doesn't exist.")]
+        public bool ExcludeCreateAssociatedDomainsKey = false;
+        
+        [Tooltip("When enabled, skips adding the associated domain value to the entitlements file.")]
+        public bool ExcludeAddAssociatedDomain = false;
+
+        [Header("iOS URL Scheme Integration Exclusions")]
+        [Tooltip("When enabled, skips adding CFBundleTypeRole to the URL scheme in Info.plist.")]
+        public bool ExcludeSetURLSchemeTypeRole = false;
+        
+        [Tooltip("When enabled, skips adding CFBundleURLName to the URL scheme in Info.plist.")]
+        public bool ExcludeSetURLSchemeName = false;
+        
+        [Tooltip("When enabled, skips adding CFBundleURLSchemes with the acnative URL scheme to Info.plist.")]
+        public bool ExcludeAddURLScheme = false;
+
+        [Header("iOS Framework Integration Exclusions")]
+        [Tooltip("Exclude setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to NO for UnityFramework target.")]
+        public bool ExcludeSetSwiftStandardLibrariesForFramework = false;
+        
+        [Tooltip("Exclude adding framework search paths to the Xcode project.")]
+        public bool ExcludeAddFrameworkSearchPaths = false;
+        
+        [Tooltip("Exclude setting LD_RUNPATH_SEARCH_PATHS build property.")]
+        public bool ExcludeSetLDRunpathSearchPaths = false;
+        
+        [Tooltip("Exclude setting SWIFT_VERSION build property.")]
+        public bool ExcludeSetSwiftVersion = false;
+        
+        [Tooltip("Exclude setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to YES for main target.")]
+        public bool ExcludeSetSwiftStandardLibrariesForMain = false;
+        
+        [Tooltip("Exclude setting CODE_SIGN_ENTITLEMENTS build property.")]
+        public bool ExcludeSetCodeSignEntitlements = false;
+        
+        [Tooltip("Exclude setting CODE_SIGN_STYLE build property to Automatic.")]
+        public bool ExcludeSetCodeSignStyle = false;
+        
+        [Tooltip("When enabled, skips adding the ACPaymentLinks.xcframework file to the Xcode project's Frameworks. Other framework configurations (build properties, search paths) will still be applied.")]
+        public bool ExcludeAddXCFramework = false;
 
         //Android Integration Settings
+        [Tooltip("The browser mode to use for the checkout flow.")]
+        public AndroidBrowserMode AndroidBrowserMode = AndroidBrowserMode.TWA;
+
         [Tooltip("Exclude the 'useAndroidX' property from the 'gradleTemplate.properties' file.")]
         public bool ExcludeAndroidX = false;
         [Tooltip("Exclude the 'enableJetifier' property from the 'gradleTemplate.properties' file.")]

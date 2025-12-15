@@ -1,0 +1,11 @@
+framework module ACPaymentLinks {
+  umbrella header "ACPaymentLinks.h"
+  export *
+
+  module * { export * }
+}
+
+module ACPaymentLinks.Swift {
+  header "ACPaymentLinks-Swift.h"
+  requires objc
+}

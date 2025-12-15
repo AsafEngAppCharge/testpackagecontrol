@@ -6,15 +6,18 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
     public class NativeiOSCallbackHandler : MonoBehaviour
     {
         private ICheckoutPurchase _checkoutCallback;
+        private iOSPlatform _platform;
 
-        public void Inject(ICheckoutPurchase checkoutCallback)
+        public void Inject(ICheckoutPurchase checkoutCallback, iOSPlatform platform)
         {
             _checkoutCallback = checkoutCallback;
+            _platform = platform;
         }
 
         public void OnInitialized()
         {
             _checkoutCallback?.OnInitialized();
+            _platform.OnInitialized();
         }
 
         public void OnInitializeFailed(string errorJson)
