@@ -1,7 +1,7 @@
 {
     "name": "com.appcharge.paymentlinks",
     "displayName": "Appcharge Payment Links SDK",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "unity": "2021.3",
     "license": "MIT",
     "description": "Unity SDK for creating and managing Appcharge Payment Links, enabling seamless in-game purchases through secure, customizable checkout links.",
