@@ -366,16 +366,6 @@ public static class iOSPostProcess
         _logger.Log($"Final Info.plist content:\n{finalContentAdded}");
     }
 
-    private static void AddBuildPropertyIfNotExists(PBXProject proj, string target, string property, string value)
-    {
-        string existingValue = proj.GetBuildPropertyForAnyConfig(target, property);
-        if (string.IsNullOrEmpty(existingValue))
-        {
-            proj.AddBuildProperty(target, property, value);
-            _logger.Log($"[Appcharge PostBuild] Added {property} = {value} to target");
-        }
-    }
-
     private static void AddFrameworkSearchPath(PBXProject proj, string target, string path)
     {
         string existingValue = proj.GetBuildPropertyForAnyConfig(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS);

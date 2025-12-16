@@ -126,7 +126,6 @@ public class AppchargeConfigEditor : Editor
         EditorGUILayout.LabelField("Publisher Info", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(environment);
         EditorGUILayout.PropertyField(checkoutPublicKey);
-
         EditorGUILayout.Space();
        
         bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
@@ -145,6 +144,7 @@ public class AppchargeConfigEditor : Editor
                     EditorGUILayout.PropertyField(associatedDomain);
                     EditorGUILayout.PropertyField(portraitOrientationLock);
                     
+                    EditorGUILayout.Space();
                     EditorGUILayout.PropertyField(enableIOSFrameworkIntegration);
                     if (enableIOSFrameworkIntegration.boolValue)
                     {
@@ -160,6 +160,7 @@ public class AppchargeConfigEditor : Editor
                         EditorGUI.indentLevel--;
                     }
                     
+                    EditorGUILayout.Space();
                     EditorGUILayout.PropertyField(enableIOSEntitlementsIntegration);
                     if (enableIOSEntitlementsIntegration.boolValue && associatedDomain.stringValue != "")
                     {
@@ -170,7 +171,8 @@ public class AppchargeConfigEditor : Editor
                         EditorGUI.indentLevel--;
                     }
                     
-                    EditorGUILayout.PropertyField(enableIOSURLSchemeIntegration, new GUIContent("Enable IOS URL Scheme Integration"));
+                    EditorGUILayout.Space();
+                    EditorGUILayout.PropertyField(enableIOSURLSchemeIntegration, new GUIContent("Enable iOS URL Scheme Integration"));
                     if (enableIOSURLSchemeIntegration.boolValue)
                     {
                         EditorGUI.indentLevel++;
@@ -185,7 +187,6 @@ public class AppchargeConfigEditor : Editor
                 {
                     EditorGUILayout.Space();
                     EditorGUILayout.PropertyField(AndroidBrowserMode);
-                    //EditorGUILayout.PropertyField(portraitOrientationLock);
                     EditorGUILayout.PropertyField(excludeAndroidX);
                     EditorGUILayout.PropertyField(excludeJetifier);
                     EditorGUILayout.PropertyField(excludeAppcompat);

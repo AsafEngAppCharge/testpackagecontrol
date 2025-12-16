@@ -2,7 +2,13 @@ using Appcharge.PaymentLinks.Models;
 using UnityEngine;
 
 namespace Appcharge.PaymentLinks.Config {
-    [HelpURL("https://docs.appcharge.com/sdks/appdirect/mobile-checkout-sdk/unity/introduction")]
+    #if UNITY_IOS
+    [HelpURL("https://docs.appcharge.com/sdks/payment-links/unity/integrate-with-ios")]
+    #elif UNITY_ANDROID
+    [HelpURL("https://docs.appcharge.com/sdks/payment-links/unity/integrate-with-android")]
+    #elif UNITY_WEBGL
+    [HelpURL("https://docs.appcharge.com/sdks/payment-links/unity/integrate-with-webgl")]
+    #endif
     [CreateAssetMenu(fileName = "AppchargeConfig", menuName = "Appcharge/Configuration/AppchargeConfig", order = 1)]
     public class AppchargeConfig : ScriptableObject
     {   
@@ -25,14 +31,12 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("When enabled, automatically configures iOS entitlements integration (associated domains). Use the exclusion options below to disable specific operations.")]
         public bool EnableIOSEntitlementsIntegration = true;
 
-        [InspectorName("Enable IOS URL Scheme Integration")]
         [Tooltip("When enabled, automatically configures iOS URL scheme integration in Info.plist. Use the exclusion options below to disable specific operations.")]
         public bool EnableIOSURLSchemeIntegration = true;
 
         [Tooltip("When enabled, automatically configures iOS framework integration in your Xcode project (build properties, search paths, and XCFramework embedding). Use the exclusion options below to disable specific operations.")]
         public bool EnableIOSFrameworkIntegration = true;
 
-        [Header("iOS Entitlements Integration Exclusions")]
         [Tooltip("When enabled, skips creating the entitlements file if it doesn't exist.")]
         public bool ExcludeCreateEntitlementsFile = false;
         
@@ -42,7 +46,6 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("When enabled, skips adding the associated domain value to the entitlements file.")]
         public bool ExcludeAddAssociatedDomain = false;
 
-        [Header("iOS URL Scheme Integration Exclusions")]
         [Tooltip("When enabled, skips adding CFBundleTypeRole to the URL scheme in Info.plist.")]
         public bool ExcludeSetURLSchemeTypeRole = false;
         
@@ -52,7 +55,6 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("When enabled, skips adding CFBundleURLSchemes with the acnative URL scheme to Info.plist.")]
         public bool ExcludeAddURLScheme = false;
 
-        [Header("iOS Framework Integration Exclusions")]
         [Tooltip("Exclude setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to NO for UnityFramework target.")]
         public bool ExcludeSetSwiftStandardLibrariesForFramework = false;
         

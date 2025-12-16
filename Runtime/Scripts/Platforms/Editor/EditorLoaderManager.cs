@@ -35,7 +35,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
 
             VerifyEventSystem();
 
-            var loaderPrefab = Resources.Load<GameObject>("Appcharge/Editor/AppchargeLoaderCanvas");
+            var loaderPrefab = Resources.Load<GameObject>("AppchargeLoaderCanvas");
             if (loaderPrefab == null)
             {
                 Debug.LogError("AppchargeLoaderCanvas prefab not found in Resources/Appcharge/Editor/");
