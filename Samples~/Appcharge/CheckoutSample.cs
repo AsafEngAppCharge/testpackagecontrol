@@ -14,7 +14,7 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     [SerializeField] private Button _btnGetPricePoints;
     [SerializeField] private Text _txtLogger;
     [SerializeField] private SessionSample _sessionSample;
-    private string _orderId = "";
+    private string _orderId = "A";
 
     public void Init()
     {
