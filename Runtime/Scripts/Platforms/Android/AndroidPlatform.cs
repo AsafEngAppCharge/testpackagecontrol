@@ -14,7 +14,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
 		public ICheckoutPurchase Callback { get; set; }
-
+		private bool _hello = false;
 		private void EnsureInitialized()
 		{
 			if (_bridgeApi != null && _mainActivity != null) return;
