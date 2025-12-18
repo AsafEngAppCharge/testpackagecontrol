@@ -15,6 +15,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 		private bool _portraitOrientationLock = false;
 		public ICheckoutPurchase Callback { get; set; }
 
+		//TEST COMMENT
 		private void EnsureInitialized()
 		{
 			if (_bridgeApi != null && _mainActivity != null) return;
