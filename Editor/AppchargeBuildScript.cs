@@ -63,15 +63,19 @@ public class AppchargeBuildScript
         try
         {
             Debug.Log($"=== AppchargeBuildScript: Starting build for {platformName} ===");
+            Debug.Log($"Unity version: {Application.unityVersion}");
+            Debug.Log($"Platform: {Application.platform}");
+            Debug.Log($"Is batch mode: {Application.isBatchMode}");
             
             // Wait for compilation to finish before building
             Debug.Log("Waiting for script compilation to complete...");
             int waitCount = 0;
-            while (EditorApplication.isCompiling && waitCount < 300) // Wait up to 30 seconds
+            int maxWait = 600; // Wait up to 60 seconds in batch mode
+            while (EditorApplication.isCompiling && waitCount < maxWait)
             {
                 System.Threading.Thread.Sleep(100);
                 waitCount++;
-                if (waitCount % 10 == 0)
+                if (waitCount % 50 == 0)
                 {
                     Debug.Log($"Still compiling... ({waitCount * 100}ms)");
                 }
@@ -79,16 +83,22 @@ public class AppchargeBuildScript
             
             if (EditorApplication.isCompiling)
             {
-                Debug.LogError("Script compilation did not complete within timeout!");
+                Debug.LogError($"Script compilation did not complete within timeout ({maxWait * 100}ms)!");
                 EditorApplication.Exit(1);
                 return;
             }
             
             Debug.Log("Script compilation completed successfully");
             
+            // Additional wait to ensure Unity is fully initialized in batch mode
+            Debug.Log("Waiting for Unity to fully initialize...");
+            System.Threading.Thread.Sleep(2000); // 2 second delay for batch mode
+            
             // Force asset database refresh to ensure everything is up to date
+            Debug.Log("Refreshing asset database...");
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
+            Debug.Log("Asset database refreshed");
             
             // For Android, disable signing requirement for automated builds
             if (target == BuildTarget.Android)
@@ -188,11 +198,71 @@ public class AppchargeBuildScript
                 Debug.LogWarning($"Could not check assemblies: {ex.Message}");
             }
             
+            // Additional safety check - ensure Unity is ready
+            Debug.Log("Performing final readiness checks...");
+            
+            // Check if we can access build settings
+            try
+            {
+                var buildScenes = EditorBuildSettings.scenes;
+                Debug.Log($"Build settings accessible. Scenes count: {buildScenes.Length}");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Cannot access build settings: {ex.Message}");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            // Check if target platform is available
+            BuildTargetGroup targetGroup = BuildPipeline.GetBuildTargetGroup(target);
+            if (!BuildPipeline.IsBuildTargetSupported(targetGroup, target))
+            {
+                Debug.LogError($"{platformName} build target is not supported!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log($"{platformName} build target is supported");
+            
+            // Check for any compilation issues before building
+            try
+            {
+                var compilationResult = UnityEditor.Compilation.CompilationPipeline.GetAssemblies();
+                Debug.Log($"Compilation check: Found {compilationResult.Length} assemblies");
+                
+                foreach (var assembly in compilationResult)
+                {
+                    if (assembly.name.Contains("error") || assembly.name.Contains("Error"))
+                    {
+                        Debug.LogWarning($"Potential issue with assembly: {assembly.name}");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"Could not check compilation status: {ex.Message}");
+            }
+            
+            Debug.Log("All readiness checks passed. Starting build...");
+            
             BuildReport report = null;
             try
             {
                 Debug.Log("Calling BuildPipeline.BuildPlayer...");
+                Debug.Log($"Build options: {buildPlayerOptions.options}");
+                Debug.Log($"Build target: {buildPlayerOptions.target}");
+                Debug.Log($"Output path: {buildPlayerOptions.locationPathName}");
+                
                 report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+                
+                if (report == null)
+                {
+                    Debug.LogError("BuildPipeline.BuildPlayer returned null report!");
+                    EditorApplication.Exit(1);
+                    return;
+                }
+                
                 Debug.Log("BuildPipeline.BuildPlayer completed");
             }
             catch (System.Exception ex)
@@ -202,14 +272,8 @@ public class AppchargeBuildScript
                 if (ex.InnerException != null)
                 {
                     Debug.LogError($"Inner exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                    Debug.LogError($"Inner stack trace: {ex.InnerException.StackTrace}");
                 }
-                EditorApplication.Exit(1);
-                return;
-            }
-            
-            if (report == null)
-            {
-                Debug.LogError("BuildPipeline.BuildPlayer returned null report!");
                 EditorApplication.Exit(1);
                 return;
             }
@@ -227,15 +291,20 @@ public class AppchargeBuildScript
             else if (summary.result == BuildResult.Failed)
             {
                 Debug.LogError($"Build failed! Total errors: {report.summary.totalErrors}, Total warnings: {report.summary.totalWarnings}");
+                Debug.LogError($"Build duration: {report.summary.totalTime}");
+                Debug.LogError($"Build size: {report.summary.totalSize} bytes");
                 
                 // Log all errors and warnings from build report
                 if (report.steps != null)
                 {
+                    Debug.LogError($"=== Build Report: {report.steps.Length} steps ===");
                     foreach (var step in report.steps)
                     {
+                        Debug.LogError($"Step: {step.name}, Duration: {step.duration}, Depth: {step.depth}");
+                        
                         if (step.messages != null && step.messages.Length > 0)
                         {
-                            Debug.LogWarning($"=== Build Step: {step.name} ===");
+                            Debug.LogWarning($"=== Build Step: {step.name} ({step.messages.Length} messages) ===");
                             foreach (var msg in step.messages)
                             {
                                 if (msg.type == LogType.Error || msg.type == LogType.Exception)
@@ -254,7 +323,15 @@ public class AppchargeBuildScript
                                 }
                             }
                         }
+                        else
+                        {
+                            Debug.LogWarning($"Step {step.name} has no messages");
+                        }
                     }
+                }
+                else
+                {
+                    Debug.LogError("Build report has no steps!");
                 }
                 
                 EditorApplication.Exit(1);
