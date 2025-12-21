@@ -157,9 +157,38 @@ public class AppchargeBuildScript
                 Debug.Log($"Using default build output path: {BuildOutputPath}");
             }
             
-            // Ensure directory exists
-            Directory.CreateDirectory(BuildOutputPath);
-            Debug.Log($"Created/verified build directory: {BuildOutputPath}");
+            // For Android, locationPathName should be the APK file path, not a directory
+            // Unity will create the directory itself - we should NOT create it beforehand
+            // as it causes "destination path collides" errors
+            string outputPath = BuildOutputPath;
+            if (target == BuildTarget.Android)
+            {
+                // Ensure the PARENT directory exists, not the build directory
+                string parentDir = Path.GetDirectoryName(BuildOutputPath);
+                if (!string.IsNullOrEmpty(parentDir))
+                {
+                    Directory.CreateDirectory(parentDir);
+                    Debug.Log($"Ensured parent directory exists: {parentDir}");
+                }
+                
+                // For Android, append .apk if not present
+                if (!BuildOutputPath.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
+                {
+                    outputPath = Path.Combine(BuildOutputPath, "game.apk");
+                    Debug.Log($"Android output path (with .apk): {outputPath}");
+                }
+            }
+            else
+            {
+                // For iOS/WebGL, ensure parent directory exists
+                string parentDir = Path.GetDirectoryName(BuildOutputPath);
+                if (!string.IsNullOrEmpty(parentDir))
+                {
+                    Directory.CreateDirectory(parentDir);
+                    Debug.Log($"Ensured parent directory exists: {parentDir}");
+                }
+            }
+            Debug.Log($"Final output path: {outputPath}");
             
             // Get scenes from build settings
             List<string> enabledScenes = new List<string>();
@@ -191,7 +220,7 @@ public class AppchargeBuildScript
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions
             {
                 scenes = scenes,
-                locationPathName = BuildOutputPath,
+                locationPathName = outputPath,
                 target = target,
                 options = BuildOptions.Development | BuildOptions.AllowDebugging
             };
