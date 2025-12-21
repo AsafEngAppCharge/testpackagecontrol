@@ -124,11 +124,9 @@ public class AppchargeBuildScript
             Debug.Log("Waiting for Unity to fully initialize...");
             System.Threading.Thread.Sleep(2000); // 2 second delay for batch mode
             
-            // Force asset database refresh to ensure everything is up to date
-            Debug.Log("Refreshing asset database...");
-            AssetDatabase.Refresh();
-            AssetDatabase.SaveAssets();
-            Debug.Log("Asset database refreshed");
+            // DO NOT call AssetDatabase.Refresh() here as it can cause reentrancy issues
+            // Unity will refresh automatically when needed
+            Debug.Log("Unity initialization complete");
             
             // For Android, disable signing requirement for automated builds
             if (target == BuildTarget.Android)
@@ -292,40 +290,23 @@ public class AppchargeBuildScript
             }
             
             // Additional check: Ensure Unity is fully ready
-            try
+            // DO NOT call AssetDatabase.Refresh() here as it causes reentrancy issues
+            Debug.Log("Waiting for Unity to be fully ready...");
+            System.Threading.Thread.Sleep(1000); // Wait 1 second for any pending operations
+            
+            if (EditorApplication.isCompiling)
             {
-                // Force a final refresh and wait
-                Debug.Log("Performing final asset refresh...");
-                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-                System.Threading.Thread.Sleep(2000); // Wait 2 seconds for any pending operations
-                
-                if (EditorApplication.isCompiling)
-                {
-                    Debug.LogError("Project is still compiling after final refresh!");
-                    EditorApplication.Exit(1);
-                    return;
-                }
-                
-                Debug.Log("Final refresh completed, Unity is ready");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"Error during final refresh: {ex.Message}");
+                Debug.LogError("Project is still compiling!");
                 EditorApplication.Exit(1);
                 return;
             }
             
-            Debug.Log("All readiness checks passed. Starting build...");
+            Debug.Log("Unity is ready for build");
             
             // Ensure Unity is in a clean state before building
             Debug.Log("Preparing Unity for build...");
             try
             {
-                // Clear any pending asset operations
-                AssetDatabase.StopAssetEditing();
-                AssetDatabase.StartAssetEditing();
-                AssetDatabase.StopAssetEditing();
-                
                 // Ensure we're not in play mode
                 if (EditorApplication.isPlaying)
                 {
