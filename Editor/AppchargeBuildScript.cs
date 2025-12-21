@@ -173,13 +173,47 @@ public class AppchargeBuildScript
             {
                 var assemblies = UnityEditor.Compilation.CompilationPipeline.GetAssemblies();
                 Debug.Log($"Found {assemblies.Length} compiled assemblies");
+                
+                // Check for compilation issues
+                foreach (var assembly in assemblies)
+                {
+                    if (assembly.compiledAssemblyReferences == null || assembly.allReferences == null)
+                    {
+                        Debug.LogWarning($"Assembly {assembly.name} has null references");
+                    }
+                }
             }
             catch (System.Exception ex)
             {
                 Debug.LogWarning($"Could not check assemblies: {ex.Message}");
             }
             
-            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            BuildReport report = null;
+            try
+            {
+                Debug.Log("Calling BuildPipeline.BuildPlayer...");
+                report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+                Debug.Log("BuildPipeline.BuildPlayer completed");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Exception during BuildPlayer: {ex.GetType().Name}: {ex.Message}");
+                Debug.LogError($"Stack trace: {ex.StackTrace}");
+                if (ex.InnerException != null)
+                {
+                    Debug.LogError($"Inner exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                }
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            if (report == null)
+            {
+                Debug.LogError("BuildPipeline.BuildPlayer returned null report!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
             BuildSummary summary = report.summary;
             
             Debug.Log($"Build completed with result: {summary.result}");
