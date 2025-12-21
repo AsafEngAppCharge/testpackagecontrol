@@ -10,6 +10,38 @@ public class AppchargeBuildScript
 {
     private static string BuildOutputPath = "";
 
+    public static void PreCompile()
+    {
+        Debug.Log("=== AppchargeBuildScript: Pre-compiling project ===");
+        
+        // Refresh asset database
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+        
+        // Wait for compilation to complete
+        Debug.Log("Waiting for script compilation to complete...");
+        int waitCount = 0;
+        while (EditorApplication.isCompiling && waitCount < 600) // Wait up to 60 seconds
+        {
+            System.Threading.Thread.Sleep(100);
+            waitCount++;
+            if (waitCount % 50 == 0)
+            {
+                Debug.Log($"Still compiling... ({waitCount * 100}ms)");
+            }
+        }
+        
+        if (EditorApplication.isCompiling)
+        {
+            Debug.LogError("Script compilation did not complete within timeout!");
+            EditorApplication.Exit(1);
+            return;
+        }
+        
+        Debug.Log("Script compilation completed successfully");
+        EditorApplication.Exit(0);
+    }
+
     public static void BuildAndroid()
     {
         Debug.Log("AppchargeBuildScript.BuildAndroid called");
@@ -127,6 +159,26 @@ public class AppchargeBuildScript
             };
         
             Debug.Log("Starting BuildPipeline.BuildPlayer...");
+            
+            // Check if there are any compilation errors before building
+            if (EditorApplication.isCompiling)
+            {
+                Debug.LogError("Cannot build while scripts are compiling!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            // Try to get compilation status
+            try
+            {
+                var assemblies = UnityEditor.Compilation.CompilationPipeline.GetAssemblies();
+                Debug.Log($"Found {assemblies.Length} compiled assemblies");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"Could not check assemblies: {ex.Message}");
+            }
+            
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             BuildSummary summary = report.summary;
             
