@@ -222,7 +222,7 @@ public class AppchargeBuildScript
                 scenes = scenes,
                 locationPathName = outputPath,
                 target = target,
-                options = BuildOptions.Development | BuildOptions.AllowDebugging
+                options = BuildOptions.None  // Release build (not development/debug)
             };
         
             Debug.Log("Starting BuildPipeline.BuildPlayer...");
