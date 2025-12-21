@@ -12,6 +12,7 @@ public class AppchargeBuildScript
 
     public static void BuildAndroid()
     {
+        Debug.Log("AppchargeBuildScript.BuildAndroid called");
         BuildForPlatform(BuildTarget.Android, "Android");
     }
 
