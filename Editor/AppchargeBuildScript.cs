@@ -115,22 +115,36 @@ public class AppchargeBuildScript
             else if (summary.result == BuildResult.Failed)
             {
                 Debug.LogError($"Build failed! Total errors: {report.summary.totalErrors}, Total warnings: {report.summary.totalWarnings}");
+                
+                // Log all errors and warnings from build report
                 if (report.steps != null)
                 {
                     foreach (var step in report.steps)
                     {
-                        if (step.messages != null)
+                        if (step.messages != null && step.messages.Length > 0)
                         {
+                            Debug.LogWarning($"=== Build Step: {step.name} ===");
                             foreach (var msg in step.messages)
                             {
                                 if (msg.type == LogType.Error || msg.type == LogType.Exception)
                                 {
-                                    Debug.LogError($"[{step.name}] {msg.content}");
+                                    Debug.LogError($"[{step.name}] {msg.type}: {msg.content}");
+                                    // Also log to console with more detail
+                                    System.Console.Error.WriteLine($"[ERROR][{step.name}] {msg.content}");
+                                }
+                                else if (msg.type == LogType.Warning)
+                                {
+                                    Debug.LogWarning($"[{step.name}] {msg.content}");
+                                }
+                                else
+                                {
+                                    Debug.Log($"[{step.name}] {msg.content}");
                                 }
                             }
                         }
                     }
                 }
+                
                 EditorApplication.Exit(1);
             }
             else
