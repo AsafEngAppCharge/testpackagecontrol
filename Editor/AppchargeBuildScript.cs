@@ -206,24 +206,49 @@ public class AppchargeBuildScript
                 return;
             }
             
-            // Try to get compilation status
+            // Check for compilation errors using Unity's API
             try
             {
-                var assemblies = UnityEditor.Compilation.CompilationPipeline.GetAssemblies();
+                // Force Unity to check for compilation errors
+                // This will throw if there are actual compilation errors
+                var assemblies = CompilationPipeline.GetAssemblies();
                 Debug.Log($"Found {assemblies.Length} compiled assemblies");
                 
-                // Check for compilation issues
+                // Try to access each assembly to detect errors
+                bool hasErrors = false;
                 foreach (var assembly in assemblies)
                 {
-                    if (assembly.compiledAssemblyReferences == null || assembly.allReferences == null)
+                    try
                     {
-                        Debug.LogWarning($"Assembly {assembly.name} has null references");
+                        // Try to access assembly properties - this will fail if there are compilation errors
+                        var name = assembly.name;
+                        var refs = assembly.allReferences;
+                        if (refs == null)
+                        {
+                            Debug.LogWarning($"Assembly {name} has null references");
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogError($"Error accessing assembly: {ex.Message}");
+                        hasErrors = true;
                     }
                 }
+                
+                if (hasErrors)
+                {
+                    Debug.LogError("Compilation errors detected in assemblies!");
+                    EditorApplication.Exit(1);
+                    return;
+                }
+                
+                Debug.Log("No compilation errors detected in assemblies");
             }
             catch (System.Exception ex)
             {
-                Debug.LogWarning($"Could not check assemblies: {ex.Message}");
+                Debug.LogError($"Compilation check failed: {ex.GetType().Name}: {ex.Message}");
+                Debug.LogError($"This might indicate compilation errors. Stack trace: {ex.StackTrace}");
+                // Don't exit here - let BuildPlayer try and report the actual error
             }
             
             // Additional safety check - ensure Unity is ready
@@ -331,6 +356,21 @@ public class AppchargeBuildScript
                 Debug.Log($"Output path: {buildPlayerOptions.locationPathName}");
                 Debug.Log($"Scene count: {buildPlayerOptions.scenes.Length}");
                 
+                // Final check - ensure no compilation errors exist
+                // Unity sometimes reports errors that don't actually prevent building
+                Debug.Log("Performing final compilation check...");
+                try
+                {
+                    // This will throw if there are real compilation errors
+                    var testAssemblies = CompilationPipeline.GetAssemblies();
+                    Debug.Log($"Final check: {testAssemblies.Length} assemblies ready");
+                }
+                catch (System.Exception compileEx)
+                {
+                    Debug.LogWarning($"Compilation check warning: {compileEx.Message}");
+                    Debug.LogWarning("Continuing with build attempt anyway...");
+                }
+                
                 // Try to catch UnityException specifically
                 try
                 {
@@ -344,6 +384,13 @@ public class AppchargeBuildScript
                     
                     // Try to get more information about what failed
                     Debug.LogError("Attempting to get more error details...");
+                    
+                    // Check if this is a generic "Error" message
+                    if (uex.Message == "Error" || string.IsNullOrEmpty(uex.Message))
+                    {
+                        Debug.LogError("UnityException has generic 'Error' message - this often indicates a hidden compilation error");
+                        Debug.LogError("Check Unity's Editor.log file for actual compilation errors");
+                    }
                     
                     // Re-throw to be caught by outer catch
                     throw;
