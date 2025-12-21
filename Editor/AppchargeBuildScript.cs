@@ -32,6 +32,14 @@ public class AppchargeBuildScript
         {
             Debug.Log($"=== AppchargeBuildScript: Starting build for {platformName} ===");
             
+            // For Android, disable signing requirement for automated builds
+            if (target == BuildTarget.Android)
+            {
+                Debug.Log("Configuring Android build settings...");
+                PlayerSettings.Android.useCustomKeystore = false;
+                Debug.Log("Disabled custom keystore requirement for Android build");
+            }
+            
             // Get build output path from command line argument or use default
             string[] args = Environment.GetCommandLineArgs();
             BuildOutputPath = "";
@@ -82,14 +90,15 @@ public class AppchargeBuildScript
             Debug.Log($"Output path: {BuildOutputPath}");
             Debug.Log($"Scenes: {string.Join(", ", scenes)}");
         
-        // Build player
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions
-        {
-            scenes = scenes,
-            locationPathName = BuildOutputPath,
-            target = target,
-            options = BuildOptions.None
-        };
+            // Build player
+            // Use Development build to avoid signing requirements for automated builds
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions
+            {
+                scenes = scenes,
+                locationPathName = BuildOutputPath,
+                target = target,
+                options = BuildOptions.Development | BuildOptions.AllowDebugging
+            };
         
             Debug.Log("Starting BuildPipeline.BuildPlayer...");
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
