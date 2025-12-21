@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 public class AppchargeBuildScript
@@ -39,6 +40,35 @@ public class AppchargeBuildScript
         }
         
         Debug.Log("Script compilation completed successfully");
+        
+        // Check for compilation errors by trying to get assemblies
+        try
+        {
+            var assemblies = CompilationPipeline.GetAssemblies();
+            Debug.Log($"Found {assemblies.Length} compiled assemblies");
+            
+            // Try to access build settings to ensure Unity is ready
+            var scenes = EditorBuildSettings.scenes;
+            Debug.Log($"Found {scenes.Length} scenes in build settings");
+            
+            // Try to check if Android build target is supported
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
+            {
+                Debug.LogError("Android build target is not supported!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("All pre-compile checks passed");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error during pre-compile checks: {ex.GetType().Name}: {ex.Message}");
+            Debug.LogError($"Stack trace: {ex.StackTrace}");
+            EditorApplication.Exit(1);
+            return;
+        }
+        
         EditorApplication.Exit(0);
     }
 
@@ -228,23 +258,88 @@ public class AppchargeBuildScript
             // Check for any compilation issues before building
             try
             {
-                var compilationResult = UnityEditor.Compilation.CompilationPipeline.GetAssemblies();
+                var compilationResult = CompilationPipeline.GetAssemblies();
                 Debug.Log($"Compilation check: Found {compilationResult.Length} assemblies");
                 
+                // Check if any assemblies failed to compile
                 foreach (var assembly in compilationResult)
                 {
-                    if (assembly.name.Contains("error") || assembly.name.Contains("Error"))
+                    if (assembly == null)
                     {
-                        Debug.LogWarning($"Potential issue with assembly: {assembly.name}");
+                        Debug.LogWarning("Found null assembly in compilation result");
+                        continue;
+                    }
+                    
+                    // Check if assembly has issues
+                    if (assembly.compiledAssemblyReferences == null)
+                    {
+                        Debug.LogWarning($"Assembly {assembly.name} has null compiledAssemblyReferences");
+                    }
+                    
+                    if (assembly.allReferences == null)
+                    {
+                        Debug.LogWarning($"Assembly {assembly.name} has null allReferences");
                     }
                 }
+                
+                Debug.Log("Assembly compilation check completed");
             }
             catch (System.Exception ex)
             {
-                Debug.LogWarning($"Could not check compilation status: {ex.Message}");
+                Debug.LogError($"Error checking compilation status: {ex.Message}");
+                Debug.LogError($"Stack trace: {ex.StackTrace}");
+                // Don't fail here, continue with build attempt
+            }
+            
+            // Additional check: Ensure Unity is fully ready
+            try
+            {
+                // Force a final refresh and wait
+                Debug.Log("Performing final asset refresh...");
+                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+                System.Threading.Thread.Sleep(2000); // Wait 2 seconds for any pending operations
+                
+                if (EditorApplication.isCompiling)
+                {
+                    Debug.LogError("Project is still compiling after final refresh!");
+                    EditorApplication.Exit(1);
+                    return;
+                }
+                
+                Debug.Log("Final refresh completed, Unity is ready");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Error during final refresh: {ex.Message}");
+                EditorApplication.Exit(1);
+                return;
             }
             
             Debug.Log("All readiness checks passed. Starting build...");
+            
+            // Ensure Unity is in a clean state before building
+            Debug.Log("Preparing Unity for build...");
+            try
+            {
+                // Clear any pending asset operations
+                AssetDatabase.StopAssetEditing();
+                AssetDatabase.StartAssetEditing();
+                AssetDatabase.StopAssetEditing();
+                
+                // Ensure we're not in play mode
+                if (EditorApplication.isPlaying)
+                {
+                    Debug.LogError("Cannot build while in play mode!");
+                    EditorApplication.Exit(1);
+                    return;
+                }
+                
+                Debug.Log("Unity is ready for build");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"Warning during Unity preparation: {ex.Message}");
+            }
             
             BuildReport report = null;
             try
@@ -253,8 +348,25 @@ public class AppchargeBuildScript
                 Debug.Log($"Build options: {buildPlayerOptions.options}");
                 Debug.Log($"Build target: {buildPlayerOptions.target}");
                 Debug.Log($"Output path: {buildPlayerOptions.locationPathName}");
+                Debug.Log($"Scene count: {buildPlayerOptions.scenes.Length}");
                 
-                report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+                // Try to catch UnityException specifically
+                try
+                {
+                    report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+                }
+                catch (UnityException uex)
+                {
+                    Debug.LogError($"UnityException during BuildPlayer: {uex.Message}");
+                    Debug.LogError($"UnityException type: {uex.GetType().FullName}");
+                    Debug.LogError($"Stack trace: {uex.StackTrace}");
+                    
+                    // Try to get more information about what failed
+                    Debug.LogError("Attempting to get more error details...");
+                    
+                    // Re-throw to be caught by outer catch
+                    throw;
+                }
                 
                 if (report == null)
                 {
@@ -264,6 +376,19 @@ public class AppchargeBuildScript
                 }
                 
                 Debug.Log("BuildPipeline.BuildPlayer completed");
+            }
+            catch (UnityException uex)
+            {
+                Debug.LogError($"UnityException during BuildPlayer: {uex.Message}");
+                Debug.LogError($"UnityException type: {uex.GetType().FullName}");
+                Debug.LogError($"Stack trace: {uex.StackTrace}");
+                if (uex.InnerException != null)
+                {
+                    Debug.LogError($"Inner exception: {uex.InnerException.GetType().Name}: {uex.InnerException.Message}");
+                    Debug.LogError($"Inner stack trace: {uex.InnerException.StackTrace}");
+                }
+                EditorApplication.Exit(1);
+                return;
             }
             catch (System.Exception ex)
             {
