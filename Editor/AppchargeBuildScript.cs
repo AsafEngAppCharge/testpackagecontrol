@@ -32,6 +32,32 @@ public class AppchargeBuildScript
         {
             Debug.Log($"=== AppchargeBuildScript: Starting build for {platformName} ===");
             
+            // Wait for compilation to finish before building
+            Debug.Log("Waiting for script compilation to complete...");
+            int waitCount = 0;
+            while (EditorApplication.isCompiling && waitCount < 300) // Wait up to 30 seconds
+            {
+                System.Threading.Thread.Sleep(100);
+                waitCount++;
+                if (waitCount % 10 == 0)
+                {
+                    Debug.Log($"Still compiling... ({waitCount * 100}ms)");
+                }
+            }
+            
+            if (EditorApplication.isCompiling)
+            {
+                Debug.LogError("Script compilation did not complete within timeout!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("Script compilation completed successfully");
+            
+            // Force asset database refresh to ensure everything is up to date
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+            
             // For Android, disable signing requirement for automated builds
             if (target == BuildTarget.Android)
             {
