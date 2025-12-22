@@ -4,12 +4,12 @@ All notable changes to this package will be documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
-## [2.3.0] - 2025-12-17
+## [2.4.0] - 2025-12-22
 ### Added
-- Test added 2 3 0
+- New Test added
 
-### Changed 2 3 0
-- Test changes
+### Changed
+- New Test changed
 
 
 ## [2.2.0] - 2025-12-16
