@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Appcharge.PaymentLinks.Platforms.iOS {
     public class iOSPlatform : ICheckoutPlatform {
         private static NativeiOSCallbackHandler _nativeCallbackHandler;
-        private const string UNITY_SDK_VERSION = "2.2.0";
+        private const string UNITY_SDK_VERSION = "2.2.1";
 #if UNITY_IOS
         [DllImport("__Internal")]
         private static extern void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion);

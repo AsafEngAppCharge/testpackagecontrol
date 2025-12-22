@@ -9,7 +9,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 	{
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
-		private const string UNITY_SDK_VERSION = "2.2.0";
+		private const string UNITY_SDK_VERSION = "2.2.1";
 		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
