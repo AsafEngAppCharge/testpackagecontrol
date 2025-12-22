@@ -136,6 +136,33 @@ public class AppchargeBuildScript
                 Debug.Log("Disabled custom keystore requirement for Android build");
             }
             
+            // For iOS, enable automatic signing so Xcode shows device list
+            if (target == BuildTarget.iOS)
+            {
+                Debug.Log("Configuring iOS build settings...");
+                PlayerSettings.iOS.appleEnableAutomaticSigning = true;
+                Debug.Log("Enabled automatic signing for iOS build");
+                
+                // Check for team ID from command line argument
+                string[] cmdArgs = Environment.GetCommandLineArgs();
+                for (int i = 0; i < cmdArgs.Length; i++)
+                {
+                    if (cmdArgs[i] == "-iosTeamId" && i + 1 < cmdArgs.Length)
+                    {
+                        string teamId = cmdArgs[i + 1];
+                        PlayerSettings.iOS.appleDeveloperTeamID = teamId;
+                        Debug.Log($"Set iOS developer team ID: {teamId}");
+                        break;
+                    }
+                }
+                
+                // If no team ID provided, log a note
+                if (string.IsNullOrEmpty(PlayerSettings.iOS.appleDeveloperTeamID))
+                {
+                    Debug.Log("No iOS team ID set - Xcode will prompt for team selection");
+                }
+            }
+            
             // Get build output path from command line argument or use default
             string[] args = Environment.GetCommandLineArgs();
             BuildOutputPath = "";
