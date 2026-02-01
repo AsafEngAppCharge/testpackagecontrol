@@ -23,6 +23,11 @@ namespace Appcharge.PaymentLinks.Platforms.Unsupported {
         {
             Debug.LogWarning("Unsupported platform: OpenCheckout");        
         }
+
+        public void OpenCheckout(string purchaseId, string parsedUrl)
+        {
+            Debug.LogWarning("Unsupported platform: OpenCheckout");        
+        }
         
         public string GetSdkVersion()
         {

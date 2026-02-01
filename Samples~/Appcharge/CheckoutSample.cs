@@ -14,7 +14,7 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     [SerializeField] private Button _btnGetPricePoints;
     [SerializeField] private Text _txtLogger;
     [SerializeField] private SessionSample _sessionSample;
-    private string _orderId = "A";
+    private string _orderId = "";
 
     public void Init()
     {
@@ -32,8 +32,9 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
 
     public void OnSessionSuccess(CheckoutResponse response)
     {
-        PaymentLinksController.Instance.OpenCheckout(response.url, response.checkoutSessionToken, response.purchaseId);
+        PaymentLinksController.Instance.OpenCheckout(response.purchaseId, response.parsedUrl);
     }
+    
     public void OnSessionFailed(string error)
     {
         _txtLogger.text = "Checkout Session Failed: " + error;

@@ -9,12 +9,12 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 	{
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
-		private const string UNITY_SDK_VERSION = "2.2.1";
+		private const string UNITY_SDK_VERSION = "2.3.0";
 		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
 		public ICheckoutPurchase Callback { get; set; }
-		private bool _hello = true;
+		
 		private void EnsureInitialized()
 		{
 			if (_bridgeApi != null && _mainActivity != null) return;
@@ -22,7 +22,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 			{
 				_mainActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-				_bridgeApi = new AndroidJavaObject("com.appcharge.core.BridgeAPI");
+				_bridgeApi = new AndroidJavaObject("com.appcharge.paymentlinks.BridgeAPI");
 			}
 		}
 
@@ -71,6 +71,18 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			}
 
 			_bridgeApi.Call("openCheckout", sessionToken, purchaseId, url);
+		}
+
+		public void OpenCheckout(string purchaseId, string parsedUrl)
+		{
+			EnsureInitialized();
+			if (_bridgeApi == null)
+			{
+				Debug.LogError("BridgeAPI is not initialized.");
+				return;
+			}
+
+			_bridgeApi.Call("openCheckout", purchaseId, parsedUrl);
 		}
 
 		public string GetSdkVersion()
@@ -177,7 +189,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			private readonly ICheckoutPurchase _callback;
 			private readonly AndroidPlatform _platform;
 
-			public CallbackProxy(ICheckoutPurchase callback, AndroidPlatform platform) : base("com.appcharge.core.interfaces.ICheckoutPurchase")
+			public CallbackProxy(ICheckoutPurchase callback, AndroidPlatform platform) : base("com.appcharge.paymentlinks.interfaces.ICheckoutPurchase")
 			{
 				_callback = callback;
 				_platform = platform;

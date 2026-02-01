@@ -32,6 +32,13 @@ public func acbridge_openCheckout(sessionTokenCString: UnsafePointer<CChar>, pur
     ACBridgeAPI.openCheckout(sessionToken: token, purchaseId: purchaseId, url: url)
 }
 
+@_cdecl("acbridge_openCheckoutParsed")
+public func acbridge_openCheckoutParsed(purchaseIdCString: UnsafePointer<CChar>, parsedUrlCString: UnsafePointer<CChar>) {
+    let purchaseId = String(cString: purchaseIdCString)
+    let parsedUrl = String(cString: parsedUrlCString)
+    ACBridgeAPI.openCheckout(purchaseId: purchaseId, parsedUrl: parsedUrl)
+}
+
 @_cdecl("acbridge_handleDeepLink")
 public func acbridge_handleDeepLink(urlCString: UnsafePointer<CChar>) {
     let urlString = String(cString: urlCString)

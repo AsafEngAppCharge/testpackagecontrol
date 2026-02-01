@@ -31,6 +31,11 @@ namespace Appcharge.PaymentLinks.Platforms.Base {
             _openCheckout.OpenCheckout(url, sessionToken, purchaseId);
         }
         
+        public void OpenCheckout(string purchaseId, string parsedUrl)
+        {
+            _openCheckout.OpenCheckout(purchaseId, parsedUrl);
+        }
+        
         public string GetSdkVersion()
         {
             return _sdkVersion.GetSdkVersion();

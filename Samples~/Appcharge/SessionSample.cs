@@ -78,5 +78,6 @@ public class SessionSample: MonoBehaviour
         public string checkoutSessionToken;
         public string purchaseId;
         public string url;
+        public string parsedUrl;
     }
 }

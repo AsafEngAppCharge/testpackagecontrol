@@ -28,10 +28,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 return;
             }
 
-            Debug.Log("Checkout Public Key: " + config.CheckoutPublicKey);
-            Debug.Log("Environment: " + config.Environment.ToString().ToLowerInvariant());
-            Debug.Log("Customer ID: " + customerId);
-            Debug.Log("Callback: " + callback);
             Initialize(config.CheckoutPublicKey, config.Environment.ToString().ToLowerInvariant(), customerId, callback);
         }
         
@@ -45,7 +41,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         private IEnumerator InitializeCoroutine(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
         {
             var baseUrl = GetBaseUrl(environment);
-            var url = $"{baseUrl}/mobile/v2/boot";
+            var url = $"{baseUrl}/mobile/v4/boot";
             
             var queryParams = new Dictionary<string, string>
             {
@@ -76,6 +72,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 {
                     _editorPlatform.BootData = JsonUtility.FromJson<EditorBootResponse>(request.downloadHandler.text);
                     _editorPlatform.CustomerId = customerId;
+                    Debug.Log("Boot Data: " + _editorPlatform.BootData.settings.presentation.useCheckoutWrapper);
                     callback.OnInitialized();
                 }
                 else
@@ -90,8 +87,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         {
             return environment.ToLower() switch
             {
-                "development" => "https://api-dev.appcharge.com",
-                "staging" => "https://api-staging.appcharge.com",
+                "staging" => "https://ext-stg-api.appchargestore.com",
                 "sandbox" => "https://api-sandbox.appcharge.com",
                 "production" => "https://api.appcharge.com",
                 _ => "https://api-sandbox.appcharge.com"

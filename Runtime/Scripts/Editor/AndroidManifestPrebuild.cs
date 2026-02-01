@@ -100,7 +100,7 @@ namespace Appcharge.PaymentLinks.Editor {
 
         private string AddAppchargeActivity(string manifestContent, string gameNameLowerCase, AppchargeConfig editorConfig)
         {
-            if (manifestContent.Contains("com.appcharge.core.CheckoutActivity"))
+            if (manifestContent.Contains("com.appcharge.paymentlinks.CheckoutActivity"))
                 return manifestContent;
 
             string exported = editorConfig.ExcludeExportedAttribute ? "" : "android:exported=\"true\"";
@@ -125,7 +125,7 @@ namespace Appcharge.PaymentLinks.Editor {
 
             string newActivity = $@"
             <activity
-                android:name=""com.appcharge.core.CheckoutActivity""
+                android:name=""com.appcharge.paymentlinks.CheckoutActivity""
                 android:theme=""@style/UnityThemeSelector""
                 android:launchMode=""singleTask""
                 android:configChanges=""orientation|screenSize""

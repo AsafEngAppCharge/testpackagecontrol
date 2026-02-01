@@ -40,16 +40,14 @@ void ac_set_is_debug_mode_enabled(int value);
 /// Triggers fetching price points.
 void ac_get_price_points(void);
 
-/// Awards a purchase.
-void ac_award(const char* orderId, const char* publisherTransactionId);
-
-/// Fetches non-awarded orders.
-void ac_get_none_awarded(void);
-
-/// Opens the checkout flow.
-void ac_open_checkout(const char* sessionToken,
+/// Opens the checkout flow (Deprecated).
+void ac_open_checkout_with_session(const char* sessionToken,
                       const char* purchaseId,
                       const char* url);
+
+/// Opens the checkout flow.
+void ac_open_checkout(const char* purchaseId,
+                                      const char* parsedUrl);
 
 /// Handles a deep link URL string.
 void ac_handle_deep_link(const char* url);

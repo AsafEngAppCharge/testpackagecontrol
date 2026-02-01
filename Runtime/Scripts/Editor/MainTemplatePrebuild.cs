@@ -19,18 +19,23 @@ namespace Appcharge.PaymentLinks.Editor {
 
                     var dependenciesToAdd = new List<(string, string)>();
 
-                    if (!_appchargeConfig.ExcludeAppcompat)
-                        dependenciesToAdd.Add(("implementation 'androidx.appcompat:appcompat:1.3.1'", "androidx.appcompat:appcompat"));
+                    if (!_appchargeConfig.ExcludeCoreKtx)
+                        dependenciesToAdd.Add(("implementation 'androidx.core:core-ktx:1.13.1'", "androidx.core:core-ktx"));
 
-                    if (!_appchargeConfig.ExcludeAndroidbrowser)
+                    if (!_appchargeConfig.ExcludeActivityKtx)
+                        dependenciesToAdd.Add(("implementation 'androidx.activity:activity-ktx:1.3.0'", "androidx.activity:activity-ktx"));
+
+                    if (!_appchargeConfig.ExcludeAndroidXBrowser)
+                        dependenciesToAdd.Add(("implementation 'androidx.browser:browser:1.8.0'", "androidx.browser:browser"));
+
+                    if (!_appchargeConfig.ExcludeAndroidBrowserHelper)
                         dependenciesToAdd.Add(("implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.4.0'", "com.google.androidbrowserhelper:androidbrowserhelper"));
 
-                    if (!_appchargeConfig.ExcludeKotlin)
-                        dependenciesToAdd.AddRange(new (string, string)[]
-                        {
-                            ("implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'", "org.jetbrains.kotlinx:kotlinx-coroutines-core"),
-                            ("implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'", "org.jetbrains.kotlinx:kotlinx-serialization-json"),
-                        });
+                    if (!_appchargeConfig.ExcludeKotlinSerializationJson)
+                        dependenciesToAdd.Add(("implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'", "org.jetbrains.kotlinx:kotlinx-serialization-json"));
+
+                    if (!_appchargeConfig.ExcludeKotlinCoroutinesCore)
+                        dependenciesToAdd.Add(("implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'", "org.jetbrains.kotlinx:kotlinx-coroutines-core"));
 
                     var finalDependencies = dependenciesToAdd.ToArray();
 
@@ -45,16 +50,33 @@ namespace Appcharge.PaymentLinks.Editor {
 
                     if (missingDependencies.Count > 0)
                     {
-                        int index = gradleTemplate.IndexOf("dependencies {");
-                        if (index >= 0)
+                        int insertIndex = -1;
+                        
+                        int depsMarkerIndex = gradleTemplate.IndexOf("**DEPS**");
+                        if (depsMarkerIndex >= 0)
                         {
-                            int endIndex = gradleTemplate.IndexOf("}", index);
-                            if (endIndex >= 0)
+                            insertIndex = depsMarkerIndex + "**DEPS**".Length;
+                        }
+                        else
+                        {
+                            _appchargePrebuildEditor.LogToFile("Warning: '**DEPS**' marker not found in mainTemplate.gradle. Falling back to adding dependencies at the last dependencies block.", false);
+
+                            int depsBlockIndex = gradleTemplate.LastIndexOf("dependencies {");
+                            if (depsBlockIndex >= 0)
                             {
-                                string dependenciesToInsert = "\n" + string.Join("\n", missingDependencies) + "\n";
-                                gradleTemplate = gradleTemplate.Insert(endIndex, dependenciesToInsert);
-                                File.WriteAllText(_path, gradleTemplate);
+                                insertIndex = FindBlockEnd(gradleTemplate, depsBlockIndex);
                             }
+                            else
+                            {
+                                _appchargePrebuildEditor.LogToFile("Warning: No 'dependencies {' block found in mainTemplate.gradle. Cannot add dependencies.", false);
+                            }
+                        }
+                        
+                        if (insertIndex >= 0)
+                        {
+                            string dependenciesToInsert = "\n" + string.Join("\n", missingDependencies) + "\n";
+                            gradleTemplate = gradleTemplate.Insert(insertIndex, dependenciesToInsert);
+                            File.WriteAllText(_path, gradleTemplate);
                         }
                     }
                     _appchargePrebuildEditor.LogToFile("Final mainTemplate.gradle content:\n" + gradleTemplate);
@@ -68,6 +90,22 @@ namespace Appcharge.PaymentLinks.Editor {
             {
                 _appchargePrebuildEditor.LogToFile($"Error updating mainTemplate.gradle: {ex.Message}", true);
             }    
+        }
+
+        private int FindBlockEnd(string text, int blockStart)
+        {
+            if (blockStart < 0) return -1;
+            int braceCount = 0;
+            for (int i = blockStart; i < text.Length; i++)
+            {
+                if (text[i] == '{') braceCount++;
+                else if (text[i] == '}')
+                {
+                    braceCount--;
+                    if (braceCount == 0) return i;
+                }
+            }
+            return -1;
         }
     }
 }

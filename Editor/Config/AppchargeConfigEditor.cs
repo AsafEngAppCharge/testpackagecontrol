@@ -44,9 +44,12 @@ public class AppchargeConfigEditor : Editor
     // Android Integration Settings
     SerializedProperty excludeAndroidX;
     SerializedProperty excludeJetifier;
-    SerializedProperty excludeAppcompat;
-    SerializedProperty excludeAndroidbrowser;
-    SerializedProperty excludeKotlin;
+    SerializedProperty excludeCoreKtx;
+    SerializedProperty excludeActivityKtx;
+    SerializedProperty excludeAndroidBrowserHelper;
+    SerializedProperty excludeAndroidXBrowser;
+    SerializedProperty excludeKotlinSerializationJson;
+    SerializedProperty excludeKotlinCoroutinesCore;
     SerializedProperty excludeInternetPermission;
     SerializedProperty excludeQueriesBlock;
     SerializedProperty excludeAppchargeActivity;
@@ -102,9 +105,12 @@ public class AppchargeConfigEditor : Editor
         // Android Integration Settings
         excludeAndroidX = serializedObject.FindProperty("ExcludeAndroidX");
         excludeJetifier = serializedObject.FindProperty("ExcludeJetifier");
-        excludeAppcompat = serializedObject.FindProperty("ExcludeAppcompat");
-        excludeAndroidbrowser = serializedObject.FindProperty("ExcludeAndroidbrowser");
-        excludeKotlin = serializedObject.FindProperty("ExcludeKotlin");
+        excludeCoreKtx = serializedObject.FindProperty("ExcludeCoreKtx");
+        excludeActivityKtx = serializedObject.FindProperty("ExcludeActivityKtx");
+        excludeAndroidBrowserHelper = serializedObject.FindProperty("ExcludeAndroidBrowserHelper");
+        excludeAndroidXBrowser = serializedObject.FindProperty("ExcludeAndroidXBrowser");
+        excludeKotlinSerializationJson = serializedObject.FindProperty("ExcludeKotlinSerializationJson");
+        excludeKotlinCoroutinesCore = serializedObject.FindProperty("ExcludeKotlinCoroutinesCore");
         excludeInternetPermission = serializedObject.FindProperty("ExcludeInternetPermission");
         excludeQueriesBlock = serializedObject.FindProperty("ExcludeQueriesBlock");
         excludeAppchargeActivity = serializedObject.FindProperty("ExcludeAppchargeActivity");
@@ -189,9 +195,12 @@ public class AppchargeConfigEditor : Editor
                     EditorGUILayout.PropertyField(AndroidBrowserMode);
                     EditorGUILayout.PropertyField(excludeAndroidX);
                     EditorGUILayout.PropertyField(excludeJetifier);
-                    EditorGUILayout.PropertyField(excludeAppcompat);
-                    EditorGUILayout.PropertyField(excludeAndroidbrowser);
-                    EditorGUILayout.PropertyField(excludeKotlin);
+                    EditorGUILayout.PropertyField(excludeCoreKtx);
+                    EditorGUILayout.PropertyField(excludeActivityKtx);
+                    EditorGUILayout.PropertyField(excludeAndroidBrowserHelper);
+                    EditorGUILayout.PropertyField(excludeAndroidXBrowser);
+                    EditorGUILayout.PropertyField(excludeKotlinSerializationJson);
+                    EditorGUILayout.PropertyField(excludeKotlinCoroutinesCore);
 
                     EditorGUILayout.PropertyField(excludeInternetPermission);
                     EditorGUILayout.PropertyField(excludeQueriesBlock);

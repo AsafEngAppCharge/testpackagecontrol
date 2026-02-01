@@ -9,13 +9,15 @@ using UnityEngine;
 namespace Appcharge.PaymentLinks.Platforms.iOS {
     public class iOSPlatform : ICheckoutPlatform {
         private static NativeiOSCallbackHandler _nativeCallbackHandler;
-        private const string UNITY_SDK_VERSION = "2.2.1";
+        private const string UNITY_SDK_VERSION = "2.3.0";
 #if UNITY_IOS
         [DllImport("__Internal")]
         private static extern void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion);
 
         [DllImport("__Internal")]
         private static extern void acbridge_openCheckout(string sessionToken, string purchaseId, string url);
+        [DllImport("__Internal")]
+        private static extern void acbridge_openCheckoutParsed(string purchaseId, string parsedUrl);
 
         [DllImport("__Internal")]
         private static extern void acbridge_handleDeepLink(string url);
@@ -41,6 +43,7 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
         // Stub implementations when not on iOS
         private static void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion = null) { }
         private static void acbridge_openCheckout(string sessionToken, string purchaseId, string url) { }
+        private static void acbridge_openCheckoutParsed(string purchaseId, string parsedUrl) { }
         private static void acbridge_handleDeepLink(string url) { }
         private static string acbridge_getSdkVersion() { return UNITY_SDK_VERSION; }
         private static void acbridge_getPricePoints() { }
@@ -158,9 +161,14 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             HandleDeepLink(url);
         }
 
-        public void OpenCheckout(string url, string sessionToken , string purchaseId)        
+        public void OpenCheckout(string url, string sessionToken, string purchaseId)        
         {
             acbridge_openCheckout(sessionToken, purchaseId, url);
+        }
+
+        public void OpenCheckout(string purchaseId, string parsedUrl)
+        {
+            acbridge_openCheckoutParsed(purchaseId, parsedUrl);
         }
 
         public void HandleDeepLink(string url) {

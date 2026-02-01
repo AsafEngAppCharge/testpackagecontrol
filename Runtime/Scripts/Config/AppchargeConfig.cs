@@ -88,12 +88,18 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude the 'enableJetifier' property from the 'gradleTemplate.properties' file.")]
         public bool ExcludeJetifier = false;
 
-        [Tooltip("Exclude the 'AppCompat' dependency from the mainTemplate.gradle file.")]
-        public bool ExcludeAppcompat = false;
-        [Tooltip("Exclude the 'AndroidbrowserHelper' dependency from the mainTemplate.gradle file.")]
-        public bool ExcludeAndroidbrowser = false;
-        [Tooltip("Exclude the Kotlin packages dependencies from the mainTemplate.gradle file.")]
-        public bool ExcludeKotlin = false;
+        [Tooltip("Exclude the 'androidx.core:core-ktx' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeCoreKtx = false;
+        [Tooltip("Exclude the 'androidx.activity:activity-ktx' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeActivityKtx = false;
+        [Tooltip("Exclude the 'com.google.androidbrowserhelper:androidbrowserhelper' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeAndroidBrowserHelper = false;
+        [Tooltip("Exclude the 'androidx.browser:browser' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeAndroidXBrowser = false;
+        [Tooltip("Exclude the 'org.jetbrains.kotlinx:kotlinx-serialization-json' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeKotlinSerializationJson = false;
+        [Tooltip("Exclude the 'org.jetbrains.kotlinx:kotlinx-coroutines-core' dependency from the mainTemplate.gradle file.")]
+        public bool ExcludeKotlinCoroutinesCore = false;
 
         [Tooltip("Exclude the Internet permission from the AndroidManifest.xml file.")]
         public bool ExcludeInternetPermission = false;

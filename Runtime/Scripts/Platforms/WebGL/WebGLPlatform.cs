@@ -16,6 +16,9 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
         private static extern void AC_OpenCheckout(string sessionUrl, string sessionToken, string purchaseId);
 
         [DllImport("__Internal")]
+        private static extern void AC_OpenCheckoutParsed(string purchaseId, string parsedUrl);
+
+        [DllImport("__Internal")]
         private static extern void AC_GetPricePoints();
 
         [DllImport("__Internal")]
@@ -68,6 +71,11 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
 
         public void OpenCheckout(string url, string sessionToken , string purchaseId) {
             AC_OpenCheckout(url, sessionToken, purchaseId);
+        }
+
+        public void OpenCheckout(string purchaseId, string parsedUrl)
+        {
+            AC_OpenCheckoutParsed(purchaseId, parsedUrl);
         }
 
         public void GetPricePoints()

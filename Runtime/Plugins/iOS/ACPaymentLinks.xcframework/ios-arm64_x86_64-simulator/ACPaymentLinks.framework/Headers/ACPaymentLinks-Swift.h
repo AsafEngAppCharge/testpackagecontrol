@@ -374,6 +374,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 /// This method is asynchronous and delegates the task to the internal controller,
 /// which in turn informs the <code>purchaseDelegate</code> about success or failure.
 + (void)getPricePoints;
+/// Opens the checkout flow using a deep link / parsed URL.
+/// This method extracts the checkout session token from <code>parsedUrl</code>, stores the runtime parameters,
+/// and starts the checkout flow. The flow will launch the appropriate browser behavior depending
+/// on <code>useExternalBrowser</code>.
+/// \param purchaseId The identifier of the purchase.
+///
+/// \param parsedUrl A deep link / parsed checkout URL that contains the checkout session token.
+///
++ (void)openCheckoutWithPurchaseId:(NSString * _Nonnull)purchaseId parsedUrl:(NSString * _Nonnull)parsedUrl;
 /// Opens the checkout flow for a given session.
 /// This method launches the appropriate browser flow depending on <code>useExternalBrowser</code>.
 /// \param sessionToken The token that represents the current checkout session.
@@ -382,7 +391,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 ///
 /// \param url The checkout URL (typically returned from the backend) to be loaded.
 ///
-+ (void)openCheckoutWithSessionToken:(NSString * _Nonnull)sessionToken purchaseId:(NSString * _Nonnull)purchaseId url:(NSString * _Nonnull)url;
++ (void)openCheckoutWithSessionToken:(NSString * _Nonnull)sessionToken purchaseId:(NSString * _Nonnull)purchaseId url:(NSString * _Nonnull)url SWIFT_DEPRECATED_MSG("This method is deprecated and will be removed in a future SDK version. Use openCheckout(purchaseId: string, parsedUrl: string) instead.");
 /// Handles deep links returned from the checkout process (e.g., after external browser redirect).
 /// Passes the deep link to the internal controller to complete or cancel the flow.
 /// \param url The URL captured from the application open URL handler.
@@ -902,6 +911,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 /// This method is asynchronous and delegates the task to the internal controller,
 /// which in turn informs the <code>purchaseDelegate</code> about success or failure.
 + (void)getPricePoints;
+/// Opens the checkout flow using a deep link / parsed URL.
+/// This method extracts the checkout session token from <code>parsedUrl</code>, stores the runtime parameters,
+/// and starts the checkout flow. The flow will launch the appropriate browser behavior depending
+/// on <code>useExternalBrowser</code>.
+/// \param purchaseId The identifier of the purchase.
+///
+/// \param parsedUrl A deep link / parsed checkout URL that contains the checkout session token.
+///
++ (void)openCheckoutWithPurchaseId:(NSString * _Nonnull)purchaseId parsedUrl:(NSString * _Nonnull)parsedUrl;
 /// Opens the checkout flow for a given session.
 /// This method launches the appropriate browser flow depending on <code>useExternalBrowser</code>.
 /// \param sessionToken The token that represents the current checkout session.
@@ -910,7 +928,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 ///
 /// \param url The checkout URL (typically returned from the backend) to be loaded.
 ///
-+ (void)openCheckoutWithSessionToken:(NSString * _Nonnull)sessionToken purchaseId:(NSString * _Nonnull)purchaseId url:(NSString * _Nonnull)url;
++ (void)openCheckoutWithSessionToken:(NSString * _Nonnull)sessionToken purchaseId:(NSString * _Nonnull)purchaseId url:(NSString * _Nonnull)url SWIFT_DEPRECATED_MSG("This method is deprecated and will be removed in a future SDK version. Use openCheckout(purchaseId: string, parsedUrl: string) instead.");
 /// Handles deep links returned from the checkout process (e.g., after external browser redirect).
 /// Passes the deep link to the internal controller to complete or cancel the flow.
 /// \param url The URL captured from the application open URL handler.
