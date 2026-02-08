@@ -59,6 +59,7 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty excludeCustomHost;
     SerializedProperty excludeHttpsSchemeInActivity;
     SerializedProperty excludeDiscouragedApiTool;
+    SerializedProperty excludeCheckoutService;
     SerializedProperty AndroidBrowserMode;
     // Debug Mode
     SerializedProperty enableDebugMode;
@@ -120,6 +121,7 @@ public class AppchargeConfigEditor : Editor
         excludeCustomHost = serializedObject.FindProperty("ExcludeCustomHost");
         excludeHttpsSchemeInActivity = serializedObject.FindProperty("ExcludeHttpsSchemeInActivity");
         excludeDiscouragedApiTool = serializedObject.FindProperty("ExcludeDiscouragedApiTool");
+        excludeCheckoutService = serializedObject.FindProperty("ExcludeCheckoutService");
         
         // Debug Mode
         enableDebugMode = serializedObject.FindProperty("EnableDebugMode");
@@ -204,6 +206,7 @@ public class AppchargeConfigEditor : Editor
 
                     EditorGUILayout.PropertyField(excludeInternetPermission);
                     EditorGUILayout.PropertyField(excludeQueriesBlock);
+                    EditorGUILayout.PropertyField(excludeCheckoutService);
                     EditorGUILayout.PropertyField(excludeAppchargeActivity);
                     
                     if (!excludeAppchargeActivity.boolValue)

@@ -128,6 +128,9 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude the `<tools:ignore=\"DiscouragedApi\">` in the Checkout Activity.")]
         public bool ExcludeDiscouragedApiTool = false;
 
+        [Tooltip("When enabled, excludes CheckoutService and its permissions from AndroidManifest (FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS, and com.appcharge.paymentlinks.CheckoutService).")]
+        public bool ExcludeCheckoutService = false;
+
         [Header("General Auto Integration Settings")]
         [Tooltip("Whether the SDK automatically applies required platform-specific configurations during the build process. If disabled, the automatic modifications will be turned off and you’ll need to configure them manually.")]
         public bool EnableIntegrationOptions = true;

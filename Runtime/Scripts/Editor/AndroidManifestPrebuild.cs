@@ -46,12 +46,10 @@ namespace Appcharge.PaymentLinks.Editor {
                         int insertIndex = manifestContent.IndexOf("<application");
                         if (insertIndex >= 0)
                         {
-                            // Insert without adding an extra newline
                             manifestContent = manifestContent.Insert(insertIndex, queries + "\n");
                         }
                     }
 
-                    // Fix any incorrect acnative schemes to match the package name
                     if (!editorConfig.ExcludeCustomScheme)
                     {
                         manifestContent = FixCustomSchemeIfNeeded(manifestContent, gameNameLowerCase);
@@ -60,6 +58,17 @@ namespace Appcharge.PaymentLinks.Editor {
                     if (!editorConfig.ExcludeAppchargeActivity)
                     {
                         manifestContent = AddAppchargeActivity(manifestContent, gameNameLowerCase, editorConfig);
+                    }
+
+                    if (!editorConfig.ExcludeCheckoutService)
+                    {
+                        manifestContent = AddCheckoutServiceAndPermissions(manifestContent);
+                    }
+
+                    if (manifestContent.Contains("com.appcharge.core.CheckoutActivity"))
+                    {
+                        manifestContent = manifestContent.Replace("com.appcharge.core.CheckoutActivity", "com.appcharge.paymentlinks.CheckoutActivity");
+                        _appchargePrebuildEditor.LogToFile("Updated legacy activity name from com.appcharge.core.CheckoutActivity to com.appcharge.paymentlinks.CheckoutActivity");
                     }
 
                     File.WriteAllText(_path, manifestContent);
@@ -137,6 +146,34 @@ namespace Appcharge.PaymentLinks.Editor {
 
             int appEndIndex = manifestContent.LastIndexOf("</application>");
             return manifestContent.Insert(appEndIndex, newActivity + "\n");
+        }
+
+        private string AddCheckoutServiceAndPermissions(string manifestContent)
+        {
+            int insertBeforeApplication = manifestContent.IndexOf("<application");
+            if (insertBeforeApplication < 0)
+                return manifestContent;
+
+            string permissionsToAdd = string.Empty;
+            if (!manifestContent.Contains("android.permission.FOREGROUND_SERVICE\" />"))
+                permissionsToAdd += "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />\n";
+            if (!manifestContent.Contains("FOREGROUND_SERVICE_DATA_SYNC"))
+                permissionsToAdd += "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE_DATA_SYNC\" />\n";
+            if (!manifestContent.Contains("android.permission.POST_NOTIFICATIONS"))
+                permissionsToAdd += "<uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n";
+
+            if (permissionsToAdd.Length > 0)
+                manifestContent = manifestContent.Insert(insertBeforeApplication, permissionsToAdd);
+
+            if (!manifestContent.Contains("com.appcharge.paymentlinks.CheckoutService"))
+            {
+                string service = @"
+                    <service android:name=""com.appcharge.paymentlinks.CheckoutService"" android:exported=""false"" android:foregroundServiceType=""dataSync"" />\n";
+                int appEndIndex = manifestContent.LastIndexOf("</application>");
+                manifestContent = manifestContent.Insert(appEndIndex, service + "\n");
+            }
+
+            return manifestContent;
         }
     }
 }
