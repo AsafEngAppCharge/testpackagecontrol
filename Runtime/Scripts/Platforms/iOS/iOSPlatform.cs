@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Appcharge.PaymentLinks.Platforms.iOS {
     public class iOSPlatform : ICheckoutPlatform {
         private static NativeiOSCallbackHandler _nativeCallbackHandler;
-        private const string UNITY_SDK_VERSION = "2.3.0";
+        private const string UNITY_SDK_VERSION = "2.4.0";
 #if UNITY_IOS
         [DllImport("__Internal")]
         private static extern void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion);
@@ -97,15 +97,10 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             Callback = callback;
             InitEventHandler(callback);
 
-            string redirectUrl = null;
-            if (!useSFSVC && !string.IsNullOrEmpty(applinksDomain))
-            {
-                redirectUrl = applinksDomain;
-                if (!redirectUrl.StartsWith("https://"))
-                {
-                    redirectUrl = "https://" + redirectUrl;
-                }
-            }   
+            string redirectUrl = applinksDomain;
+            
+            if (!redirectUrl.StartsWith("https://"))
+                redirectUrl = "https://" + redirectUrl;
 
             ConfigModel configModel = new ConfigModel
             {

@@ -9,12 +9,12 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 	{
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
-		private const string UNITY_SDK_VERSION = "2.3.0";
+		private const string UNITY_SDK_VERSION = "2.4.0";
 		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
 		public ICheckoutPurchase Callback { get; set; }
-		
+
 		private void EnsureInitialized()
 		{
 			if (_bridgeApi != null && _mainActivity != null) return;
@@ -137,6 +137,11 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			{
 				SetPortraitOrientationLock((bool)value);
 			}
+
+			if (property.Equals("setCheckoutServiceMode") && value is bool)
+			{
+				SetCheckoutServiceMode((bool)value);
+			}
 		}
 
 		private void SetBrowserMode(AndroidBrowserMode mode)
@@ -175,6 +180,17 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 
 			_portraitOrientationLock = portraitOrientationLock;
 			_bridgeApi.Call<bool>("setPortraitOrientationLock", portraitOrientationLock);
+		}
+
+		private void SetCheckoutServiceMode(bool checkoutServiceMode) {
+			EnsureInitialized();
+			if (_bridgeApi == null)
+			{
+				Debug.LogError("BridgeAPI is not initialized.");
+				return;
+			}
+
+			_bridgeApi.Call<bool>("setCheckoutServiceMode", checkoutServiceMode);
 		}
 
 		public void OnInitialized()

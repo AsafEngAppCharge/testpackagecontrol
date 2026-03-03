@@ -72,7 +72,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 {
                     _editorPlatform.BootData = JsonUtility.FromJson<EditorBootResponse>(request.downloadHandler.text);
                     _editorPlatform.CustomerId = customerId;
-                    Debug.Log("Boot Data: " + _editorPlatform.BootData.settings.presentation.useCheckoutWrapper);
                     callback.OnInitialized();
                 }
                 else

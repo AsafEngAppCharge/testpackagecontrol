@@ -471,6 +471,8 @@ SWIFT_CLASS("_TtC14ACPaymentLinks17GameOrderResponse")
 
 SWIFT_CLASS("_TtC14ACPaymentLinks18OrderResponseModel")
 @interface OrderResponseModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 @class PricingPoint;

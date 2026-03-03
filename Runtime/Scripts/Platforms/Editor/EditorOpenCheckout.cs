@@ -187,7 +187,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             
             if (_editorPlatform?.Callback != null)
             {
-                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { message = "Order validation canceled by user." });
+                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3000, message = "Order validation canceled by user." });
             }
         }
     }
@@ -276,9 +276,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                         var apiResponse = JsonUtility.FromJson<OrderValidationApiResponse>(request.downloadHandler.text);
 
                         if (apiResponse.state == "charge_succeed")
-                        {
-                            Debug.Log("response: " + request.downloadHandler.text);
-                            
+                        {                            
                             var orderResponse = ConvertToOrderResponseModel(apiResponse);
                             _editorPlatform.Callback.OnPurchaseSuccess(orderResponse);
                             

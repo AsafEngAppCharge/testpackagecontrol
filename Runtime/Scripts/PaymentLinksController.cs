@@ -23,11 +23,7 @@ namespace Appcharge.PaymentLinks {
             }
         }
 
-        public void Awake() {
-            DefinePlatform();
-        }
-
-        public void DefinePlatform() {
+        private void DefinePlatform() {
             if (_definedPlatform) {
                 return;
             }

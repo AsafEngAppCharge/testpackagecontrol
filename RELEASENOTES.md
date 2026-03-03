@@ -1,6 +1,11 @@
-## [2.3.1] - 2025-12-22
+## [2.4.0] - 2026-02-26
 ### Changed
-- Updated Android Native payment links Library.
+- Sample Scene overhaul.
+
+### Updated
+- iOS Native SDK 1.5.0.
+- Android Native SDK 1.7.0.
+- Improved Android automatic post-process script.
 
 ### Added
-- Added Configuration options for CheckoutService.
+- Added Configuration support for Checkout Foreground Service.
