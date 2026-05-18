@@ -1,3 +1,8 @@
+## [2.5.1] - 2026-04-19
+
+### Updated
+- Dummy release tester A.
+
 ## [2.5.0] - 2026-04-19
 
 ### Updated
