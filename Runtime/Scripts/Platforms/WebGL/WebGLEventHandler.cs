@@ -63,7 +63,7 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
                 code = code,
                 message = "OnPurchaseFailed"
             };
-            _callbacks.OnPurchaseFailed(purchaseFailError);
+            _callbacks.OnPurchaseFailed(purchaseFailError, null);
         }
 
         public void OnPricePointsSuccess(string eventData) {

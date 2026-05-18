@@ -90,11 +90,6 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             return result;
         }
 
-        public void OpenSubscriptionManager(string url)
-        {
-            Debug.LogError("OpenSubscriptionManager is not implemented for WebGL.");
-        }
-
         public void ConfigurePlatform(string property, object value)
         {
         }

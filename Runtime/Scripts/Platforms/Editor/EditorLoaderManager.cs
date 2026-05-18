@@ -50,8 +50,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             {
                 _cancelButton.onClick.AddListener(OnCancelClicked);
             }
-
-            Debug.Log("Loading screen shown");
         }
 
         private void VerifyEventSystem()
@@ -85,7 +83,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
 
         private void OnCancelClicked()
         {
-            Debug.Log("Order validation canceled by user");
             _onCancelCallback?.Invoke();
             HideLoader();
         }

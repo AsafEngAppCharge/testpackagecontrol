@@ -41,11 +41,6 @@ namespace Appcharge.PaymentLinks.Platforms.Unsupported {
             Debug.LogWarning("Unsupported platform: GetPricePoints");        
         }
         
-        public void OpenSubscriptionManager(string url)
-        {
-            Debug.LogWarning("Unsupported platform: OpenSubscriptionManager");        
-        }
-
         public void ConfigurePlatform(string property, object value)
         {
             Debug.LogWarning("Unsupported platform: ConfigurePlatform");        

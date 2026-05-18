@@ -4,6 +4,5 @@ namespace Appcharge.PaymentLinks.Models {
     {
         public int code;
         public string message;
-        public string data;
     }
 }

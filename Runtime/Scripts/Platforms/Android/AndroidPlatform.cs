@@ -9,7 +9,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 	{
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
-		private const string UNITY_SDK_VERSION = "2.4.0";
+		private AndroidErrorHandler _errorHandler;
 		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
@@ -17,6 +17,12 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 
 		private void EnsureInitialized()
 		{
+			if (_errorHandler == null)
+			{
+				_errorHandler = new AndroidErrorHandler();
+				_errorHandler.Initialize();
+			}
+
 			if (_bridgeApi != null && _mainActivity != null) return;
 
 			using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -58,7 +64,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			Callback = callback;
 			var callbackProxy = new CallbackProxy(callback, this);
 			var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutToken, environment);
-			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, "Unity " + Application.unityVersion + ", Unity SDK " + UNITY_SDK_VERSION, callbackProxy);
+			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, callbackProxy);
 		}
 
 		public void OpenCheckout(string url, string sessionToken, string purchaseId)
@@ -107,18 +113,6 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			}
 
 			_bridgeApi.Call("getPricePoints");
-		}
-
-		public void OpenSubscriptionManager(string url)
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
-
-			_bridgeApi.Call("openSubscriptionManager", url);
 		}
 
 		public void ConfigurePlatform(string property, object value)
@@ -237,9 +231,9 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 				_callback.OnPurchaseSuccess(OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
 			}
 
-			public void onPurchaseFailed(AndroidJavaObject errorMessage)
+			public void onPurchaseFailed(AndroidJavaObject errorMessage, AndroidJavaObject orderResponse)
 			{
-				_callback.OnPurchaseFailed(ErrorMessageConverter.ToErrorMessage(errorMessage));
+				_callback.OnPurchaseFailed(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
 			}
 		}
 	}

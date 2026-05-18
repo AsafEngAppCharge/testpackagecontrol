@@ -65,6 +65,8 @@ namespace Appcharge.PaymentLinks.Editor {
                         manifestContent = AddCheckoutServiceAndPermissions(manifestContent);
                     }
 
+                    manifestContent = AddEngineMetadataMetaData(manifestContent);
+
                     if (manifestContent.Contains("com.appcharge.core.CheckoutActivity"))
                     {
                         manifestContent = manifestContent.Replace("com.appcharge.core.CheckoutActivity", "com.appcharge.paymentlinks.CheckoutActivity");
@@ -157,8 +159,7 @@ namespace Appcharge.PaymentLinks.Editor {
             string permissionsToAdd = string.Empty;
             if (!manifestContent.Contains("android.permission.FOREGROUND_SERVICE\" />"))
                 permissionsToAdd += "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />\n";
-            if (!manifestContent.Contains("FOREGROUND_SERVICE_DATA_SYNC"))
-                permissionsToAdd += "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE_DATA_SYNC\" />\n";
+                
             if (!manifestContent.Contains("android.permission.POST_NOTIFICATIONS"))
                 permissionsToAdd += "<uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n";
 
@@ -168,12 +169,37 @@ namespace Appcharge.PaymentLinks.Editor {
             if (!manifestContent.Contains("com.appcharge.paymentlinks.CheckoutService"))
             {
                 string service = @"
-                    <service android:name=""com.appcharge.paymentlinks.CheckoutService"" android:exported=""false"" android:foregroundServiceType=""dataSync"" />\n";
+                    <service android:name=""com.appcharge.paymentlinks.CheckoutService"" android:exported=""false"" android:foregroundServiceType=""shortService"" />\n";
                 int appEndIndex = manifestContent.LastIndexOf("</application>");
                 manifestContent = manifestContent.Insert(appEndIndex, service + "\n");
             }
 
             return manifestContent;
+        }
+
+        /// <summary>Values resolved at merge time via manifestPlaceholders in mainTemplate.gradle (MainTemplatePrebuild).</summary>
+        private string AddEngineMetadataMetaData(string manifestContent)
+        {
+            const string marker = "com.appcharge.paymentlinks.ENGINE_NAME";
+            if (manifestContent.Contains(marker))
+                return manifestContent;
+
+            int appEndIndex = manifestContent.LastIndexOf("</application>");
+            if (appEndIndex < 0)
+                return manifestContent;
+
+            string block =
+                "        <meta-data\n" +
+                "            android:name=\"com.appcharge.paymentlinks.ENGINE_NAME\"\n" +
+                "            android:value=\"${ENGINE_NAME}\" />\n" +
+                "        <meta-data\n" +
+                "            android:name=\"com.appcharge.paymentlinks.ENGINE_VERSION_NAME\"\n" +
+                "            android:value=\"${ENGINE_VERSION_NAME}\" />\n" +
+                "        <meta-data\n" +
+                "            android:name=\"com.appcharge.paymentlinks.ENGINE_SDK_VERSION\"\n" +
+                "            android:value=\"${ENGINE_SDK_VERSION}\" />\n";
+
+            return manifestContent.Insert(appEndIndex, block);
         }
     }
 }

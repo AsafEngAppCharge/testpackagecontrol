@@ -1,0 +1,20 @@
+{
+    "name": "Appcharge.PaymentLinks.Package.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:df32b228a9068435b82a2da27e4108e7",
+        "GUID:9954d37460690495bb9637fca90d606d",
+        "GUID:5791b316b62224addbc5409df5c3defe"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

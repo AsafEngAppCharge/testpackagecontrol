@@ -54,7 +54,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 {"deviceModel", "Unity Editor"},
                 {"deviceManufacturer", "Unity Technologies"},
                 {"packageName", Application.identifier},
-                {"sdkV", "2.1.0"},
+                {"sdkV", SdkVersion.UnitySdkVersion},
                 {"sdkType", "Unity-Editor"},
                 {"deviceId", SystemInfo.deviceUniqueIdentifier},
                 {"customerId", customerId},
@@ -76,7 +76,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 }
                 else
                 {
-                    var errorMessage = new ErrorMessage { message = request.error, code = 0 };
+                    var errorMessage = new ErrorMessage { message = request.error, code = 2000 };
                     callback.OnInitializeFailed(errorMessage);
                 }
             }

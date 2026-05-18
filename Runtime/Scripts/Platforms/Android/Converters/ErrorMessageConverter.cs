@@ -9,26 +9,23 @@ namespace Appcharge.PaymentLinks.Platforms.Android {
 		{
 			if (javaErrorMessage == null) return null;
 
-			return new ErrorMessage
+			try
 			{
-				code = GetSafeInt(javaErrorMessage, "code"),
-				message = GetSafeString(javaErrorMessage, "message"),
-				data = GetSafeString(javaErrorMessage, "data")
-			};
-		}
+				int code = default;
+				string message = null;
 
-		private static int GetSafeInt(AndroidJavaObject obj, string fieldName)
-		{
-			if (obj == null) return default;
-			try { return obj.Get<int>(fieldName); }
-			catch (Exception) { return default; }
-		}
+				if (ConvertUtility.TryCallInstanceInt(javaErrorMessage, "getCode", "()I", out int c))
+					code = c;
+				if (ConvertUtility.TryCallInstanceString(javaErrorMessage, "getMessage", "()Ljava/lang/String;", out string m) && !string.IsNullOrEmpty(m))
+					message = m;
 
-		private static string GetSafeString(AndroidJavaObject obj, string fieldName)
-		{
-			if (obj == null) return null;
-			try { return obj.Get<string>(fieldName); }
-			catch (Exception) { return null; }
+				return new ErrorMessage { code = code, message = message };
+			}
+			catch (Exception ex)
+			{
+				Debug.LogWarning($"ErrorMessageConverter: {ex.Message}");
+				return new ErrorMessage { code = 9999, message = null };
+			}
 		}
 	}
 }

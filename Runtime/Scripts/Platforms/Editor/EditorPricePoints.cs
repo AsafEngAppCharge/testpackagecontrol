@@ -44,12 +44,13 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                     }
                     catch (Exception ex)
                     {
-                        _platform.Callback.OnPricePointsFail(new ErrorMessage { message = ex.Message, code = 0 });
+                        _platform.Callback.OnPricePointsFail(new ErrorMessage { message = ex.Message, code = 1001 });
                     }
                 }
                 else
                 {
-                    _platform.Callback.OnPricePointsFail(new ErrorMessage { message = request.error, code = 0 });
+                    int httpStatus = (int)request.responseCode;
+                    _platform.Callback.OnPricePointsFail(new ErrorMessage { message = request.error, code = httpStatus });
                 }
             }
         }
@@ -58,7 +59,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         {
             if (_editorPlatform.BootData == null || string.IsNullOrEmpty(_editorPlatform.BootData.pricePointsPath))
             {
-                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Platform not initialized", code = 0 });
+                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Platform not initialized", code = 1001 });
                 return false;
             }
             return true;

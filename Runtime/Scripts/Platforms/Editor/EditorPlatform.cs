@@ -10,7 +10,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         public string CustomerId;
         public string CheckoutPublicKey;
         public string Environment;
-
         private static CoroutineRunner _sharedCoroutineRunner;
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             _openCheckout = new EditorOpenCheckout(this, this);
             _sdkVersion = new EditorSdkVersion(this, this);
             _pricePoints = new EditorPricePoints(this, this);
-            _subscription = new EditorSubscription(this, this);
         }
 
         public override void ConfigurePlatform(string property, object value) { }

@@ -7,7 +7,7 @@ namespace Appcharge.PaymentLinks.Models {
         public string fractionalSeparator;
         public string milSeparator;
         public string symbolPosition;
-        public bool? spacing;
-        public int? multiplier;
+        public bool spacing;
+        public int multiplier;
     }
 }

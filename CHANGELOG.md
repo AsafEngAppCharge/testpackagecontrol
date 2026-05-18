@@ -1,3 +1,8 @@
+## [2.5.0] - 2026-04-19
+
+### Updated
+- Dummy release tester.
+
 ## [2.4.0] - 2026-02-26
 ### Changed
 - Sample Scene overhaul.

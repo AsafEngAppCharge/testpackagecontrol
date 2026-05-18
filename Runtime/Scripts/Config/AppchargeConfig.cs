@@ -34,7 +34,7 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("When enabled, automatically configures iOS URL scheme integration in Info.plist. Use the exclusion options below to disable specific operations.")]
         public bool EnableIOSURLSchemeIntegration = true;
 
-        [Tooltip("When enabled, automatically configures iOS framework integration in your Xcode project (build properties, search paths, and XCFramework embedding). Use the exclusion options below to disable specific operations.")]
+        [Tooltip("When enabled, automatically configures iOS framework integration in your Xcode project (Swift Package / SPM and related build settings). Use the exclusion options below to disable specific operations.")]
         public bool EnableIOSFrameworkIntegration = true;
 
         [Tooltip("When enabled, skips creating the entitlements file if it doesn't exist.")]
@@ -58,9 +58,6 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to NO for UnityFramework target.")]
         public bool ExcludeSetSwiftStandardLibrariesForFramework = false;
         
-        [Tooltip("Exclude adding framework search paths to the Xcode project.")]
-        public bool ExcludeAddFrameworkSearchPaths = false;
-        
         [Tooltip("Exclude setting LD_RUNPATH_SEARCH_PATHS build property.")]
         public bool ExcludeSetLDRunpathSearchPaths = false;
         
@@ -76,7 +73,7 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude setting CODE_SIGN_STYLE build property to Automatic.")]
         public bool ExcludeSetCodeSignStyle = false;
         
-        [Tooltip("When enabled, skips adding the ACPaymentLinks.xcframework file to the Xcode project's Frameworks. Other framework configurations (build properties, search paths) will still be applied.")]
+        [Tooltip("When enabled, skips linking the remote Swift package (SPM) and skips removing a legacy ACPaymentLinks.xcframework from the Xcode project. Swift/LD_RUNPATH/code-sign build settings in the iOS post-process step are still applied when iOS framework integration is enabled.")]
         public bool ExcludeAddXCFramework = false;
 
         //Android Integration Settings
@@ -128,8 +125,8 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude the `<tools:ignore=\"DiscouragedApi\">` in the Checkout Activity.")]
         public bool ExcludeDiscouragedApiTool = false;
 
-        [Tooltip("When enabled, excludes CheckoutService and its permissions from AndroidManifest (FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS, and com.appcharge.paymentlinks.CheckoutService).")]
-        public bool ExcludeCheckoutService = true;
+        [Tooltip("When enabled, excludes CheckoutService and its permissions from AndroidManifest (com.appcharge.paymentlinks.CheckoutService and FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS).")]
+        public bool ExcludeCheckoutService = false;
 
         [Header("General Auto Integration Settings")]
         [Tooltip("Whether the SDK automatically applies required platform-specific configurations during the build process. If disabled, the automatic modifications will be turned off and you’ll need to configure them manually.")]

@@ -9,10 +9,9 @@ using UnityEngine;
 namespace Appcharge.PaymentLinks.Platforms.iOS {
     public class iOSPlatform : ICheckoutPlatform {
         private static NativeiOSCallbackHandler _nativeCallbackHandler;
-        private const string UNITY_SDK_VERSION = "2.4.0";
 #if UNITY_IOS
         [DllImport("__Internal")]
-        private static extern void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion);
+        private static extern void acbridge_initialize(string configJson, string customerId);
 
         [DllImport("__Internal")]
         private static extern void acbridge_openCheckout(string sessionToken, string purchaseId, string url);
@@ -29,27 +28,23 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
         private static extern void acbridge_getPricePoints();
 
         [DllImport("__Internal")]
-        private static extern void acbridge_openSubscriptionManager(string url);
-
-        [DllImport("__Internal")]
         private static extern void acbridge_setPortraitOrientationLock(bool portraitOrientationLock);
 
         [DllImport("__Internal")]
-        private static extern void acbridge_setDebugModeEnabled(bool debugModeEnabled);
+        private static extern void acbridge_setDebugMode(bool debugMode);
 
         [DllImport("__Internal")]
         private static extern void acbridge_setBrowserMode(string mode);
 #else
         // Stub implementations when not on iOS
-        private static void acbridge_initialize(string configJson, string customerId, string platformIntegrationVersion = null) { }
+        private static void acbridge_initialize(string configJson, string customerId) { }
         private static void acbridge_openCheckout(string sessionToken, string purchaseId, string url) { }
         private static void acbridge_openCheckoutParsed(string purchaseId, string parsedUrl) { }
         private static void acbridge_handleDeepLink(string url) { }
-        private static string acbridge_getSdkVersion() { return UNITY_SDK_VERSION; }
+        private static string acbridge_getSdkVersion() { return SdkVersion.UnitySdkVersion; }
         private static void acbridge_getPricePoints() { }
-        private static void acbridge_openSubscriptionManager(string url) { }
         private static void acbridge_setPortraitOrientationLock(bool portraitOrientationLock) { }
-        private static void acbridge_setDebugModeEnabled(bool debugModeEnabled) { }
+        private static void acbridge_setDebugMode(bool debugMode) { }
         private static void acbridge_setBrowserMode(string mode) { }
 #endif
         private bool _eventHandlerInitialized = false;
@@ -57,9 +52,7 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
         private bool _portraitOrientationLock = false;
         private bool _debugMode = false;
         private string _applinksDomain = null;
-        private string _customerId = null;
         public ICheckoutPurchase Callback { get; set; }
-        private ConfigModel _config;
 
         public void Init(string customerId, ICheckoutPurchase callback)
         {
@@ -93,7 +86,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
 
         private void InternalInit(string checkoutPublicKey, string environment, string customerId, ICheckoutPurchase callback, string applinksDomain, bool useSFSVC)
         {
-            _customerId = customerId;
             Callback = callback;
             InitEventHandler(callback);
 
@@ -106,12 +98,10 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             {
                 checkoutPublicKey = checkoutPublicKey,
                 environment = environment,
-                redirectUrl = redirectUrl
+                redirectUrl = redirectUrl,
             };
 
-            _config = configModel;
-
-            acbridge_initialize(configModel.ToJson(), customerId, "Unity " + Application.unityVersion + ", Unity SDK " + UNITY_SDK_VERSION); 
+            acbridge_initialize(configModel.ToJson(), customerId); 
         }
 
         private void InitEventHandler(ICheckoutPurchase callback) 
@@ -178,10 +168,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             acbridge_getPricePoints();
         }
 
-        public void OpenSubscriptionManager(string url) {
-            acbridge_openSubscriptionManager(url);
-        }
-
         public void ConfigurePlatform(string property, object value) {
            if (property.Equals("browserMode") && value is iOSBrowserMode)
            {
@@ -195,7 +181,7 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
 
            if (property.Equals("debugMode") && value is bool)
            {
-               SetDebugModeEnabled((bool)value);
+               SetDebugMode((bool)value);
            }
         }
 
@@ -209,13 +195,13 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             acbridge_setBrowserMode(mode.ToString());
         }            
 
-        private void SetDebugModeEnabled(bool debugModeEnabled) {
-            _debugMode = debugModeEnabled;
-            acbridge_setDebugModeEnabled(debugModeEnabled);
+        private void SetDebugMode(bool debugMode) {
+            _debugMode = debugMode;
+            acbridge_setDebugMode(debugMode);
         }
 
         public void OnInitialized() {
-            SetDebugModeEnabled(_debugMode);
+            SetDebugMode(_debugMode);
             SetBrowserMode(_browserMode);
             SetPortraitOrientationLock(_portraitOrientationLock);
         }

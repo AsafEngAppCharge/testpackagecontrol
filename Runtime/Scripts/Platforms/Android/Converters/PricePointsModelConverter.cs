@@ -1,4 +1,3 @@
-using System;
 using Appcharge.PaymentLinks.Models;
 using UnityEngine;
 
@@ -25,9 +24,9 @@ namespace Appcharge.PaymentLinks.Platforms.Android {
 				var javaPricingPoint = javaPricingPointsList.Call<AndroidJavaObject>("get", i);
 				pricingPoints[i] = new PricingPointsModel
 				{
-					basePriceInUSD = GetSafeString(javaPricingPoint, "basePriceInUSD"),
-					localizedPrice = GetSafeString(javaPricingPoint, "localizedPrice"),
-					formattedPrice = GetSafeString(javaPricingPoint, "formattedPrice")
+					basePriceInUSD = ConvertUtility.GetSafeString(javaPricingPoint, "basePriceInUSD"),
+					localizedPrice = ConvertUtility.GetSafeString(javaPricingPoint, "localizedPrice"),
+					formattedPrice = ConvertUtility.GetSafeString(javaPricingPoint, "formattedPrice")
 				};
 			}
 			return pricingPoints;
@@ -38,32 +37,14 @@ namespace Appcharge.PaymentLinks.Platforms.Android {
 			if (javaPricePointsData == null) return null;
 			return new PricePointsDataModel
 			{
-				currencyCode = GetSafeString(javaPricePointsData, "currencyCode"),
-				currencySymbol = GetSafeString(javaPricePointsData, "currencySymbol"),
-				fractionalSeparator = GetSafeString(javaPricePointsData, "fractionalSeparator"),
-				milSeparator = GetSafeString(javaPricePointsData, "milSeparator"),
-				symbolPosition = GetSafeString(javaPricePointsData, "symbolPosition"),
-				spacing = GetSafeBool(javaPricePointsData, "spacing") ?? false,
-				multiplier = GetSafeInt(javaPricePointsData, "multiplier") ?? 0
+				currencyCode = ConvertUtility.GetSafeString(javaPricePointsData, "currencyCode"),
+				currencySymbol = ConvertUtility.GetSafeString(javaPricePointsData, "currencySymbol"),
+				fractionalSeparator = ConvertUtility.GetSafeString(javaPricePointsData, "fractionalSeparator"),
+				milSeparator = ConvertUtility.GetSafeString(javaPricePointsData, "milSeparator"),
+				symbolPosition = ConvertUtility.GetSafeString(javaPricePointsData, "symbolPosition"),
+				spacing = ConvertUtility.GetSafeBool(javaPricePointsData, "spacing") ?? false,
+				multiplier = ConvertUtility.GetSafeInt(javaPricePointsData, "multiplier") ?? 0
 			};
-		}
-
-		private static string GetSafeString(AndroidJavaObject obj, string fieldName)
-		{
-			if (obj == null) return null;
-			try { return obj.Get<string>(fieldName); } catch (Exception) { return null; }
-		}
-
-		private static bool? GetSafeBool(AndroidJavaObject obj, string fieldName)
-		{
-			if (obj == null) return null;
-			try { return obj.Get<bool>(fieldName); } catch (Exception) { return null; }
-		}
-
-		private static int? GetSafeInt(AndroidJavaObject obj, string fieldName)
-		{
-			if (obj == null) return null;
-			try { return obj.Get<int>(fieldName); } catch (Exception) { return null; }
 		}
 	}
 }

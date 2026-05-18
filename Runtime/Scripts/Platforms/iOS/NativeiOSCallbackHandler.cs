@@ -1,3 +1,4 @@
+using System;
 using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Models;
 using UnityEngine;
@@ -32,10 +33,16 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             _checkoutCallback?.OnPurchaseSuccess(order);
         }
 
-        public void OnPurchaseFailed(string errorJson)
+        public void OnPurchaseFailed(string payloadJson)
         {
-            var error = JsonUtility.FromJson<ErrorMessage>(errorJson);
-            _checkoutCallback?.OnPurchaseFailed(error);
+            var payload = JsonUtility.FromJson<PurchaseFailedPayload>(payloadJson);
+            var error = JsonUtility.FromJson<ErrorMessage>(payload.errorJson);
+            OrderResponseModel order = null;
+            if (!string.IsNullOrEmpty(payload.orderJson) && payload.orderJson != "null")
+            {
+                order = JsonUtility.FromJson<OrderResponseModel>(payload.orderJson);
+            }
+            _checkoutCallback?.OnPurchaseFailed(error, order);
         }
 
         public void OnPricePointsSuccess(string pricePointsJson)
@@ -49,5 +56,12 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             var error = JsonUtility.FromJson<ErrorMessage>(errorJson);
             _checkoutCallback?.OnPricePointsFail(error);
         }
+    }
+
+    [Serializable]
+    internal class PurchaseFailedPayload
+    {
+        public string errorJson;
+        public string orderJson;
     }
 }

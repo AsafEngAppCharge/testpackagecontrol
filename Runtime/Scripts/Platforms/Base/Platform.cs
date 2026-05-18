@@ -8,7 +8,6 @@ namespace Appcharge.PaymentLinks.Platforms.Base {
         protected BaseOpenCheckout _openCheckout;
         protected BaseSdkVersion _sdkVersion;
         protected BasePricePoints _pricePoints;
-        protected BaseSubscription _subscription;
         public ICheckoutPurchase Callback { get; set; }
         protected abstract void InitializeComponents();
 
@@ -44,11 +43,6 @@ namespace Appcharge.PaymentLinks.Platforms.Base {
         public void GetPricePoints()
         {
             _pricePoints.GetPricePoints();
-        }
-        
-        public void OpenSubscriptionManager(string url)
-        {
-            _subscription.OpenSubscriptionManager(url);
         }
 
         public abstract void ConfigurePlatform(string property, object value);

@@ -14,10 +14,11 @@ namespace Appcharge.PaymentLinks.Editor
 
             if (RuntimePlatform.Android != Application.platform)
             {
-                _configLogic = new Prebuilder[3];
-                _configLogic[0] = new GradleTemplatePrebuild(gradleTemplatePath, this, _appchargeConfig);
-                _configLogic[1] = new MainTemplatePrebuild(mainTemplatePath, this, _appchargeConfig);
-                _configLogic[2] = new AndroidManifestPrebuild(manifestPath, this, _appchargeConfig);
+                _configLogic = new Prebuilder[4];
+                _configLogic[0] = new SyncSdkVersionPrebuild(sdkVersionPath, this, _appchargeConfig);
+                _configLogic[1] = new GradleTemplatePrebuild(gradleTemplatePath, this, _appchargeConfig);
+                _configLogic[2] = new MainTemplatePrebuild(mainTemplatePath, this, _appchargeConfig);
+                _configLogic[3] = new AndroidManifestPrebuild(manifestPath, this, _appchargeConfig);
             }
         }
         #endregion
@@ -27,6 +28,7 @@ namespace Appcharge.PaymentLinks.Editor
         private readonly string gradleTemplatePath = Path.Combine(Application.dataPath, "Plugins/Android/gradleTemplate.properties");
         private readonly string mainTemplatePath = Path.Combine(Application.dataPath, "Plugins/Android/mainTemplate.gradle");
         private readonly string manifestPath = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+        private readonly string sdkVersionPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Packages", "com.appcharge.paymentlinks", "Runtime", "Scripts", "Config", "SdkVersion.cs"));
         private AppchargeConfig _appchargeConfig;
         private PrebuildLogger _logger;
         #endregion

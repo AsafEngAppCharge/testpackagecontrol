@@ -5,7 +5,7 @@ namespace Appcharge.PaymentLinks.Interfaces {
     public interface ICheckoutPurchase
     {
         void OnPurchaseSuccess(OrderResponseModel order);
-        void OnPurchaseFailed(ErrorMessage error);
+        void OnPurchaseFailed(ErrorMessage error, OrderResponseModel order);
         void OnInitialized();
         void OnInitializeFailed(ErrorMessage error);
         void OnPricePointsSuccess(PricePointsModel pricePoints);

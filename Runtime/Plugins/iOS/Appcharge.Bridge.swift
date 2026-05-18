@@ -8,17 +8,15 @@ private var delegateRef: ACPaymentLinksDelegate?
 func UnitySendMessage(_ obj: UnsafePointer<CChar>, _ method: UnsafePointer<CChar>, _ msg: UnsafePointer<CChar>)
 
 @_cdecl("acbridge_initialize")
-public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>, platformIntegrationVersionCString: UnsafePointer<CChar>) {
+public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>) {
     let configJson = String(cString: configJsonCString)
     let customerId = String(cString: customerIdCString)
-    let platformIntegrationVersion = String(cString: platformIntegrationVersionCString)
     do {
         let config = try JSONDecoder().decode(ACConfigModel.self, from: Data(configJson.utf8))
-        ACBridgeAPI.initialize(configModel: config, customerId: customerId, platformIntegrationVersion: platformIntegrationVersion)
         let unityDelegate = ACUnityPaymentLinksDelegate()
         delegateRef = unityDelegate
-        ACBridgeAPI.delegate = unityDelegate
-    
+
+        ACBridgeAPI.initialize(configModel: config, customerId: customerId, delegate: unityDelegate)
     } catch {
         print("Failed to decode config JSON: \(error)")
     }
@@ -69,20 +67,14 @@ public func acbridge_setPortraitOrientationLock(portraitOrientationLock: Bool) {
     ACBridgeAPI.portraitOrientationLock = portraitOrientationLock
 }
 
-@_cdecl("acbridge_setDebugModeEnabled")
-public func acbridge_setDebugModeEnabled(debugModeEnabled: Bool) {
-    ACBridgeAPI.isDebugModeEnabled = debugModeEnabled
+@_cdecl("acbridge_setDebugMode")
+public func acbridge_setDebugMode(debugMode: Bool) {
+    ACBridgeAPI.setDebugMode = debugMode
 }
 
 @_cdecl("acbridge_getPricePoints")
 public func acbridge_getPricePoints() {
     ACBridgeAPI.getPricePoints()
-}
-
-@_cdecl("acbridge_openSubscriptionManager")
-public func acbridge_openSubscriptionManager(urlCString: UnsafePointer<CChar>) {
-    let url = String(cString: urlCString)
-    ACBridgeAPI.openSubscriptionManager(url: url)
 }
 
 class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
@@ -107,10 +99,24 @@ class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
         UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPurchaseSuccess", jsonString)
     }
 
-    func onPurchaseFailed(error: ACErrorMessage) {
-        let jsonData = try! JSONEncoder().encode(error)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPurchaseFailed", jsonString)
+    func onPurchaseFailed(error: ACErrorMessage, order: GameOrderResponse?) {
+        let errorJsonData = try! JSONEncoder().encode(error)
+        let errorJsonString = String(data: errorJsonData, encoding: .utf8)!
+        let orderJsonString: String
+        if let order = order, let orderId = order.orderId, !orderId.isEmpty {
+            let orderJsonData = try! JSONEncoder().encode(order)
+            orderJsonString = String(data: orderJsonData, encoding: .utf8)!
+        } else {
+            orderJsonString = "null"
+        }
+        struct PurchaseFailedPayload: Encodable {
+            let errorJson: String
+            let orderJson: String
+        }
+        let payload = PurchaseFailedPayload(errorJson: errorJsonString, orderJson: orderJsonString)
+        let payloadData = try! JSONEncoder().encode(payload)
+        let payloadString = String(data: payloadData, encoding: .utf8)!
+        UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPurchaseFailed", payloadString)
     }
 
     func onPricePointsSuccess(pricePoints: PricePoints) {

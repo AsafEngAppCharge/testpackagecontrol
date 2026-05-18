@@ -10,7 +10,6 @@ namespace Appcharge.PaymentLinks.Interfaces {
         void OpenCheckout(string purchaseId, string parsedUrl);
         string GetSdkVersion();
         void GetPricePoints();
-        void OpenSubscriptionManager(string url);
         void ConfigurePlatform(string property, object value);
     }
 }

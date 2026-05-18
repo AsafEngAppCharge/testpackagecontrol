@@ -187,7 +187,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             
             if (_editorPlatform?.Callback != null)
             {
-                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3000, message = "Order validation canceled by user." });
+                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3000, message = "Order validation canceled by user." }, null);
             }
         }
     }
@@ -245,9 +245,10 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             
             if (elapsed > _timeout)
             {
-                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { message = "Order validation timed out."});
+                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { message = "Order validation timed out."}, null);
                 FocusUnityEditor();
                 StopValidation();
+                StopAllCoroutines();
                 DestroyImmediate(gameObject);
                 return;
             }
@@ -279,25 +280,32 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                         {                            
                             var orderResponse = ConvertToOrderResponseModel(apiResponse);
                             _editorPlatform.Callback.OnPurchaseSuccess(orderResponse);
-                            
-                            FocusUnityEditor();
-                            StopValidation();
-                            DestroyImmediate(gameObject);
                         }
                         else if (apiResponse.state == "charge_failed")
                         {
                             var orderResponse = ConvertToOrderResponseModel(apiResponse);
-                            _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { message = apiResponse.reason });
-                            FocusUnityEditor();
-                            StopValidation();
-                            DestroyImmediate(gameObject);
+                            _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3003, message = apiResponse.reason }, orderResponse);
+                        }
+                        else {
+                            StartCoroutine(ValidateOrderRequest());
+                            yield break;
                         }
                     }
                     catch
                     {
+                        _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3004, message = "Order validation failed." }, null);
                     }
                 }
+
+                CleanValidation();
             }
+        }
+
+        private void CleanValidation()
+        {
+            FocusUnityEditor();
+            StopValidation();
+            DestroyImmediate(gameObject);
         }
 
         public void StopValidation()
@@ -310,7 +318,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 EditorLoaderManager.Instance.HideLoader();
             }
         }
-        
+
         private void OnDestroy()
         {
             StopValidation();
@@ -367,9 +375,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
-            
-            Debug.Log("Order validation completed - Unity Editor focused");
-        }
+                    }
         
         private bool TryFocusWindow(string menuPath)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Appcharge.PaymentLinks.Config;
+using UnityEngine;
 
 namespace Appcharge.PaymentLinks.Editor {
     public class MainTemplatePrebuild : Prebuilder
@@ -15,10 +16,14 @@ namespace Appcharge.PaymentLinks.Editor {
             try {
                 if (File.Exists(_path))
                 {
-                    string gradleTemplate = File.ReadAllText(_path);
+                    string originalGradle = File.ReadAllText(_path);
+                    string gradleTemplate = originalGradle;
 
-                    var dependenciesToAdd = new List<(string, string)>();
-
+                    var dependenciesToAdd = new List<(string, string)>
+                    {
+                        ("implementation 'com.appcharge:android-payment-links:1.5.2'", "com.appcharge:android-payment-links")
+                    };
+                    
                     if (!_appchargeConfig.ExcludeCoreKtx)
                         dependenciesToAdd.Add(("implementation 'androidx.core:core-ktx:1.13.1'", "androidx.core:core-ktx"));
 
@@ -46,6 +51,35 @@ namespace Appcharge.PaymentLinks.Editor {
                         {
                             missingDependencies.Add(dependency);
                         }
+                    }
+
+                    // Engine metadata: BuildConfig + manifestPlaceholders for merged manifest meta-data (${ENGINE_*}).
+                    const string defaultConfigMarker = "defaultConfig {";
+                    int dcIndex = gradleTemplate.IndexOf(defaultConfigMarker);
+                    if (dcIndex >= 0)
+                    {
+                        int insertAfterOpen = dcIndex + defaultConfigMarker.Length;
+                        string injection = "";
+                        if (!gradleTemplate.Contains("buildConfigField \"String\", \"ENGINE_NAME\""))
+                        {
+                            string engineName = EscapeGradleString(EngineMetadataBuild.EngineName);
+                            string engineVersion = EscapeGradleString(Application.unityVersion);
+                            string sdkVersion = EscapeGradleString(EngineMetadataBuild.EngineSdkVersion);
+                            injection += "\n        buildConfigField \"String\", \"ENGINE_NAME\", \"" + engineName + "\"" +
+                                "\n        buildConfigField \"String\", \"ENGINE_VERSION_NAME\", \"" + engineVersion + "\"" +
+                                "\n        buildConfigField \"String\", \"ENGINE_SDK_VERSION\", \"" + sdkVersion + "\"";
+                        }
+                        if (!gradleTemplate.Contains("manifestPlaceholders[\"ENGINE_NAME\"]"))
+                        {
+                            string n = GroovyDoubleQuotedString(EngineMetadataBuild.EngineName);
+                            string v = GroovyDoubleQuotedString(Application.unityVersion);
+                            string s = GroovyDoubleQuotedString(EngineMetadataBuild.EngineSdkVersion);
+                            injection += "\n        manifestPlaceholders[\"ENGINE_NAME\"] = " + n +
+                                "\n        manifestPlaceholders[\"ENGINE_VERSION_NAME\"] = " + v +
+                                "\n        manifestPlaceholders[\"ENGINE_SDK_VERSION\"] = " + s;
+                        }
+                        if (injection.Length > 0)
+                            gradleTemplate = gradleTemplate.Insert(insertAfterOpen, injection);
                     }
 
                     if (missingDependencies.Count > 0)
@@ -76,9 +110,10 @@ namespace Appcharge.PaymentLinks.Editor {
                         {
                             string dependenciesToInsert = "\n" + string.Join("\n", missingDependencies) + "\n";
                             gradleTemplate = gradleTemplate.Insert(insertIndex, dependenciesToInsert);
-                            File.WriteAllText(_path, gradleTemplate);
                         }
                     }
+                    if (gradleTemplate != originalGradle)
+                        File.WriteAllText(_path, gradleTemplate);
                     _appchargePrebuildEditor.LogToFile("Final mainTemplate.gradle content:\n" + gradleTemplate);
                 }
                 else
@@ -106,6 +141,19 @@ namespace Appcharge.PaymentLinks.Editor {
                 }
             }
             return -1;
+        }
+
+        private static string EscapeGradleString(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return "\\\"\\\"";
+            return "\\\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\\\"";
+        }
+
+        /// <summary>Groovy double-quoted literal for manifestPlaceholders RHS (escapes $ for Groovy GString).</summary>
+        private static string GroovyDoubleQuotedString(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return "\"\"";
+            return "\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("$", "\\$") + "\"";
         }
     }
 }

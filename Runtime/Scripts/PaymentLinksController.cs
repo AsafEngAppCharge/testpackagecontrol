@@ -129,10 +129,6 @@ namespace Appcharge.PaymentLinks {
             _currentPlatform.GetPricePoints();
         }
 
-        public void OpenSubscriptionManager(string url) {
-            _currentPlatform.OpenSubscriptionManager(url);
-        }
-
         public void SetConfiguration(string property, object value) {
             _currentPlatform.ConfigurePlatform(property, value);
         }
