@@ -91,7 +91,7 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
 
             string redirectUrl = applinksDomain;
             
-            if (!redirectUrl.StartsWith("https://"))
+            if (!redirectUrl.StartsWith("https://") && !string.IsNullOrEmpty(redirectUrl))
                 redirectUrl = "https://" + redirectUrl;
 
             ConfigModel configModel = new ConfigModel

@@ -21,7 +21,7 @@ namespace Appcharge.PaymentLinks.Editor {
 
                     var dependenciesToAdd = new List<(string, string)>
                     {
-                        ("implementation 'com.appcharge:android-payment-links:1.5.2'", "com.appcharge:android-payment-links")
+                        ("implementation 'com.appcharge:android-payment-links:1.6.0'", "com.appcharge:android-payment-links")
                     };
                     
                     if (!_appchargeConfig.ExcludeCoreKtx)

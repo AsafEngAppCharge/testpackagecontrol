@@ -40,24 +40,23 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     }
 
     /// <summary>
-    /// To open the checkout you must obtain url, sessionToken, and purchaseId from your server
+    /// To open the checkout, you must obtain purchaseId and parsedUrl from your server.
+    /// Do not modify the arguments. The SDK will handle the rest.
     /// (Create Checkout Session API: https://docs.appcharge.com/api-reference/checkout/checkout-session/create-checkout-session)
-    /// Using the response from the API, call PaymentLinksController.Instance.OpenCheckout(url, sessionToken, purchaseId);
+    /// Using the response from the API, call PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
     /// </summary>
     public void OpenCheckout()
     {
-        string url = "";
-        string sessionToken = "";
         string purchaseId = "";
+        string parsedUrl = "";
 
-        if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(sessionToken) || string.IsNullOrWhiteSpace(purchaseId))
+        if (string.IsNullOrWhiteSpace(purchaseId) || string.IsNullOrWhiteSpace(parsedUrl))
         {
-            LogMessage("Error: URL, sessionToken, or purchaseId is empty. Please provide valid session data from your server.");
+            LogMessage("Error: Purchase ID or parsed URL is empty. Please provide valid purchase ID and parsed URL from your server.");
             return;
         }
 
-        _btnOpenCheckout.interactable = false;
-        PaymentLinksController.Instance.OpenCheckout(url, sessionToken, purchaseId);
+        PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
     }
 
     public void GetPricePoints()
@@ -100,10 +99,10 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
         LogMessage(string.Format("Purchase Success:\nOrderId: {0}\nPayment Method: {1}", order?.orderId, order?.paymentMethodName));
     }
 
-    public void OnPurchaseFailed(ErrorMessage error)
+    public void OnPurchaseFailed(ErrorMessage error, OrderResponseModel order)
     {
         _btnOpenCheckout.interactable = true;
-        LogMessage(string.Format("Code: {0}\nMessage: {1}\nDetails: {2}", error?.code, error?.message, error?.data));
+        LogMessage(string.Format("Code: {0}\nMessage: {1}\nDetails: {2}", error?.code, error?.message, order?.orderId));
     }
 
     public void OnInitialized()
@@ -115,7 +114,7 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
 
     public void OnInitializeFailed(ErrorMessage error)
     {
-        LogMessage(string.Format("Code: {0}\nMessage: {1}\nDetails: {2}", error?.code, error?.message, error?.data));
+        LogMessage(string.Format("Code: {0}\nMessage: {1}", error?.code, error?.message));
     }
 
     public void OnPricePointsSuccess(PricePointsModel pricePoints)

@@ -3,8 +3,10 @@ using Appcharge.PaymentLinks.Config;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
+using UnityEditor.iOS.Xcode.Extensions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Appcharge.PaymentLinks.Editor;
@@ -16,15 +18,16 @@ public static class iOSPostProcess
     // File names
     private const string ENTITLEMENTS_FILE_NAME = "Appcharge.entitlements";
     private const string INFO_PLIST_FILE_NAME = "Info.plist";
-    private const string LEGACY_XCFRAMEWORK_NAME = "ACPaymentLinks.xcframework";
-
+    private const string XCFRAMEWORK_NAME = "ACPaymentLinks.xcframework";
+    
     // Build property names
     private const string BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES";
     private const string BUILD_PROP_LD_RUNPATH_SEARCH_PATHS = "LD_RUNPATH_SEARCH_PATHS";
     private const string BUILD_PROP_SWIFT_VERSION = "SWIFT_VERSION";
     private const string BUILD_PROP_CODE_SIGN_ENTITLEMENTS = "CODE_SIGN_ENTITLEMENTS";
     private const string BUILD_PROP_CODE_SIGN_STYLE = "CODE_SIGN_STYLE";
-
+    private const string BUILD_PROP_FRAMEWORK_SEARCH_PATHS = "FRAMEWORK_SEARCH_PATHS";
+    
     // Build property values
     private const string BUILD_VALUE_NO = "NO";
     private const string BUILD_VALUE_YES = "YES";
@@ -44,20 +47,27 @@ public static class iOSPostProcess
     private const string URL_IDENTIFIER = "action";
     private const string URL_SCHEME_TEMPLATE = "acnative-$(PRODUCT_BUNDLE_IDENTIFIER)";
     
+    // Path constants
+    private const string PATH_FRAMEWORKS_PLUGINS_IOS = "$(PROJECT_DIR)/Frameworks/Plugins/iOS";
+    private const string PATH_PACKAGES_PLUGINS_IOS = "$(PROJECT_DIR)/Assets/Packages/com.appcharge.paymentlinks/Runtime/Plugins/iOS";
+    private const string PATH_SEGMENT_RUNTIME = "Runtime";
+    private const string PATH_SEGMENT_PLUGINS = "Plugins";
+    private const string PATH_SEGMENT_IOS = "iOS";
+    private const string PATH_SEGMENT_PACKAGES = "Packages";
+    private const string PATH_SEGMENT_FRAMEWORKS = "Frameworks";
+    private const string PATH_SEGMENT_LIBRARIES = "Libraries";
+    
+    // Target names
+    private const string TARGET_UNITY_IPHONE = "Unity-iPhone";
+    private const string TARGET_UNITY_FRAMEWORK = "UnityFramework";
+    
     // Package name
     private const string SDK_PACKAGE_NAME = "com.appcharge.paymentlinks";
     
     // Config path
     private const string CONFIG_ASSET_PATH = "Assets/Resources/Appcharge/AppchargeConfig.asset";
 
-    private const string SPM_PACKAGE_URL = "https://github.com/Appcharge/ios-payment-links.git";
-    private const string SPM_PACKAGE_VERSION = "1.7.0";
-    private const string SPM_PRODUCT_NAME = "ACPaymentLinks";
-
-    private const string SPM_PACKAGE_LOCAL_PATH = "/Users/asafenglander/git/ios-payment-links";
-    private const string SPM_PACKAGE_LOCAL_BRANCH = "local";
-
-    [PostProcessBuild(999)]
+    [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget target, string pathToBuiltProject)
     {
         if (target != BuildTarget.iOS) 
@@ -82,7 +92,7 @@ public static class iOSPostProcess
             ProcessEntitlements(pathToBuiltProject, config.AssociatedDomain, config);
         
         if (config.EnableIOSFrameworkIntegration)
-            ProcessSwiftPackage(pathToBuiltProject, config);
+            ProcessFramework(pathToBuiltProject, config);
         
         if (config.EnableIOSURLSchemeIntegration)
             ProcessURLSchemes(pathToBuiltProject, config);
@@ -185,7 +195,7 @@ public static class iOSPostProcess
         }
     }
 
-    private static void ProcessSwiftPackage(string pathToBuiltProject, AppchargeConfig config)
+    private static void ProcessFramework(string pathToBuiltProject, AppchargeConfig config)
     {
         string projPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
 
@@ -202,32 +212,62 @@ public static class iOSPostProcess
             PBXProject proj = new PBXProject();
             proj.ReadFromFile(projPath);
 
-#if UNITY_2019_3_OR_NEWER
+    #if UNITY_2019_3_OR_NEWER
             string mainTarget = proj.GetUnityMainTargetGuid();
             string unityFrameworkTarget = proj.GetUnityFrameworkTargetGuid();
-#else
+    #else
             string mainTarget = proj.TargetGuidByName(TARGET_UNITY_IPHONE);
             string unityFrameworkTarget = proj.TargetGuidByName(TARGET_UNITY_FRAMEWORK);
-#endif
-
-            if (!config.ExcludeSetLDRunpathSearchPaths)
-            {
-                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_LD_RUNPATH_SEARCH_PATHS, BUILD_VALUE_EXECUTABLE_PATH_FRAMEWORKS);
-            }
-
-            if (!config.ExcludeSetSwiftVersion)
-            {
-                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_SWIFT_VERSION, BUILD_VALUE_SWIFT_VERSION);
-            }
-
-            if (!config.ExcludeSetSwiftStandardLibrariesForMain)
-            {
-                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES, BUILD_VALUE_YES);
-            }
+    #endif
 
             if (!config.ExcludeSetSwiftStandardLibrariesForFramework)
             {
                 SetBuildPropertyIfDifferent(proj, unityFrameworkTarget, BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES, BUILD_VALUE_NO);
+            }
+
+            // Add framework search paths for both standard location and UPM package location
+            if (!config.ExcludeAddFrameworkSearchPaths)
+            {
+                AddFrameworkSearchPath(proj, mainTarget, PATH_FRAMEWORKS_PLUGINS_IOS);
+                
+                // Get the SDK package path and calculate relative path for framework search
+                string sdkPackagePath = GetSDKPackagePath();
+                if (!string.IsNullOrEmpty(sdkPackagePath))
+                {
+                    string packagePluginsPath = Path.Combine(sdkPackagePath, PATH_SEGMENT_RUNTIME, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS);
+                    string relativePluginsPath = GetRelativePath(pathToBuiltProject, packagePluginsPath);
+                    if (!string.IsNullOrEmpty(relativePluginsPath))
+                    {
+                        // Use relative path if it can be calculated
+                        string frameworkSearchPath = "$(PROJECT_DIR)/" + relativePluginsPath.Replace("\\", "/");
+                        AddFrameworkSearchPath(proj, mainTarget, frameworkSearchPath);
+                    }
+                    else
+                    {
+                        // Fallback: use absolute path
+                        AddFrameworkSearchPath(proj, mainTarget, packagePluginsPath);
+                    }
+                }
+                else
+                {
+                    // Fallback: try standard Packages path
+                    AddFrameworkSearchPath(proj, mainTarget, PATH_PACKAGES_PLUGINS_IOS);
+                }
+            }
+            
+            if (!config.ExcludeSetLDRunpathSearchPaths)
+            {
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_LD_RUNPATH_SEARCH_PATHS, BUILD_VALUE_EXECUTABLE_PATH_FRAMEWORKS);
+            }
+            
+            if (!config.ExcludeSetSwiftVersion)
+            {
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_SWIFT_VERSION, BUILD_VALUE_SWIFT_VERSION);
+            }
+            
+            if (!config.ExcludeSetSwiftStandardLibrariesForMain)
+            {
+                SetBuildPropertyIfDifferent(proj, mainTarget, BUILD_PROP_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES, BUILD_VALUE_YES);
             }
 
             if (!config.ExcludeSetCodeSignEntitlements)
@@ -246,182 +286,16 @@ public static class iOSPostProcess
 
             if (!config.ExcludeAddXCFramework)
             {
-                RemoveLegacyXCFrameworkFromTarget(proj, pathToBuiltProject, mainTarget, LEGACY_XCFRAMEWORK_NAME);
-                RemoveLegacyXCFrameworkFromTarget(proj, pathToBuiltProject, unityFrameworkTarget, LEGACY_XCFRAMEWORK_NAME);
-
-                ResolveSpmPackageReference(out string spmUrl, out bool spmUseBranch, out string spmBranchOrVersion);
-                AddSwiftPackageToProject(proj, projPath, mainTarget, spmUrl, spmUseBranch, spmBranchOrVersion, SPM_PRODUCT_NAME);
-                AddSwiftPackageToProject(proj, projPath, unityFrameworkTarget, spmUrl, spmUseBranch, spmBranchOrVersion, SPM_PRODUCT_NAME);
-            }
-            else
-            {
-                _logger.Log("[Appcharge PostBuild] ExcludeAddXCFramework is enabled: skipping remote Swift package link and legacy xcframework removal.");
+                AddXCFrameworkToProject(proj, pathToBuiltProject, mainTarget, XCFRAMEWORK_NAME);
             }
 
             proj.WriteToFile(projPath);
-            _logger.Log("[Appcharge PostBuild] SPM integration complete.");
+            string message = "[Appcharge PostBuild] Framework embedding and project processing complete.";
+            _logger.Log(message);
         }
         catch (System.Exception e)
         {
-            string errorMessage = $"[Appcharge PostBuild] Failed to process SPM integration: {e.Message}";
-            _logger.Log(errorMessage, true);
-            Debug.LogWarning(errorMessage);
-        }
-    }
-
-    // Remote: exact SPM_PACKAGE_VERSION on SPM_PACKAGE_URL. Local: file URL + SPM_PACKAGE_LOCAL_BRANCH (git branch, no semver tag required).
-    private static void ResolveSpmPackageReference(out string packageUrl, out bool useBranch, out string branchOrExactVersion)
-    {
-        useBranch = false;
-        branchOrExactVersion = SPM_PACKAGE_VERSION;
-        packageUrl = SPM_PACKAGE_URL;
-
-        if (string.IsNullOrWhiteSpace(SPM_PACKAGE_LOCAL_PATH))
-            return;
-
-        string fullPath = Path.GetFullPath(SPM_PACKAGE_LOCAL_PATH.Trim());
-        if (!Directory.Exists(fullPath))
-        {
-            _logger.Log($"[Appcharge PostBuild] SPM_PACKAGE_LOCAL_PATH is not a directory: '{fullPath}'. Using remote SPM URL instead.", true);
-            return;
-        }
-
-        try
-        {
-            packageUrl = new Uri(fullPath).AbsoluteUri;
-            useBranch = true;
-            branchOrExactVersion = SPM_PACKAGE_LOCAL_BRANCH;
-            _logger.Log($"[Appcharge PostBuild] Using local Swift package: {packageUrl} (branch: {branchOrExactVersion})");
-        }
-        catch (System.Exception e)
-        {
-            _logger.Log($"[Appcharge PostBuild] Invalid SPM_PACKAGE_LOCAL_PATH: {e.Message}. Using remote SPM URL.", true);
-            packageUrl = SPM_PACKAGE_URL;
-            useBranch = false;
-            branchOrExactVersion = SPM_PACKAGE_VERSION;
-        }
-    }
-
-    private static void AddSwiftPackageToProject(
-        PBXProject proj,
-        string projPath,
-        string targetGuid,
-        string packageUrl,
-        bool useBranch,
-        string branchOrExactVersion,
-        string productName)
-    {
-        try
-        {
-            string pbxContentBefore = File.Exists(projPath) ? File.ReadAllText(projPath) : string.Empty;
-            string packageGuid = FindExistingPackageGuid(pbxContentBefore, packageUrl);
-
-            if (string.IsNullOrEmpty(packageGuid))
-            {
-                if (useBranch)
-                {
-                    packageGuid = proj.AddRemotePackageReferenceAtBranch(packageUrl, branchOrExactVersion);
-                    _logger.Log($"[Appcharge PostBuild] Added Swift package reference (branch): {packageUrl} @ {branchOrExactVersion} (GUID: {packageGuid})");
-                }
-                else
-                {
-                    packageGuid = proj.AddRemotePackageReferenceAtVersion(packageUrl, branchOrExactVersion);
-                    _logger.Log($"[Appcharge PostBuild] Added Swift package reference (exact version): {packageUrl} @ {branchOrExactVersion} (GUID: {packageGuid})");
-                }
-            }
-            else
-            {
-                _logger.Log($"[Appcharge PostBuild] Reusing existing Swift package reference: {packageUrl} (GUID: {packageGuid})");
-            }
-
-            proj.AddRemotePackageFrameworkToProject(targetGuid, productName, packageGuid, false);
-            _logger.Log($"[Appcharge PostBuild] Linked Swift package product '{productName}' to target.");
-        }
-        catch (System.Exception e)
-        {
-            string errorMessage = $"[Appcharge PostBuild] Failed to add Swift package '{productName}': {e.Message}";
-            _logger.Log(errorMessage, true);
-            Debug.LogWarning(errorMessage);
-        }
-    }
-
-    private static string FindExistingPackageGuid(string pbxContent, string packageUrl)
-    {
-        if (string.IsNullOrEmpty(pbxContent) || string.IsNullOrEmpty(packageUrl))
-            return null;
-
-        string escapedUrl = Regex.Escape(packageUrl);
-        Match match = Regex.Match(
-            pbxContent,
-            $@"([A-F0-9]{{24}})\s*/\*.*\*/\s*=\s*\{{[^}}]*repositoryURL\s*=\s*""{escapedUrl}"";",
-            RegexOptions.IgnoreCase | RegexOptions.Singleline
-        );
-
-        return match.Success ? match.Groups[1].Value : null;
-    }
-
-    private static string FindFileGuidForXCFramework(PBXProject proj, string pathToBuiltProject, string xcframeworkName)
-    {
-        string[] possiblePaths = new string[]
-        {
-            $"Packages/{SDK_PACKAGE_NAME}/Runtime/Plugins/iOS/{xcframeworkName}",
-            $"Frameworks/Plugins/iOS/{xcframeworkName}",
-            $"Libraries/Plugins/iOS/{xcframeworkName}",
-            xcframeworkName
-        };
-
-        foreach (string possiblePath in possiblePaths)
-        {
-            string guid = proj.FindFileGuidByProjectPath(possiblePath);
-            if (!string.IsNullOrEmpty(guid))
-            {
-                _logger.Log($"[Appcharge PostBuild] Found legacy xcframework at path: {possiblePath}, GUID: {guid}");
-                return guid;
-            }
-        }
-
-        string pbxPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
-        if (File.Exists(pbxPath))
-        {
-            string pbxContent = File.ReadAllText(pbxPath);
-            Match match = Regex.Match(
-                pbxContent,
-                $@"([A-F0-9]{{24}})\s*/\*\s*{Regex.Escape(xcframeworkName)}\s*\*/\s*=\s*{{isa\s*=\s*PBXFileReference;",
-                RegexOptions.IgnoreCase
-            );
-
-            if (match.Success)
-            {
-                string guid = match.Groups[1].Value;
-                _logger.Log($"[Appcharge PostBuild] Found legacy xcframework by PBX comment, GUID: {guid}");
-                return guid;
-            }
-        }
-
-        return null;
-    }
-
-    private static void RemoveLegacyXCFrameworkFromTarget(
-        PBXProject proj,
-        string pathToBuiltProject,
-        string targetGuid,
-        string xcframeworkName)
-    {
-        try
-        {
-            string fileGuid = FindFileGuidForXCFramework(proj, pathToBuiltProject, xcframeworkName);
-            if (string.IsNullOrEmpty(fileGuid))
-            {
-                _logger.Log($"[Appcharge PostBuild] Legacy xcframework '{xcframeworkName}' not found in project.");
-                return;
-            }
-
-            proj.RemoveFileFromBuild(targetGuid, fileGuid);
-            _logger.Log($"[Appcharge PostBuild] Removed legacy xcframework '{xcframeworkName}' from target build phase.");
-        }
-        catch (System.Exception e)
-        {
-            string errorMessage = $"[Appcharge PostBuild] Failed removing legacy xcframework '{xcframeworkName}' from target: {e.Message}";
+            string errorMessage = $"[Appcharge PostBuild] Failed to process Xcode project: {e.Message}";
             _logger.Log(errorMessage, true);
             Debug.LogWarning(errorMessage);
         }
@@ -492,6 +366,63 @@ public static class iOSPostProcess
         _logger.Log($"Final Info.plist content:\n{finalContentAdded}");
     }
 
+    private static void AddFrameworkSearchPath(PBXProject proj, string target, string path)
+    {
+        string existingValue = proj.GetBuildPropertyForAnyConfig(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS);
+        if (string.IsNullOrEmpty(existingValue))
+        {
+            proj.AddBuildProperty(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS, path);
+            _logger.Log($"[Appcharge PostBuild] Added {BUILD_PROP_FRAMEWORK_SEARCH_PATHS} = {path} to target");
+        }
+        else if (!existingValue.Contains(path))
+        {
+            // Append the path if it doesn't already exist
+            proj.AddBuildProperty(target, BUILD_PROP_FRAMEWORK_SEARCH_PATHS, path);
+            _logger.Log($"[Appcharge PostBuild] Appended {BUILD_PROP_FRAMEWORK_SEARCH_PATHS} with {path}");
+        }
+    }
+
+    private static string GetSDKPackagePath()
+    {
+        // Use Unity's PackageManager API to get the resolved path of the Appcharge SDK package
+        try
+        {
+            var packageInfo = UnityEditor.PackageManager.PackageInfo.GetAllRegisteredPackages()
+                .FirstOrDefault(p => p.name == SDK_PACKAGE_NAME);
+            
+            if (packageInfo != null && !string.IsNullOrEmpty(packageInfo.resolvedPath))
+            {
+                return packageInfo.resolvedPath;
+            }
+        }
+        catch (System.Exception e)
+        {
+            _logger?.Log($"Failed to get SDK package path via PackageManager: {e.Message}", true);
+            Debug.LogWarning($"[Appcharge PostBuild] Failed to get SDK package path via PackageManager: {e.Message}");
+        }
+        
+        return null;
+    }
+
+    private static string GetRelativePath(string fromPath, string toPath)
+    {
+        try
+        {
+            Uri fromUri = new Uri(Path.GetFullPath(fromPath) + Path.DirectorySeparatorChar);
+            Uri toUri = new Uri(Path.GetFullPath(toPath));
+            
+            Uri relativeUri = fromUri.MakeRelativeUri(toUri);
+            string relativePath = Uri.UnescapeDataString(relativeUri.ToString()).Replace('/', Path.DirectorySeparatorChar);
+            
+            return relativePath;
+        }
+        catch (System.Exception e)
+        {
+            _logger?.Log($"Failed to calculate relative path: {e.Message}", true);
+            return null;
+        }
+    }
+
     private static void SetBuildPropertyIfDifferent(PBXProject proj, string target, string property, string value)
     {
         string existingValue = proj.GetBuildPropertyForAnyConfig(target, property);
@@ -499,6 +430,81 @@ public static class iOSPostProcess
         {
             proj.SetBuildProperty(target, property, value);
             _logger.Log($"[Appcharge PostBuild] Set {property} = {value} (was: {existingValue})");
+        }
+    }
+
+    private static void AddXCFrameworkToProject(PBXProject proj, string pathToBuiltProject, string targetGuid, string xcframeworkName)
+    {
+        try
+        {
+            // Unity already includes the xcframework in the build, we just need to find it and add it to the target
+            // Check common paths where Unity might have added it
+            string[] possiblePaths = new string[]
+            {
+                Path.Combine(PATH_SEGMENT_PACKAGES, SDK_PACKAGE_NAME, PATH_SEGMENT_RUNTIME, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                Path.Combine(PATH_SEGMENT_FRAMEWORKS, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                Path.Combine(PATH_SEGMENT_LIBRARIES, PATH_SEGMENT_PLUGINS, PATH_SEGMENT_IOS, xcframeworkName).Replace("\\", "/"),
+                $"{PATH_SEGMENT_PACKAGES}/{SDK_PACKAGE_NAME}/{PATH_SEGMENT_RUNTIME}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
+                $"{PATH_SEGMENT_FRAMEWORKS}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
+                $"{PATH_SEGMENT_LIBRARIES}/{PATH_SEGMENT_PLUGINS}/{PATH_SEGMENT_IOS}/{xcframeworkName}",
+                xcframeworkName
+            };
+            
+            string fileGuid = null;
+            foreach (string possiblePath in possiblePaths)
+            {
+                fileGuid = proj.FindFileGuidByProjectPath(possiblePath);
+                if (!string.IsNullOrEmpty(fileGuid))
+                {
+                    _logger.Log($"[Appcharge PostBuild] Found existing xcframework reference at path: {possiblePath} with GUID: {fileGuid}");
+                    break;
+                }
+            }
+            
+            if (string.IsNullOrEmpty(fileGuid))
+            {
+                // If not found by path, search the PBX file directly
+                string projPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
+                if (File.Exists(projPath))
+                {
+                    string pbxContent = File.ReadAllText(projPath);
+                    
+                    // Find file reference by name in comment: GUID /* ACPaymentLinks.xcframework */
+                    Regex commentPattern = new Regex(
+                        $@"([A-F0-9]{{24}})\s*\/\*\s*{Regex.Escape(xcframeworkName)}\s*\*\/\s*=\s*{{isa\s*=\s*PBXFileReference;",
+                        RegexOptions.IgnoreCase);
+                    
+                    Match match = commentPattern.Match(pbxContent);
+                    if (match.Success)
+                    {
+                        fileGuid = match.Groups[1].Value;
+                        _logger.Log($"[Appcharge PostBuild] Found existing xcframework reference by comment with GUID: {fileGuid}");
+                    }
+                }
+            }
+            
+            if (string.IsNullOrEmpty(fileGuid))
+            {
+                string warningMessage = $"[Appcharge PostBuild] Could not find xcframework '{xcframeworkName}' in Xcode project. It may not have been included by Unity.";
+                _logger.Log(warningMessage, true);
+                Debug.LogWarning(warningMessage);
+                return;
+            }
+            
+            // Add to build phase and embed frameworks (only to main target)
+            // Remove first to avoid duplicates, then add
+            //proj.RemoveFileFromBuild(targetGuid, fileGuid);
+            //proj.AddFileToBuild(targetGuid, fileGuid);
+            proj.AddFileToEmbedFrameworks(targetGuid, fileGuid);
+            
+            string successMessage = $"[Appcharge PostBuild] Added '{xcframeworkName}' to Unity-iPhone target's Frameworks, Libraries and Embedded Content with Embed & Sign";
+            _logger.Log(successMessage);
+        }
+        catch (System.Exception e)
+        {
+            string errorMessage = $"[Appcharge PostBuild] Failed to add xcframework '{xcframeworkName}': {e.Message}";
+            _logger.Log(errorMessage, true);
+            Debug.LogWarning(errorMessage);
         }
     }
 }

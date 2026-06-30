@@ -15,7 +15,7 @@ namespace Appcharge.PaymentLinks.Editor
     {
         public const string EngineName = "unity";
 
-        private const string FallbackSdkVersion = "2.5.0";
+        private const string FallbackSdkVersion = "2.6.0";
 
         /// <summary>Read from package.json version; falls back to FallbackSdkVersion if unreadable.</summary>
         public static string EngineSdkVersion

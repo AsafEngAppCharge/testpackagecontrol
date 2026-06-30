@@ -33,13 +33,14 @@ public class AppchargeConfigEditor : Editor
     
     // iOS Framework Integration Exclusions
     SerializedProperty excludeSetSwiftStandardLibrariesForFramework;
+    SerializedProperty excludeAddFrameworkSearchPaths;
     SerializedProperty excludeSetLDRunpathSearchPaths;
     SerializedProperty excludeSetSwiftVersion;
     SerializedProperty excludeSetSwiftStandardLibrariesForMain;
     SerializedProperty excludeSetCodeSignEntitlements;
     SerializedProperty excludeSetCodeSignStyle;
     SerializedProperty excludeAddXCFramework;
-
+    
     // Android Integration Settings
     SerializedProperty excludeAndroidX;
     SerializedProperty excludeJetifier;
@@ -60,7 +61,6 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty excludeDiscouragedApiTool;
     SerializedProperty excludeCheckoutService;
     SerializedProperty AndroidBrowserMode;
-    
     // Debug Mode
     SerializedProperty enableDebugMode;
 
@@ -95,13 +95,14 @@ public class AppchargeConfigEditor : Editor
         
         // iOS Framework Integration Exclusions
         excludeSetSwiftStandardLibrariesForFramework = serializedObject.FindProperty("ExcludeSetSwiftStandardLibrariesForFramework");
+        excludeAddFrameworkSearchPaths = serializedObject.FindProperty("ExcludeAddFrameworkSearchPaths");
         excludeSetLDRunpathSearchPaths = serializedObject.FindProperty("ExcludeSetLDRunpathSearchPaths");
         excludeSetSwiftVersion = serializedObject.FindProperty("ExcludeSetSwiftVersion");
         excludeSetSwiftStandardLibrariesForMain = serializedObject.FindProperty("ExcludeSetSwiftStandardLibrariesForMain");
         excludeSetCodeSignEntitlements = serializedObject.FindProperty("ExcludeSetCodeSignEntitlements");
         excludeSetCodeSignStyle = serializedObject.FindProperty("ExcludeSetCodeSignStyle");
         excludeAddXCFramework = serializedObject.FindProperty("ExcludeAddXCFramework");
-
+        
         // Android Integration Settings
         excludeAndroidX = serializedObject.FindProperty("ExcludeAndroidX");
         excludeJetifier = serializedObject.FindProperty("ExcludeJetifier");
@@ -157,6 +158,7 @@ public class AppchargeConfigEditor : Editor
                     {
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(excludeSetSwiftStandardLibrariesForFramework);
+                        EditorGUILayout.PropertyField(excludeAddFrameworkSearchPaths);
                         EditorGUILayout.PropertyField(excludeSetLDRunpathSearchPaths);
                         EditorGUILayout.PropertyField(excludeSetSwiftVersion);
                         EditorGUILayout.PropertyField(excludeSetSwiftStandardLibrariesForMain);

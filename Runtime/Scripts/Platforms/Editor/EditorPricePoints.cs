@@ -4,6 +4,7 @@ using System.Collections;
 using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Models;
 using Appcharge.PaymentLinks.Platforms.Base;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,6 +20,11 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
 
         public override void GetPricePoints()
         {
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL) {
+                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Price points are not supported on WebGL", code = 1001 });
+                return;
+            }
+
             if (Application.isPlaying)
             {
                 EditorPlatform.SharedCoroutineRunner.StartCoroutine(GetPricePointsCoroutine());

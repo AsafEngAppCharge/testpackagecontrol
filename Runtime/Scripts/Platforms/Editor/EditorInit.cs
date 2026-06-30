@@ -7,6 +7,7 @@ using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Models;
 using Appcharge.PaymentLinks.Platforms.Base;
 using Appcharge.PaymentLinks.Platforms.Editor.Models;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -40,6 +41,11 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         
         private IEnumerator InitializeCoroutine(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
         {
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL) {
+                callback.OnInitialized();
+                yield break;
+            }
+            
             var baseUrl = GetBaseUrl(environment);
             var url = $"{baseUrl}/mobile/v4/boot";
             

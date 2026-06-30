@@ -10,7 +10,9 @@ namespace Appcharge.PaymentLinks {
         private static PaymentLinksController _Instance;
         private static ICheckoutPlatform _currentPlatform;
         private static bool _definedPlatform = false;
-        private PaymentLinksController() { }
+        private PaymentLinksController() {
+        }
+
         public static PaymentLinksController Instance
         {
             get
@@ -18,9 +20,20 @@ namespace Appcharge.PaymentLinks {
                 if (_Instance == null)
                 {
                     _Instance = new PaymentLinksController();
+                    #if UNITY_WEBGL
+                        if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                            WebGLPlatform.LoadRemoteLib();
+                        }
+                    #endif
                 }
                 return _Instance;
             }
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void WarmSingletonAfterFirstSceneLoad()
+        {
+            _ = Instance;
         }
 
         private void DefinePlatform() {
@@ -91,12 +104,12 @@ namespace Appcharge.PaymentLinks {
                 }
                 catch (System.Exception ex)
                 {
-                    UnityEngine.Debug.LogWarning($"Failed to create platform {assemblyQualifiedName}: {ex.Message}");
+                    Debug.LogWarning($"Failed to create platform {assemblyQualifiedName}: {ex.Message}");
                 }
             }
             else
             {
-                UnityEngine.Debug.LogWarning($"Could not find type: {assemblyQualifiedName}. Falling back to UnsupportedPlatform.");
+                Debug.LogWarning($"Could not find type: {assemblyQualifiedName}. Falling back to UnsupportedPlatform.");
             }
             return new UnsupportedPlatform();
         }
@@ -144,12 +157,12 @@ namespace Appcharge.PaymentLinks {
                 }
                 catch (System.Exception ex)
                 {
-                    UnityEngine.Debug.LogWarning($"Failed to create Editor platform: {ex.Message}");
+                    Debug.LogWarning($"Failed to create Editor platform: {ex.Message}");
                 }
             }
             else
             {
-                UnityEngine.Debug.LogWarning("Could not find EditorPlatform. Falling back to UnsupportedPlatform.");
+                Debug.LogWarning("Could not find EditorPlatform. Falling back to UnsupportedPlatform.");
             }
             return new UnsupportedPlatform();
         }
