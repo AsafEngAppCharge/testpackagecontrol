@@ -37,11 +37,7 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         // Backend returns checkout session → open checkout
         public void OnSessionSuccess(CheckoutResponse response)
         {
-            PaymentLinksController.Instance.OpenCheckout(
-                response.url,
-                response.checkoutSessionToken,
-                response.purchaseId
-            );
+            PaymentLinksController.Instance.OpenCheckout(response.purchaseId, response.parsedUrl);
         }
         // Fetch price points
         public void GetPricePoints()
@@ -53,9 +49,9 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         {
             Debug.Log($"Purchase Success: OrderId={order.orderId}, PaymentMethod={order.paymentMethodName}");
         }
-        public void OnPurchaseFailed(ErrorMessage error)
+        public void OnPurchaseFailed(ErrorMessage error, OrderResponseModel order)
         {
-            Debug.LogError($"Purchase Failed: Code={error.code}, Message={error.message}, Details={error.data}");
+            Debug.LogError($"Purchase Failed: Code={error.code}, Message={error.message}, OrderId={order?.orderId}");
         }
         public void OnInitialized()
         {
@@ -63,7 +59,7 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         }
         public void OnInitializeFailed(ErrorMessage error)
         {
-            Debug.LogError($"Init Failed: Code={error.code}, Message={error.message}, Details={error.data}");
+            Debug.LogError($"Init Failed: Code={error.code}, Message={error.message}");
         }
         public void OnPricePointsSuccess(PricePointsModel pricePoints)
         {
@@ -83,16 +79,17 @@ Create a MonoBehaviour that receives callbacks from the SDK:
 ```
 ### **2. Create a checkout session (your backend)** 
 Your backend returns the following:
-- `url`
-- `checkoutSessionToken`
 - `purchaseId`
+- `parsedUrl` (recommended), or `url`, `checkoutSessionToken`, and `purchaseId`
 ### **3. Open checkout**
 ```c#
+    PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
+    // or (legacy):
     PaymentLinksController.Instance.OpenCheckout(url, checkoutSessionToken, purchaseId);
 ```
 ### **4. Handle purchase callbacks**
 - `OnPurchaseSuccess(OrderResponseModel order)`
-- `OnPurchaseFailed(ErrorMessage error)`
+- `OnPurchaseFailed(ErrorMessage error, OrderResponseModel order)`
 ### **5. Fetch price points**
 ```C#
     PaymentLinksController.Instance.GetPricePoints();
@@ -104,6 +101,8 @@ Callbacks:
 ## SDK API Overview
 ### **PaymentLinksController**
 - Init(string customerId, ICheckoutPurchase callback)
+- Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
+- OpenCheckout(string purchaseId, string parsedUrl)
 - OpenCheckout(string url, string checkoutSessionToken, string purchaseId)
 - GetPricePoints()
 - GetSdkVersion()

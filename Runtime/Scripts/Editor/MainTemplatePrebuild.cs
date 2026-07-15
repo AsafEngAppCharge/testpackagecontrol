@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using Appcharge.PaymentLinks.Config;
 using UnityEngine;
 
 namespace Appcharge.PaymentLinks.Editor {
     public class MainTemplatePrebuild : Prebuilder
     {
+        private const string AndroidPaymentLinksVersion = "1.7.0";
+        private const string AndroidPaymentLinksId = "com.appcharge:android-payment-links";
+
         public MainTemplatePrebuild(string path, AppchargePrebuildEditor appchargePrebuildEditor, AppchargeConfig appchargeConfig) : base(path, appchargePrebuildEditor, appchargeConfig)
         {
         }
@@ -19,9 +23,16 @@ namespace Appcharge.PaymentLinks.Editor {
                     string originalGradle = File.ReadAllText(_path);
                     string gradleTemplate = originalGradle;
 
+                    string androidPaymentLinksDep = $"implementation '{AndroidPaymentLinksId}:{AndroidPaymentLinksVersion}'";
+
+                    gradleTemplate = Regex.Replace(
+                        gradleTemplate,
+                        @"implementation\s+'com\.appcharge:android-payment-links:[^']+'",
+                        androidPaymentLinksDep);
+
                     var dependenciesToAdd = new List<(string, string)>
                     {
-                        ("implementation 'com.appcharge:android-payment-links:1.6.0'", "com.appcharge:android-payment-links")
+                        (androidPaymentLinksDep, AndroidPaymentLinksId)
                     };
                     
                     if (!_appchargeConfig.ExcludeCoreKtx)
