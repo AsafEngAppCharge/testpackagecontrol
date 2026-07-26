@@ -7,24 +7,19 @@ namespace Appcharge.PaymentLinks.Platforms.Unsupported {
     {
         public ICheckoutPurchase Callback { get; set; }
 
-        public void Init(string customerId, ICheckoutPurchase callback)
+        public void Init(ICheckoutPurchase callback)
         {
             Debug.LogWarning("Unsupported platform: Init");        
             callback.OnInitializeFailed(new ErrorMessage { message = "Unsupported platform" });
         }
 
-        public void Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
+        public void Init(string checkoutToken, string environment, ICheckoutPurchase callback)
         {
             Debug.LogWarning("Unsupported platform: Init");        
             callback.OnInitializeFailed(new ErrorMessage { message = "Unsupported platform" });
         }
 
-        public void OpenCheckout(string url, string sessionToken, string purchaseId)
-        {
-            Debug.LogWarning("Unsupported platform: OpenCheckout");        
-        }
-
-        public void OpenCheckout(string purchaseId, string parsedUrl)
+        public void OpenCheckout(string purchaseId, string parsedUrl, string customerId)
         {
             Debug.LogWarning("Unsupported platform: OpenCheckout");        
         }

@@ -10,7 +10,6 @@ namespace Appcharge.PaymentLinks.Platforms.Base {
             _platform = platform;
         }
 
-        public abstract void OpenCheckout(string url, string sessionToken, string purchaseId);
-        public abstract void OpenCheckout(string purchaseId, string parsedUrl);
+        public abstract void OpenCheckout(string purchaseId, string parsedUrl, string customerId);
     }
 }

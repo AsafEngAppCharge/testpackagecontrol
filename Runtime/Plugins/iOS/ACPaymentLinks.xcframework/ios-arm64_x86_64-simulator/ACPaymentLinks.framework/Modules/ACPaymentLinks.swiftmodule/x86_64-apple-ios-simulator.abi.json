@@ -560,7 +560,7 @@
           {
             "kind": "Function",
             "name": "initialize",
-            "printedName": "initialize(configModel:customerId:delegate:)",
+            "printedName": "initialize(configModel:delegate:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -575,44 +575,14 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
                 "name": "ACPaymentLinksDelegate",
                 "printedName": "any ACPaymentLinks.ACPaymentLinksDelegate",
                 "usr": "c:@M@ACPaymentLinks@objc(pl)ACPaymentLinksDelegate"
               }
             ],
             "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)initializeWithConfigModel:customerId:delegate:",
-            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC10initialize11configModel10customerId8delegateyAA08ACConfigG0C_SSAA0aB8Delegate_ptFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment",
-              "ObjC"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "getPricePoints",
-            "printedName": "getPricePoints()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)getPricePoints",
-            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC14getPricePointsyyFZ",
+            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)initializeWithConfigModel:delegate:",
+            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC10initialize11configModel8delegateyAA08ACConfigG0C_AA0aB8Delegate_ptFZ",
             "moduleName": "ACPaymentLinks",
             "static": true,
             "declAttributes": [
@@ -626,43 +596,7 @@
           {
             "kind": "Function",
             "name": "openCheckout",
-            "printedName": "openCheckout(purchaseId:parsedUrl:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)openCheckoutWithPurchaseId:parsedUrl:",
-            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC12openCheckout10purchaseId9parsedUrlySS_SStFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment",
-              "ObjC"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "openCheckout",
-            "printedName": "openCheckout(sessionToken:purchaseId:url:)",
+            "printedName": "openCheckout(purchaseId:parsedUrl:customerId:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -689,15 +623,13 @@
               }
             ],
             "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)openCheckoutWithSessionToken:purchaseId:url:",
-            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC12openCheckout12sessionToken10purchaseId3urlySS_S2StFZ",
+            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)openCheckoutWithPurchaseId:parsedUrl:customerId:",
+            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC12openCheckout10purchaseId9parsedUrl08customerH0ySS_S2StFZ",
             "moduleName": "ACPaymentLinks",
             "static": true,
-            "deprecated": true,
             "declAttributes": [
               "Final",
               "AccessControl",
-              "Available",
               "RawDocComment",
               "ObjC"
             ],
@@ -754,35 +686,6 @@
               "Final",
               "AccessControl",
               "RawDocComment",
-              "ObjC"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "openSubscriptionManager",
-            "printedName": "openSubscriptionManager(url:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)ACBridgeAPI(cm)openSubscriptionManagerWithUrl:",
-            "mangledName": "$s14ACPaymentLinks11ACBridgeAPIC23openSubscriptionManager3urlySS_tFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
               "ObjC"
             ],
             "funcSelfKind": "NonMutating"
@@ -869,184 +772,6 @@
             "printedName": "Hashable",
             "usr": "s:SH",
             "mangledName": "$sSH"
-          }
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks"
-      },
-      {
-        "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "ObjectiveC.runtime",
-        "printedName": "ObjectiveC.runtime",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks"
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "InmOrientationBridge",
-        "printedName": "InmOrientationBridge",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "installIfNeeded",
-            "printedName": "installIfNeeded()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks20InmOrientationBridgeC15installIfNeededSbyFZ",
-            "mangledName": "$s14ACPaymentLinks20InmOrientationBridgeC15installIfNeededSbyFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "DiscardableResult",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "beginForcePortrait",
-            "printedName": "beginForcePortrait(animated:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "hasDefaultArg": true,
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks20InmOrientationBridgeC18beginForcePortrait8animatedySb_tFZ",
-            "mangledName": "$s14ACPaymentLinks20InmOrientationBridgeC18beginForcePortrait8animatedySb_tFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "endForcePortrait",
-            "printedName": "endForcePortrait(andThen:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "() -> ()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ]
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks20InmOrientationBridgeC16endForcePortrait7andThenyyyc_tFZ",
-            "mangledName": "$s14ACPaymentLinks20InmOrientationBridgeC16endForcePortrait7andThenyyyc_tFZ",
-            "moduleName": "ACPaymentLinks",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "s:14ACPaymentLinks20InmOrientationBridgeC",
-        "mangledName": "$s14ACPaymentLinks20InmOrientationBridgeC",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "Final",
-          "AccessControl"
-        ],
-        "hasMissingDesignatedInitializers": true,
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
           }
         ]
       },
@@ -1648,26 +1373,29 @@
           },
           {
             "kind": "Conformance",
-            "name": "Sendable",
-            "printedName": "Sendable",
-            "usr": "s:s8SendableP",
-            "mangledName": "$ss8SendableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "SendableMetatype",
-            "printedName": "SendableMetatype",
-            "usr": "s:s16SendableMetatypeP",
-            "mangledName": "$ss16SendableMetatypeP"
-          },
-          {
-            "kind": "Conformance",
             "name": "UITraitChangeObservable",
             "printedName": "UITraitChangeObservable",
             "usr": "s:5UIKit23UITraitChangeObservableP",
             "mangledName": "$s5UIKit23UITraitChangeObservableP"
           }
         ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ACPaymentLinks",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ACPaymentLinks"
       },
       {
         "kind": "Import",
@@ -1685,6 +1413,16 @@
         "printedName": "UIKit",
         "declKind": "Import",
         "moduleName": "ACPaymentLinks"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ACPaymentLinks",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
@@ -1790,16 +1528,6 @@
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "UIKit",
         "printedName": "UIKit",
         "declKind": "Import",
@@ -1831,6 +1559,16 @@
         "printedName": "UIKit",
         "declKind": "Import",
         "moduleName": "ACPaymentLinks"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ACPaymentLinks",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
@@ -2593,43 +2331,6 @@
           },
           {
             "kind": "Var",
-            "name": "bootInitializationResponse",
-            "printedName": "bootInitializationResponse",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO26bootInitializationResponseyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO26bootInitializationResponseyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
             "name": "bootInitializationSuccess",
             "printedName": "bootInitializationSuccess",
             "children": [
@@ -2704,8 +2405,8 @@
           },
           {
             "kind": "Var",
-            "name": "pricePointsRetrieving",
-            "printedName": "pricePointsRetrieving",
+            "name": "bootInitializationCustomerIdFail",
+            "printedName": "bootInitializationCustomerIdFail",
             "children": [
               {
                 "kind": "TypeFunc",
@@ -2735,196 +2436,8 @@
               }
             ],
             "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO21pricePointsRetrievingyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO21pricePointsRetrievingyA2CmF",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "pricePointsRequest",
-            "printedName": "pricePointsRequest",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO18pricePointsRequestyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO18pricePointsRequestyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
-            "name": "pricePointsResponse",
-            "printedName": "pricePointsResponse",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO19pricePointsResponseyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO19pricePointsResponseyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
-            "name": "pricePointsResponseFail",
-            "printedName": "pricePointsResponseFail",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO23pricePointsResponseFailyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO23pricePointsResponseFailyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
-            "name": "pricePointsSuccess",
-            "printedName": "pricePointsSuccess",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO18pricePointsSuccessyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO18pricePointsSuccessyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
-            "name": "pricePointsFail",
-            "printedName": "pricePointsFail",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LogEventKey",
-                    "printedName": "ACPaymentLinks.LogEventKey",
-                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.LogEventKey.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LogEventKey",
-                        "printedName": "ACPaymentLinks.LogEventKey",
-                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks11LogEventKeyO15pricePointsFailyA2CmF",
-            "mangledName": "$s14ACPaymentLinks11LogEventKeyO15pricePointsFailyA2CmF",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO32bootInitializationCustomerIdFailyA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO32bootInitializationCustomerIdFailyA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -3187,6 +2700,43 @@
             "declKind": "EnumElement",
             "usr": "s:14ACPaymentLinks11LogEventKeyO26checkoutPurchaseIdNotValidyA2CmF",
             "mangledName": "$s14ACPaymentLinks11LogEventKeyO26checkoutPurchaseIdNotValidyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "checkoutCustomerNotValid",
+            "printedName": "checkoutCustomerNotValid",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "LogEventKey",
+                    "printedName": "ACPaymentLinks.LogEventKey",
+                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.LogEventKey.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LogEventKey",
+                        "printedName": "ACPaymentLinks.LogEventKey",
+                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO24checkoutCustomerNotValidyA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO24checkoutCustomerNotValidyA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -3826,6 +3376,43 @@
           },
           {
             "kind": "Var",
+            "name": "orderValidationFailPurchaseId",
+            "printedName": "orderValidationFailPurchaseId",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "LogEventKey",
+                    "printedName": "ACPaymentLinks.LogEventKey",
+                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.LogEventKey.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LogEventKey",
+                        "printedName": "ACPaymentLinks.LogEventKey",
+                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO29orderValidationFailPurchaseIdyA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO29orderValidationFailPurchaseIdyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
             "name": "chargeSuccess",
             "printedName": "chargeSuccess",
             "children": [
@@ -4118,6 +3705,120 @@
             "declKind": "EnumElement",
             "usr": "s:14ACPaymentLinks11LogEventKeyO19orderValidationFailyA2CmF",
             "mangledName": "$s14ACPaymentLinks11LogEventKeyO19orderValidationFailyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "browserModeSuccessfully",
+            "printedName": "browserModeSuccessfully",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "LogEventKey",
+                    "printedName": "ACPaymentLinks.LogEventKey",
+                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.LogEventKey.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LogEventKey",
+                        "printedName": "ACPaymentLinks.LogEventKey",
+                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO23browserModeSuccessfullyyA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO23browserModeSuccessfullyyA2CmF",
+            "moduleName": "ACPaymentLinks",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "browserModeIncorrectParameter",
+            "printedName": "browserModeIncorrectParameter",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "LogEventKey",
+                    "printedName": "ACPaymentLinks.LogEventKey",
+                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.LogEventKey.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LogEventKey",
+                        "printedName": "ACPaymentLinks.LogEventKey",
+                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO29browserModeIncorrectParameteryA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO29browserModeIncorrectParameteryA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "browserModeFailed",
+            "printedName": "browserModeFailed",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.LogEventKey.Type) -> ACPaymentLinks.LogEventKey",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "LogEventKey",
+                    "printedName": "ACPaymentLinks.LogEventKey",
+                    "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.LogEventKey.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LogEventKey",
+                        "printedName": "ACPaymentLinks.LogEventKey",
+                        "usr": "s:14ACPaymentLinks11LogEventKeyO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks11LogEventKeyO17browserModeFailedyA2CmF",
+            "mangledName": "$s14ACPaymentLinks11LogEventKeyO17browserModeFailedyA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -4427,13 +4128,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "SafariServices",
-        "printedName": "SafariServices",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks"
-      },
-      {
         "kind": "TypeDecl",
         "name": "ACPaymentLinksDelegate",
         "printedName": "ACPaymentLinksDelegate",
@@ -4487,68 +4181,6 @@
             "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACPaymentLinksDelegate>",
             "protocolReq": true,
             "objc_name": "onInitializeFailedWithError:",
-            "declAttributes": [
-              "ObjC"
-            ],
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onPricePointsSuccess",
-            "printedName": "onPricePointsSuccess(pricePoints:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "PricePoints",
-                "printedName": "ACPaymentLinks.PricePoints",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(pl)ACPaymentLinksDelegate(im)onPricePointsSuccessWithPricePoints:",
-            "mangledName": "$s14ACPaymentLinks0aB8DelegateP20onPricePointsSuccess05priceF0yAA0eF0C_tF",
-            "moduleName": "ACPaymentLinks",
-            "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACPaymentLinksDelegate>",
-            "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACPaymentLinksDelegate>",
-            "protocolReq": true,
-            "objc_name": "onPricePointsSuccessWithPricePoints:",
-            "declAttributes": [
-              "ObjC"
-            ],
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onPricePointsFailed",
-            "printedName": "onPricePointsFailed(errorMessage:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "ACErrorMessage",
-                "printedName": "ACPaymentLinks.ACErrorMessage",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)ACErrorMessage"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@ACPaymentLinks@objc(pl)ACPaymentLinksDelegate(im)onPricePointsFailedWithErrorMessage:",
-            "mangledName": "$s14ACPaymentLinks0aB8DelegateP19onPricePointsFailed12errorMessageyAA07ACErrorI0C_tF",
-            "moduleName": "ACPaymentLinks",
-            "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACPaymentLinksDelegate>",
-            "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACPaymentLinksDelegate>",
-            "protocolReq": true,
-            "objc_name": "onPricePointsFailedWithErrorMessage:",
             "declAttributes": [
               "ObjC"
             ],
@@ -4625,6 +4257,51 @@
             "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACPaymentLinksDelegate>",
             "protocolReq": true,
             "objc_name": "onPurchaseFailedWithError:order:",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onPurchaseCanceled",
+            "printedName": "onPurchaseCanceled(error:order:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ACErrorMessage",
+                "printedName": "ACPaymentLinks.ACErrorMessage",
+                "usr": "c:@M@ACPaymentLinks@objc(cs)ACErrorMessage"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ACPaymentLinks.GameOrderResponse?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GameOrderResponse",
+                    "printedName": "ACPaymentLinks.GameOrderResponse",
+                    "usr": "c:@M@ACPaymentLinks@objc(cs)GameOrderResponse"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@ACPaymentLinks@objc(pl)ACPaymentLinksDelegate(im)onPurchaseCanceledWithError:order:",
+            "mangledName": "$s14ACPaymentLinks0aB8DelegateP18onPurchaseCanceled5error5orderyAA14ACErrorMessageC_AA17GameOrderResponseCSgtF",
+            "moduleName": "ACPaymentLinks",
+            "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACPaymentLinksDelegate>",
+            "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACPaymentLinksDelegate>",
+            "protocolReq": true,
+            "objc_name": "onPurchaseCanceledWithError:order:",
             "declAttributes": [
               "ObjC"
             ],
@@ -5327,8 +5004,8 @@
           },
           {
             "kind": "Var",
-            "name": "sfsvc",
-            "printedName": "sfsvc",
+            "name": "internal",
+            "printedName": "internal",
             "children": [
               {
                 "kind": "TypeFunc",
@@ -5358,13 +5035,81 @@
               }
             ],
             "declKind": "EnumElement",
-            "usr": "c:@M@ACPaymentLinks@E@BrowserMode@BrowserModeSfsvc",
-            "mangledName": "$s14ACPaymentLinks11BrowserModeO5sfsvcyA2CmF",
+            "usr": "c:@M@ACPaymentLinks@E@BrowserMode@BrowserModeInternal",
+            "mangledName": "$s14ACPaymentLinks11BrowserModeO8internalyA2CmF",
             "moduleName": "ACPaymentLinks",
             "declAttributes": [
               "ObjC"
             ],
             "fixedbinaryorder": 1
+          },
+          {
+            "kind": "Var",
+            "name": "unknown",
+            "printedName": "unknown",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.BrowserMode.Type) -> ACPaymentLinks.BrowserMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "BrowserMode",
+                    "printedName": "ACPaymentLinks.BrowserMode",
+                    "usr": "c:@M@ACPaymentLinks@E@BrowserMode"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.BrowserMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "BrowserMode",
+                        "printedName": "ACPaymentLinks.BrowserMode",
+                        "usr": "c:@M@ACPaymentLinks@E@BrowserMode"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@ACPaymentLinks@E@BrowserMode@BrowserModeUnknown",
+            "mangledName": "$s14ACPaymentLinks11BrowserModeO7unknownyA2CmF",
+            "moduleName": "ACPaymentLinks",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 2
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "BrowserMode",
+                "printedName": "ACPaymentLinks.BrowserMode",
+                "usr": "c:@M@ACPaymentLinks@E@BrowserMode"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:14ACPaymentLinks11BrowserModeO8rawValueACSi_tcfc",
+            "mangledName": "$s14ACPaymentLinks11BrowserModeO8rawValueACSi_tcfc",
+            "moduleName": "ACPaymentLinks",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
           },
           {
             "kind": "Var",
@@ -5405,39 +5150,6 @@
                 "accessorKind": "get"
               }
             ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(rawValue:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "ACPaymentLinks.BrowserMode?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "BrowserMode",
-                    "printedName": "ACPaymentLinks.BrowserMode",
-                    "usr": "c:@M@ACPaymentLinks@E@BrowserMode"
-                  }
-                ],
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks11BrowserModeO8rawValueACSgSi_tcfc",
-            "mangledName": "$s14ACPaymentLinks11BrowserModeO8rawValueACSgSi_tcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "init_kind": "Designated"
           },
           {
             "kind": "Var",
@@ -5647,261 +5359,6 @@
         "moduleName": "ACPaymentLinks",
         "declAttributes": [
           "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          }
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "ItemModel",
-        "printedName": "ItemModel",
-        "children": [
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(name:assetUrl:sku:quantity:quantityDisplay:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "ItemModel",
-                "printedName": "ACPaymentLinks.ItemModel",
-                "usr": "s:14ACPaymentLinks9ItemModelV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks9ItemModelV4name8assetUrl3sku8quantity0I7DisplayACSS_S2SSiSStcfc",
-            "mangledName": "$s14ACPaymentLinks9ItemModelV4name8assetUrl3sku8quantity0I7DisplayACSS_S2SSiSStcfc",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks9ItemModelV6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks9ItemModelV6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Struct",
-        "usr": "s:14ACPaymentLinks9ItemModelV",
-        "mangledName": "$s14ACPaymentLinks9ItemModelV",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "RawDocComment"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          }
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "OfferModel",
-        "printedName": "OfferModel",
-        "children": [
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(name:sku:assetUrl:description:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "OfferModel",
-                "printedName": "ACPaymentLinks.OfferModel",
-                "usr": "s:14ACPaymentLinks10OfferModelV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks10OfferModelV4name3sku8assetUrl11descriptionACSS_S3Stcfc",
-            "mangledName": "$s14ACPaymentLinks10OfferModelV4name3sku8assetUrl11descriptionACSS_S3Stcfc",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "OfferModel",
-                "printedName": "ACPaymentLinks.OfferModel",
-                "usr": "s:14ACPaymentLinks10OfferModelV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks10OfferModelV4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s14ACPaymentLinks10OfferModelV4fromACs7Decoder_p_tKcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks10OfferModelV6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks10OfferModelV6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Struct",
-        "usr": "s:14ACPaymentLinks10OfferModelV",
-        "mangledName": "$s14ACPaymentLinks10OfferModelV",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "RawDocComment"
         ],
         "conformances": [
           {
@@ -9650,1846 +9107,6 @@
         ]
       },
       {
-        "kind": "TypeDecl",
-        "name": "PriceDetailModel",
-        "printedName": "PriceDetailModel",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "price",
-            "printedName": "price",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:14ACPaymentLinks16PriceDetailModelV5priceSivp",
-            "mangledName": "$s14ACPaymentLinks16PriceDetailModelV5priceSivp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PriceDetailModelV5priceSivg",
-                "mangledName": "$s14ACPaymentLinks16PriceDetailModelV5priceSivg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "currency",
-            "printedName": "currency",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:14ACPaymentLinks16PriceDetailModelV8currencySSvp",
-            "mangledName": "$s14ACPaymentLinks16PriceDetailModelV8currencySSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PriceDetailModelV8currencySSvg",
-                "mangledName": "$s14ACPaymentLinks16PriceDetailModelV8currencySSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(price:currency:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PriceDetailModel",
-                "printedName": "ACPaymentLinks.PriceDetailModel",
-                "usr": "s:14ACPaymentLinks16PriceDetailModelV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks16PriceDetailModelV5price8currencyACSi_SStcfc",
-            "mangledName": "$s14ACPaymentLinks16PriceDetailModelV5price8currencyACSi_SStcfc",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PriceDetailModel",
-                "printedName": "ACPaymentLinks.PriceDetailModel",
-                "usr": "s:14ACPaymentLinks16PriceDetailModelV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks16PriceDetailModelV4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s14ACPaymentLinks16PriceDetailModelV4fromACs7Decoder_p_tKcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks16PriceDetailModelV6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks16PriceDetailModelV6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Struct",
-        "usr": "s:14ACPaymentLinks16PriceDetailModelV",
-        "mangledName": "$s14ACPaymentLinks16PriceDetailModelV",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "RawDocComment"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          }
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "PricePoints",
-        "printedName": "PricePoints",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "pricingPoints",
-            "printedName": "pricingPoints",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Array",
-                "printedName": "[ACPaymentLinks.PricingPoint]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PricingPoint",
-                    "printedName": "ACPaymentLinks.PricingPoint",
-                    "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint"
-                  }
-                ],
-                "usr": "s:Sa"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(py)pricingPoints",
-            "mangledName": "$s14ACPaymentLinks11PricePointsC07pricingD0SayAA12PricingPointCGvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[ACPaymentLinks.PricingPoint]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PricingPoint",
-                        "printedName": "ACPaymentLinks.PricingPoint",
-                        "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(im)pricingPoints",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC07pricingD0SayAA12PricingPointCGvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[ACPaymentLinks.PricingPoint]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PricingPoint",
-                        "printedName": "ACPaymentLinks.PricingPoint",
-                        "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(im)setPricingPoints:",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC07pricingD0SayAA12PricingPointCGvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks11PricePointsC07pricingD0SayAA12PricingPointCGvM",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC07pricingD0SayAA12PricingPointCGvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "pricingPointData",
-            "printedName": "pricingPointData",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PricingPointData",
-                "printedName": "ACPaymentLinks.PricingPointData",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(py)pricingPointData",
-            "mangledName": "$s14ACPaymentLinks11PricePointsC16pricingPointDataAA07PricingfG0Cvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PricingPointData",
-                    "printedName": "ACPaymentLinks.PricingPointData",
-                    "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(im)pricingPointData",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC16pricingPointDataAA07PricingfG0Cvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PricingPointData",
-                    "printedName": "ACPaymentLinks.PricingPointData",
-                    "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints(im)setPricingPointData:",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC16pricingPointDataAA07PricingfG0Cvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks11PricePointsC16pricingPointDataAA07PricingfG0CvM",
-                "mangledName": "$s14ACPaymentLinks11PricePointsC16pricingPointDataAA07PricingfG0CvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PricePoints",
-                "printedName": "ACPaymentLinks.PricePoints",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks11PricePointsC4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s14ACPaymentLinks11PricePointsC4fromACs7Decoder_p_tKcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "declAttributes": [
-              "Required"
-            ],
-            "throwing": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks11PricePointsC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks11PricePointsC6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "toJsonString",
-            "printedName": "toJsonString()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@CM@ACPaymentLinks@objc(cs)PricePoints(im)toJsonString",
-            "mangledName": "$s14ACPaymentLinks11PricePointsC12toJsonStringSSyF",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC"
-            ],
-            "isFromExtension": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@ACPaymentLinks@objc(cs)PricePoints",
-        "mangledName": "$s14ACPaymentLinks11PricePointsC",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "ObjC",
-          "ObjCMembers",
-          "RawDocComment"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          }
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "PricingPoint",
-        "printedName": "PricingPoint",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "basePriceInUSD",
-            "printedName": "basePriceInUSD",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(py)basePriceInUSD",
-            "mangledName": "$s14ACPaymentLinks12PricingPointC14basePriceInUSDSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)basePriceInUSD",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14basePriceInUSDSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)setBasePriceInUSD:",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14basePriceInUSDSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks12PricingPointC14basePriceInUSDSSvM",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14basePriceInUSDSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "localizedPrice",
-            "printedName": "localizedPrice",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(py)localizedPrice",
-            "mangledName": "$s14ACPaymentLinks12PricingPointC14localizedPriceSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)localizedPrice",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14localizedPriceSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)setLocalizedPrice:",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14localizedPriceSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks12PricingPointC14localizedPriceSSvM",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14localizedPriceSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "formattedPrice",
-            "printedName": "formattedPrice",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(py)formattedPrice",
-            "mangledName": "$s14ACPaymentLinks12PricingPointC14formattedPriceSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)formattedPrice",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14formattedPriceSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint(im)setFormattedPrice:",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14formattedPriceSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks12PricingPointC14formattedPriceSSvM",
-                "mangledName": "$s14ACPaymentLinks12PricingPointC14formattedPriceSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PricingPoint",
-                "printedName": "ACPaymentLinks.PricingPoint",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks12PricingPointC4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s14ACPaymentLinks12PricingPointC4fromACs7Decoder_p_tKcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "declAttributes": [
-              "Required"
-            ],
-            "throwing": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks12PricingPointC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks12PricingPointC6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPoint",
-        "mangledName": "$s14ACPaymentLinks12PricingPointC",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "ObjC",
-          "ObjCMembers",
-          "RawDocComment"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          }
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "PricingPointData",
-        "printedName": "PricingPointData",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "currencyCode",
-            "printedName": "currencyCode",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)currencyCode",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC12currencyCodeSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)currencyCode",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12currencyCodeSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setCurrencyCode:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12currencyCodeSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC12currencyCodeSSvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12currencyCodeSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "currencySymbol",
-            "printedName": "currencySymbol",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)currencySymbol",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC14currencySymbolSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)currencySymbol",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14currencySymbolSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setCurrencySymbol:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14currencySymbolSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC14currencySymbolSSvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14currencySymbolSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "fractionalSeparator",
-            "printedName": "fractionalSeparator",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)fractionalSeparator",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC19fractionalSeparatorSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)fractionalSeparator",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC19fractionalSeparatorSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setFractionalSeparator:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC19fractionalSeparatorSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC19fractionalSeparatorSSvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC19fractionalSeparatorSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "milSeparator",
-            "printedName": "milSeparator",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)milSeparator",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC12milSeparatorSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)milSeparator",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12milSeparatorSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setMilSeparator:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12milSeparatorSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC12milSeparatorSSvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC12milSeparatorSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "symbolPosition",
-            "printedName": "symbolPosition",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)symbolPosition",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC14symbolPositionSSvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)symbolPosition",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14symbolPositionSSvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setSymbolPosition:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14symbolPositionSSvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC14symbolPositionSSvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC14symbolPositionSSvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "spacing",
-            "printedName": "spacing",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)spacing",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC7spacingSbvp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Bool",
-                    "printedName": "Swift.Bool",
-                    "usr": "s:Sb"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)spacing",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC7spacingSbvg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Bool",
-                    "printedName": "Swift.Bool",
-                    "usr": "s:Sb"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setSpacing:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC7spacingSbvs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC7spacingSbvM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC7spacingSbvM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "multiplier",
-            "printedName": "multiplier",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(py)multiplier",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC10multiplierSivp",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)multiplier",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC10multiplierSivg",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData(im)setMultiplier:",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC10multiplierSivs",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:14ACPaymentLinks16PricingPointDataC10multiplierSivM",
-                "mangledName": "$s14ACPaymentLinks16PricingPointDataC10multiplierSivM",
-                "moduleName": "ACPaymentLinks",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PricingPointData",
-                "printedName": "ACPaymentLinks.PricingPointData",
-                "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:14ACPaymentLinks16PricingPointDataC4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC4fromACs7Decoder_p_tKcfc",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "declAttributes": [
-              "Required"
-            ],
-            "throwing": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:14ACPaymentLinks16PricingPointDataC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s14ACPaymentLinks16PricingPointDataC6encode2toys7Encoder_p_tKF",
-            "moduleName": "ACPaymentLinks",
-            "implicit": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@ACPaymentLinks@objc(cs)PricingPointData",
-        "mangledName": "$s14ACPaymentLinks16PricingPointDataC",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "AccessControl",
-          "ObjC",
-          "ObjCMembers",
-          "RawDocComment"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          }
-        ]
-      },
-      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -11875,16 +9492,6 @@
         "kind": "Import",
         "name": "Combine",
         "printedName": "Combine",
-        "declKind": "Import",
-        "moduleName": "ACPaymentLinks",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
         "declKind": "Import",
         "moduleName": "ACPaymentLinks",
         "declAttributes": [
@@ -14115,6 +11722,16 @@
       },
       {
         "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ACPaymentLinks",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "UIKit",
         "printedName": "UIKit",
         "declKind": "Import",
@@ -14365,43 +11982,6 @@
           },
           {
             "kind": "Var",
-            "name": "bootCustomerId",
-            "printedName": "bootCustomerId",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "ACCheckoutErrorCode",
-                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
-                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "ACCheckoutErrorCode",
-                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
-                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO14bootCustomerIdyA2CmF",
-            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO14bootCustomerIdyA2CmF",
-            "moduleName": "ACPaymentLinks"
-          },
-          {
-            "kind": "Var",
             "name": "bootRedirectUrlConfig",
             "printedName": "bootRedirectUrlConfig",
             "children": [
@@ -14435,6 +12015,43 @@
             "declKind": "EnumElement",
             "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO21bootRedirectUrlConfigyA2CmF",
             "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO21bootRedirectUrlConfigyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "bootInitAlreadyInProgress",
+            "printedName": "bootInitAlreadyInProgress",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ACCheckoutErrorCode",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ACCheckoutErrorCode",
+                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO25bootInitAlreadyInProgressyA2CmF",
+            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO25bootInitAlreadyInProgressyA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -14778,46 +12395,6 @@
           },
           {
             "kind": "Var",
-            "name": "doNothing",
-            "printedName": "doNothing",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "ACCheckoutErrorCode",
-                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
-                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "ACCheckoutErrorCode",
-                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
-                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO9doNothingyA2CmF",
-            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO9doNothingyA2CmF",
-            "moduleName": "ACPaymentLinks",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
             "name": "invalidArgumentPurchaseId",
             "printedName": "invalidArgumentPurchaseId",
             "children": [
@@ -14895,6 +12472,43 @@
           },
           {
             "kind": "Var",
+            "name": "invalidCustomerId",
+            "printedName": "invalidCustomerId",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ACCheckoutErrorCode",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ACCheckoutErrorCode",
+                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO17invalidCustomerIdyA2CmF",
+            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO17invalidCustomerIdyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
             "name": "noInternetConnection",
             "printedName": "noInternetConnection",
             "children": [
@@ -14932,6 +12546,43 @@
             "declAttributes": [
               "RawDocComment"
             ]
+          },
+          {
+            "kind": "Var",
+            "name": "purchaseNeedValidation",
+            "printedName": "purchaseNeedValidation",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ACCheckoutErrorCode",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ACCheckoutErrorCode",
+                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO22purchaseNeedValidationyA2CmF",
+            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO22purchaseNeedValidationyA2CmF",
+            "moduleName": "ACPaymentLinks"
           },
           {
             "kind": "Var",
@@ -17001,313 +14652,229 @@
       "kind": "StringLiteral",
       "offset": 850,
       "length": 7,
-      "value": "\"1.9.0\""
+      "value": "\"2.0.0\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1140,
+      "offset": 1146,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1185,
+      "offset": 1191,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1241,
+      "offset": 1247,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1294,
+      "offset": 1300,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1347,
+      "offset": 1353,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1392,
+      "offset": 1398,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1441,
+      "offset": 1447,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1488,
+      "offset": 1494,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "StringLiteral",
-      "offset": 1577,
+      "offset": 1583,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1620,
+      "offset": 1626,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1671,
+      "offset": 1672,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 5623,
+      "offset": 1723,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 5778,
+      "offset": 5699,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/BrowserCheckoutCoordinator.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 309,
+      "offset": 5854,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/BrowserCheckoutCoordinator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 436,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 241,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 286,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "StringLiteral",
-      "offset": 1544,
-      "length": 64,
-      "value": "\"InmOrientationBridge.installIfNeeded() must run on main thread\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1629,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1684,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1711,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "StringLiteral",
-      "offset": 1962,
-      "length": 54,
-      "value": "\"application:supportedInterfaceOrientationsForWindow:\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "StringLiteral",
-      "offset": 3325,
-      "length": 54,
-      "value": "\"application:supportedInterfaceOrientationsForWindow:\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "StringLiteral",
-      "offset": 3811,
-      "length": 7,
-      "value": "\"I@:@@\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "StringLiteral",
-      "offset": 3989,
-      "length": 23,
-      "value": "\"DefaultViewController\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 5066,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InmOrientationBridge.swift",
-      "kind": "BooleanLiteral",
-      "offset": 6015,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/MainCoordinator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 424,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/MainCoordinator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 828,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "BooleanLiteral",
       "offset": 1799,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "BooleanLiteral",
       "offset": 2900,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "BooleanLiteral",
       "offset": 7298,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "BooleanLiteral",
       "offset": 7335,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "BooleanLiteral",
       "offset": 7380,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/PortraitOrientationBridgeLock.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/PortraitOrientationBridgeLock.swift",
       "kind": "IntegerLiteral",
       "offset": 7548,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "BooleanLiteral",
       "offset": 1464,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "BooleanLiteral",
       "offset": 1527,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 4542,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 4934,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 4984,
       "length": 1,
       "value": "2"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 5189,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 5263,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/RotatedSafariWrapperViewController.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/Extensions&Bridge\/RotatedSafariWrapperViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 5313,
       "length": 2,
       "value": "56"
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/SFSafariCheckoutCoordinator.swift",
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/ExternalCheckoutCoordinator.swift",
+      "kind": "BooleanLiteral",
+      "offset": 310,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/ExternalCheckoutCoordinator.swift",
+      "kind": "BooleanLiteral",
+      "offset": 437,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/InternalCheckoutCoordinator.swift",
       "kind": "BooleanLiteral",
       "offset": 325,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Coordinators\/MainCoordinator.swift",
+      "kind": "BooleanLiteral",
+      "offset": 502,
       "length": 5,
       "value": "false"
     },
@@ -17329,6 +14896,13 @@
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/DataManager\/ACDataManager.swift",
       "kind": "BooleanLiteral",
       "offset": 623,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/DataManager\/ACDataManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 679,
       "length": 5,
       "value": "false"
     },
@@ -17690,62 +15264,6 @@
       "value": "\"sdk_version\""
     },
     {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/DeepLinkHandler.swift",
-      "kind": "StringLiteral",
-      "offset": 1655,
-      "length": 9,
-      "value": "\"success\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/DeepLinkHandler.swift",
-      "kind": "StringLiteral",
-      "offset": 1683,
-      "length": 8,
-      "value": "\"cancel\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/DeepLinkHandler.swift",
-      "kind": "StringLiteral",
-      "offset": 1708,
-      "length": 6,
-      "value": "\"fail\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/DeepLinkHandler.swift",
-      "kind": "StringLiteral",
-      "offset": 1733,
-      "length": 7,
-      "value": "\"close\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/URLSchemeParser.swift",
-      "kind": "StringLiteral",
-      "offset": 219,
-      "length": 10,
-      "value": "\"acnative\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/URLSchemeParser.swift",
-      "kind": "StringLiteral",
-      "offset": 322,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/URLSchemeParser.swift",
-      "kind": "StringLiteral",
-      "offset": 361,
-      "length": 8,
-      "value": "\"action\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/DeepLink\/URLSchemeParser.swift",
-      "kind": "StringLiteral",
-      "offset": 412,
-      "length": 6,
-      "value": "\"data\""
-    },
-    {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/ACLogData.swift",
       "kind": "BooleanLiteral",
       "offset": 420,
@@ -17776,14 +15294,14 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/CoralogixLogger.swift",
       "kind": "BooleanLiteral",
-      "offset": 852,
+      "offset": 899,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/CoralogixLogger.swift",
       "kind": "StringLiteral",
-      "offset": 982,
+      "offset": 1029,
       "length": 25,
       "value": "\"CoralogixNetworkMonitor\""
     },
@@ -17825,133 +15343,140 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 3866,
+      "offset": 1010,
       "length": 11,
       "value": "\"timestamp\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 3915,
+      "offset": 1059,
       "length": 9,
       "value": "\"message\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 3962,
+      "offset": 1106,
       "length": 10,
       "value": "\"severity\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4010,
+      "offset": 1154,
       "length": 13,
       "value": "\"packageName\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4061,
+      "offset": 1205,
       "length": 6,
       "value": "\"data\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4105,
+      "offset": 1249,
       "length": 11,
       "value": "\"errorCode\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4154,
+      "offset": 1298,
       "length": 12,
       "value": "\"sdkVersion\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4204,
+      "offset": 1348,
       "length": 15,
       "value": "\"engineVersion\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4257,
+      "offset": 1401,
       "length": 12,
       "value": "\"engineName\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4307,
+      "offset": 1451,
       "length": 9,
       "value": "\"traceId\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4354,
+      "offset": 1498,
       "length": 14,
       "value": "\"sdkSessionId\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4406,
+      "offset": 1550,
       "length": 10,
       "value": "\"deviceId\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4454,
+      "offset": 1598,
       "length": 13,
       "value": "\"environment\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4505,
+      "offset": 1649,
       "length": 19,
       "value": "\"checkoutPublicKey\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4562,
+      "offset": 1706,
       "length": 12,
       "value": "\"customerId\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4612,
+      "offset": 1756,
       "length": 16,
       "value": "\"devicePlatform\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/Logger\/LoggerModel.swift",
       "kind": "StringLiteral",
-      "offset": 4666,
+      "offset": 1810,
       "length": 23,
       "value": "\"devicePlatformVersion\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/ACCheckoutController.swift",
       "kind": "BooleanLiteral",
-      "offset": 534,
+      "offset": 531,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/ACCheckoutController.swift",
       "kind": "BooleanLiteral",
-      "offset": 16960,
+      "offset": 631,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Implementation\/ACCheckoutController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 14721,
       "length": 5,
       "value": "false"
     },
@@ -17979,9 +15504,16 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Models\/BrowserMode.swift",
       "kind": "IntegerLiteral",
-      "offset": 187,
+      "offset": 192,
       "length": 1,
       "value": "1"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Models\/BrowserMode.swift",
+      "kind": "IntegerLiteral",
+      "offset": 213,
+      "length": 2,
+      "value": "-1"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Models\/OrderResponseModel.swift",
@@ -18126,98 +15658,49 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 300,
+      "offset": 286,
       "length": 13,
-      "value": "\"environment\""
+      "value": "\"sdk_version\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 361,
-      "length": 17,
-      "value": "\"xPublisherToken\""
+      "offset": 329,
+      "length": 13,
+      "value": "\"engine_name\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 428,
-      "length": 19,
-      "value": "\"checkoutPublicKey\""
+      "offset": 375,
+      "length": 16,
+      "value": "\"engine_version\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 488,
+      "offset": 422,
+      "length": 14,
+      "value": "\"package_name\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 469,
       "length": 10,
       "value": "\"platform\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 539,
-      "length": 10,
-      "value": "\"language\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 588,
-      "length": 8,
-      "value": "\"screen\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 640,
-      "length": 13,
-      "value": "\"deviceModel\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 704,
-      "length": 20,
-      "value": "\"deviceManufacturer\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 761,
-      "length": 6,
-      "value": "\"sdkV\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 807,
-      "length": 9,
-      "value": "\"sdkType\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 857,
-      "length": 10,
-      "value": "\"deviceId\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 910,
-      "length": 12,
-      "value": "\"customerId\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 958,
+      "offset": 507,
       "length": 10,
       "value": "\"apiLevel\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "BooleanLiteral",
-      "offset": 1096,
+      "offset": 645,
       "length": 5,
       "value": "false"
     },
@@ -18255,13 +15738,6 @@
       "offset": 592,
       "length": 4,
       "value": "true"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/PricePoints\/PricePointsRequest.swift",
-      "kind": "BooleanLiteral",
-      "offset": 514,
-      "length": 5,
-      "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Service\/ACBaseNetworkRequest.swift",
@@ -18327,6 +15803,13 @@
       "value": "\"AC_Debug_\""
     },
     {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ACBootLockManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 282,
+      "length": 5,
+      "value": "false"
+    },
+    {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/Constants.swift",
       "kind": "StringLiteral",
       "offset": 233,
@@ -18357,203 +15840,210 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 355,
+      "offset": 319,
       "length": 4,
       "value": "1000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 390,
+      "offset": 354,
       "length": 4,
       "value": "1001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 427,
+      "offset": 391,
       "length": 4,
       "value": "1007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 489,
+      "offset": 453,
       "length": 4,
       "value": "2000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 520,
+      "offset": 484,
       "length": 4,
       "value": "2001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 546,
+      "offset": 510,
       "length": 4,
       "value": "2002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 577,
-      "length": 4,
-      "value": "2003"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
-      "kind": "IntegerLiteral",
-      "offset": 615,
+      "offset": 548,
       "length": 4,
       "value": "2004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 665,
+      "offset": 590,
+      "length": 4,
+      "value": "2005"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
+      "kind": "IntegerLiteral",
+      "offset": 640,
       "length": 4,
       "value": "3000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 707,
+      "offset": 682,
       "length": 4,
       "value": "3002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 738,
+      "offset": 713,
       "length": 4,
       "value": "3003"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 770,
+      "offset": 745,
       "length": 4,
       "value": "3004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 803,
+      "offset": 778,
       "length": 4,
       "value": "3005"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 842,
+      "offset": 817,
       "length": 4,
       "value": "3006"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 883,
+      "offset": 858,
       "length": 4,
       "value": "3007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 945,
+      "offset": 920,
       "length": 4,
       "value": "4000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 985,
+      "offset": 960,
       "length": 4,
       "value": "4002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1034,
-      "length": 4,
-      "value": "6666"
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1099,
+      "offset": 1025,
       "length": 4,
       "value": "8000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1142,
+      "offset": 1068,
       "length": 4,
       "value": "8001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1199,
+      "offset": 1102,
+      "length": 4,
+      "value": "8002"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1155,
       "length": 4,
       "value": "9001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1228,
+      "offset": 1194,
+      "length": 4,
+      "value": "9998"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1223,
       "length": 4,
       "value": "9999"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6815,
+      "offset": 6912,
       "length": 17,
       "value": "\"Decoding Failed\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6857,
+      "offset": 6954,
       "length": 14,
       "value": "\"Unauthorized\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6893,
+      "offset": 6990,
       "length": 11,
       "value": "\"Forbidden\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6925,
+      "offset": 7022,
       "length": 20,
       "value": "\"Resource not found\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6977,
+      "offset": 7074,
       "length": 23,
       "value": "\"Internal server error\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7023,
+      "offset": 7120,
       "length": 24,
       "value": "\"No internet connection\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7067,
+      "offset": 7164,
       "length": 15,
       "value": "\"Unknown error\""
     }

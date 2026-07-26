@@ -10,6 +10,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         public string CustomerId;
         public string CheckoutPublicKey;
         public string Environment;
+        public int OrderValidationTimeout;
         private static CoroutineRunner _sharedCoroutineRunner;
 
         /// <summary>

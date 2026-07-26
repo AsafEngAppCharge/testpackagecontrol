@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using Appcharge.PaymentLinks.Config;
 using UnityEngine;
 
 namespace Appcharge.PaymentLinks.Editor {
     public class MainTemplatePrebuild : Prebuilder
     {
-        private const string AndroidPaymentLinksVersion = "1.7.0";
-        private const string AndroidPaymentLinksId = "com.appcharge:android-payment-links";
-
         public MainTemplatePrebuild(string path, AppchargePrebuildEditor appchargePrebuildEditor, AppchargeConfig appchargeConfig) : base(path, appchargePrebuildEditor, appchargeConfig)
         {
         }
@@ -23,16 +19,9 @@ namespace Appcharge.PaymentLinks.Editor {
                     string originalGradle = File.ReadAllText(_path);
                     string gradleTemplate = originalGradle;
 
-                    string androidPaymentLinksDep = $"implementation '{AndroidPaymentLinksId}:{AndroidPaymentLinksVersion}'";
-
-                    gradleTemplate = Regex.Replace(
-                        gradleTemplate,
-                        @"implementation\s+'com\.appcharge:android-payment-links:[^']+'",
-                        androidPaymentLinksDep);
-
                     var dependenciesToAdd = new List<(string, string)>
                     {
-                        (androidPaymentLinksDep, AndroidPaymentLinksId)
+                        ("implementation 'com.appcharge:android-payment-links:2.0.0'", "com.appcharge:android-payment-links")
                     };
                     
                     if (!_appchargeConfig.ExcludeCoreKtx)
@@ -64,7 +53,6 @@ namespace Appcharge.PaymentLinks.Editor {
                         }
                     }
 
-                    // Engine metadata: BuildConfig + manifestPlaceholders for merged manifest meta-data (${ENGINE_*}).
                     const string defaultConfigMarker = "defaultConfig {";
                     int dcIndex = gradleTemplate.IndexOf(defaultConfigMarker);
                     if (dcIndex >= 0)
@@ -160,7 +148,6 @@ namespace Appcharge.PaymentLinks.Editor {
             return "\\\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\\\"";
         }
 
-        /// <summary>Groovy double-quoted literal for manifestPlaceholders RHS (escapes $ for Groovy GString).</summary>
         private static string GroovyDoubleQuotedString(string value)
         {
             if (string.IsNullOrEmpty(value)) return "\"\"";

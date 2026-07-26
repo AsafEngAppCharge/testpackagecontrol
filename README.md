@@ -32,12 +32,12 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         // Initialize the SDK
         public void Init()
         {
-            PaymentLinksController.Instance.Init(CustomerId, this);
+            PaymentLinksController.Instance.Init(this);
         }
         // Backend returns checkout session → open checkout
         public void OnSessionSuccess(CheckoutResponse response)
         {
-            PaymentLinksController.Instance.OpenCheckout(response.purchaseId, response.parsedUrl);
+            PaymentLinksController.Instance.OpenCheckout(response.purchaseId, response.parsedUrl, CustomerId);
         }
         // Fetch price points
         public void GetPricePoints()
@@ -75,17 +75,16 @@ Create a MonoBehaviour that receives callbacks from the SDK:
 ## Typical Integration Flow
 ### **1. Initialize the SDK**
 ```c#
-    PaymentLinksController.Instance.Init(CustomerId, this);
+    PaymentLinksController.Instance.Init(this);
 ```
 ### **2. Create a checkout session (your backend)** 
 Your backend returns the following:
 - `purchaseId`
 - `parsedUrl` (recommended), or `url`, `checkoutSessionToken`, and `purchaseId`
 ### **3. Open checkout**
+Pass the customer ID when opening checkout (not during init):
 ```c#
-    PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
-    // or (legacy):
-    PaymentLinksController.Instance.OpenCheckout(url, checkoutSessionToken, purchaseId);
+    PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl, customerId);
 ```
 ### **4. Handle purchase callbacks**
 - `OnPurchaseSuccess(OrderResponseModel order)`
@@ -100,10 +99,9 @@ Callbacks:
 ---
 ## SDK API Overview
 ### **PaymentLinksController**
-- Init(string customerId, ICheckoutPurchase callback)
-- Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
-- OpenCheckout(string purchaseId, string parsedUrl)
-- OpenCheckout(string url, string checkoutSessionToken, string purchaseId)
+- Init(ICheckoutPurchase callback)
+- Init(string checkoutToken, string environment, ICheckoutPurchase callback)
+- OpenCheckout(string purchaseId, string parsedUrl, string customerId)
 - GetPricePoints()
 - GetSdkVersion()
 ### **Models**

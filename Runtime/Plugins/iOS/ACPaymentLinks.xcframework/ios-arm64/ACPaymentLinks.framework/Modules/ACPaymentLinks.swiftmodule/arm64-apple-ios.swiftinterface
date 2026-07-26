@@ -34,21 +34,10 @@ import ObjectiveC.runtime
     @objc get
     @objc set
   }
-  @objc public static func initialize(configModel: ACPaymentLinks.ACConfigModel, customerId: Swift.String, delegate: any ACPaymentLinks.ACPaymentLinksDelegate)
-  @objc public static func getPricePoints()
-  @objc public static func openCheckout(purchaseId: Swift.String, parsedUrl: Swift.String)
-  @objc @available(*, deprecated, message: "This method is deprecated and will be removed in a future SDK version. Use openCheckout(purchaseId: string, parsedUrl: string) instead.")
-  public static func openCheckout(sessionToken: Swift.String, purchaseId: Swift.String, url: Swift.String)
+  @objc public static func initialize(configModel: ACPaymentLinks.ACConfigModel, delegate: any ACPaymentLinks.ACPaymentLinksDelegate)
+  @objc public static func openCheckout(purchaseId: Swift.String, parsedUrl: Swift.String, customerId: Swift.String)
   @objc public static func handleDeepLink(_ url: Foundation.URL)
   @objc public static func getSdkVersion() -> Swift.String
-  @objc public static func openSubscriptionManager(url: Swift.String)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers final public class InmOrientationBridge {
-  @discardableResult
-  public static func installIfNeeded() -> Swift.Bool
-  public static func beginForcePortrait(animated: Swift.Bool = false)
-  public static func endForcePortrait(andThen completion: @escaping () -> Swift.Void)
   @objc deinit
 }
 public enum PortraitOrientationBridgeLock {
@@ -119,15 +108,9 @@ public enum LogEventKey {
   case bootInitializationFailBoot
   case bootInitializationRequest
   case bootInitializationResponseFail
-  case bootInitializationResponse
   case bootInitializationSuccess
   case bootInitializationFail
-  case pricePointsRetrieving
-  case pricePointsRequest
-  case pricePointsResponse
-  case pricePointsResponseFail
-  case pricePointsSuccess
-  case pricePointsFail
+  case bootInitializationCustomerIdFail
   case checkoutOpen
   case checkoutBrowserCapabilityFail
   case checkoutParsedUrlInvalid
@@ -135,6 +118,7 @@ public enum LogEventKey {
   case checkoutOpenFail
   case checkoutParsedUrlNotValid
   case checkoutPurchaseIdNotValid
+  case checkoutCustomerNotValid
   case foregroundServiceStarted
   case foregroundServiceEnded
   case foregroundServicePermission
@@ -152,6 +136,7 @@ public enum LogEventKey {
   case orderValidationFailCustomerId
   case orderValidationFailProjectId
   case orderValidationFailCheckoutToken
+  case orderValidationFailPurchaseId
   case chargeSuccess
   case chargeFail
   case canceled
@@ -160,6 +145,9 @@ public enum LogEventKey {
   case orderValidationPurchaseSuccess
   case orderValidationPurchaseFail
   case orderValidationFail
+  case browserModeSuccessfully
+  case browserModeIncorrectParameter
+  case browserModeFailed
   case fatalCrash
   case coralogix
   case analytic
@@ -173,10 +161,9 @@ public enum LogEventKey {
 @objc public protocol ACPaymentLinksDelegate : ObjectiveC.NSObjectProtocol {
   @objc func onInitialized()
   @objc func onInitializeFailed(error: ACPaymentLinks.ACErrorMessage)
-  @objc func onPricePointsSuccess(pricePoints: ACPaymentLinks.PricePoints)
-  @objc func onPricePointsFailed(errorMessage: ACPaymentLinks.ACErrorMessage)
   @objc func onPurchaseSuccess(order: ACPaymentLinks.GameOrderResponse)
   @objc func onPurchaseFailed(error: ACPaymentLinks.ACErrorMessage, order: ACPaymentLinks.GameOrderResponse?)
+  @objc func onPurchaseCanceled(error: ACPaymentLinks.ACErrorMessage, order: ACPaymentLinks.GameOrderResponse?)
 }
 @objc public class ACConfigModel : ObjectiveC.NSObject, Swift.Codable {
   @objc public init(checkoutPublicKey: Swift.String, environment: Swift.String, redirectUrl: Swift.String? = nil)
@@ -197,11 +184,12 @@ public enum LogEventKey {
 }
 @objc public enum BrowserMode : Swift.Int {
   case external = 0
-  case sfsvc = 1
+  case `internal` = 1
+  case unknown = -1
+  public init(rawValue: Swift.Int)
   public var stringValue: Swift.String {
     get
   }
-  public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -209,15 +197,6 @@ public enum LogEventKey {
 }
 public struct CustomerModel : Swift.Codable {
   public init(id: Swift.String, email: Swift.String)
-  public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
-}
-public struct ItemModel : Swift.Encodable {
-  public init(name: Swift.String, assetUrl: Swift.String, sku: Swift.String, quantity: Swift.Int, quantityDisplay: Swift.String)
-  public func encode(to encoder: any Swift.Encoder) throws
-}
-public struct OfferModel : Swift.Codable {
-  public init(name: Swift.String, sku: Swift.String, assetUrl: Swift.String, description: Swift.String)
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
@@ -296,43 +275,6 @@ public struct OrderEventResponse : Swift.Codable {
   @objc final public let sku: Swift.String
   @objc final public let amount: Swift.String
   @objc public init(name: Swift.String, sku: Swift.String, amount: Swift.String)
-  @objc deinit
-  public func encode(to encoder: any Swift.Encoder) throws
-  required public init(from decoder: any Swift.Decoder) throws
-}
-public struct PriceDetailModel : Swift.Codable {
-  public let price: Swift.Int
-  public let currency: Swift.String
-  public init(price: Swift.Int, currency: Swift.String)
-  public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
-}
-@objc extension ACPaymentLinks.PricePoints {
-  @objc dynamic public func toJsonString() -> Swift.String
-}
-@objcMembers @objc public class PricePoints : ObjectiveC.NSObject, Swift.Codable {
-  @objc public var pricingPoints: [ACPaymentLinks.PricingPoint]
-  @objc public var pricingPointData: ACPaymentLinks.PricingPointData
-  @objc deinit
-  public func encode(to encoder: any Swift.Encoder) throws
-  required public init(from decoder: any Swift.Decoder) throws
-}
-@objcMembers @objc public class PricingPoint : ObjectiveC.NSObject, Swift.Codable {
-  @objc public var basePriceInUSD: Swift.String
-  @objc public var localizedPrice: Swift.String
-  @objc public var formattedPrice: Swift.String
-  @objc deinit
-  public func encode(to encoder: any Swift.Encoder) throws
-  required public init(from decoder: any Swift.Decoder) throws
-}
-@objcMembers @objc public class PricingPointData : ObjectiveC.NSObject, Swift.Codable {
-  @objc public var currencyCode: Swift.String
-  @objc public var currencySymbol: Swift.String
-  @objc public var fractionalSeparator: Swift.String
-  @objc public var milSeparator: Swift.String
-  @objc public var symbolPosition: Swift.String
-  @objc public var spacing: Swift.Bool
-  @objc public var multiplier: Swift.Int
   @objc deinit
   public func encode(to encoder: any Swift.Encoder) throws
   required public init(from decoder: any Swift.Decoder) throws
@@ -416,8 +358,8 @@ public enum ACCheckoutErrorCode : Swift.Int, Swift.Error {
   case bootInitialization
   case bootEnviroment
   case bootToken
-  case bootCustomerId
   case bootRedirectUrlConfig
+  case bootInitAlreadyInProgress
   case purchaseCanceled
   case purchaseClosedAndCanceled
   case purchaseFailed
@@ -427,10 +369,11 @@ public enum ACCheckoutErrorCode : Swift.Int, Swift.Error {
   case customerValidationFailed
   case browserDisabledOrNotAvailable
   case browserCouldNotBeOpened
-  case doNothing
   case invalidArgumentPurchaseId
   case invalidArgumentCheckoutUrl
+  case invalidCustomerId
   case noInternetConnection
+  case purchaseNeedValidation
   case unknownError
   public var message: Swift.String {
     get

@@ -122,7 +122,7 @@ public class AppchargeBuildScript
                 var browserProp = serializedConfig.FindProperty("AndroidBrowserMode");
                 if (browserProp != null)
                 {
-                    if (Enum.TryParse<AndroidBrowserMode>(settings.browserMode, true, out var mode))
+                    if (Enum.TryParse<BrowserMode>(settings.browserMode, true, out var mode))
                     {
                         browserProp.enumValueIndex = (int)mode;
                         Debug.Log($"  - AndroidBrowserMode = {mode}");
@@ -138,7 +138,7 @@ public class AppchargeBuildScript
                 var browserProp = serializedConfig.FindProperty("iOSBrowserMode");
                 if (browserProp != null)
                 {
-                    if (Enum.TryParse<iOSBrowserMode>(settings.browserMode, true, out var mode))
+                    if (Enum.TryParse<BrowserMode>(settings.browserMode, true, out var mode))
                     {
                         browserProp.enumValueIndex = (int)mode;
                         Debug.Log($"  - iOSBrowserMode = {mode}");

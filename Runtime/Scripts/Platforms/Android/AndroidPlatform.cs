@@ -10,10 +10,11 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 		private AndroidJavaObject _bridgeApi;
 		private AndroidJavaObject _mainActivity;
 		private AndroidErrorHandler _errorHandler;
-		private AndroidBrowserMode _browserMode = AndroidBrowserMode.TWA;
+		public ICheckoutPurchase Callback { get; set; }
+		private CallbackProxy _callbackProxy;
+		private BrowserMode _browserMode = BrowserMode.Internal;
 		private bool _debugMode = false;
 		private bool _portraitOrientationLock = false;
-		public ICheckoutPurchase Callback { get; set; }
 
 		private void EnsureInitialized()
 		{
@@ -23,7 +24,8 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 				_errorHandler.Initialize();
 			}
 
-			if (_bridgeApi != null && _mainActivity != null) return;
+			if (_bridgeApi != null && _mainActivity != null) 
+				return;
 
 			using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 			{
@@ -32,7 +34,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			}
 		}
 
-		public void Init(string customerId, ICheckoutPurchase callback)
+		public void Init(ICheckoutPurchase callback)
 		{
 			AppchargeConfig editorConfig = ConfigUtility.GetConfig();
 			if (editorConfig == null)
@@ -41,11 +43,11 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 				return;
 			}
 
-			_browserMode = editorConfig.AndroidBrowserMode;
-			Init(editorConfig.CheckoutPublicKey, editorConfig.Environment.ToString().ToLowerInvariant(), customerId, callback);
+			_browserMode = editorConfig.BrowserMode;
+			Init(editorConfig.CheckoutPublicKey, editorConfig.Environment.ToString().ToLowerInvariant(), callback);
 		}
 
-		public void Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
+		public void Init(string checkoutToken, string environment, ICheckoutPurchase callback)
 		{
 			EnsureInitialized();
 			
@@ -58,16 +60,17 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			AppchargeConfig editorConfig = ConfigUtility.GetConfig();
 			if (editorConfig != null)
 			{
-				_browserMode = editorConfig.AndroidBrowserMode;
+				_browserMode = editorConfig.BrowserMode;
 			}
 
 			Callback = callback;
-			var callbackProxy = new CallbackProxy(callback, this);
+			_callbackProxy ??= new CallbackProxy(this);
+
 			var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutToken, environment);
-			_bridgeApi.Call("init", _mainActivity, configJavaObject, customerId, callbackProxy);
+			_bridgeApi.Call("init", _mainActivity, configJavaObject, _callbackProxy);
 		}
 
-		public void OpenCheckout(string url, string sessionToken, string purchaseId)
+		public void OpenCheckout(string purchaseId, string parsedUrl, string customerId)
 		{
 			EnsureInitialized();
 			if (_bridgeApi == null)
@@ -76,19 +79,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 				return;
 			}
 
-			_bridgeApi.Call("openCheckout", sessionToken, purchaseId, url);
-		}
-
-		public void OpenCheckout(string purchaseId, string parsedUrl)
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
-
-			_bridgeApi.Call("openCheckout", purchaseId, parsedUrl);
+			_bridgeApi.Call("openCheckout", purchaseId, parsedUrl, customerId);
 		}
 
 		public string GetSdkVersion()
@@ -117,9 +108,9 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 
 		public void ConfigurePlatform(string property, object value)
 		{
-			if (property.Equals("browserMode") && value is AndroidBrowserMode)
+			if (property.Equals("browserMode") && value is BrowserMode)
 			{
-				SetBrowserMode((AndroidBrowserMode)value);
+				SetBrowserMode((BrowserMode)value);
 			}
 
 			if (property.Equals("debugMode") && value is bool)
@@ -138,7 +129,7 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			}
 		}
 
-		private void SetBrowserMode(AndroidBrowserMode mode)
+		private void SetBrowserMode(BrowserMode mode)
 		{
 			EnsureInitialized();
 			if (_bridgeApi == null)
@@ -196,44 +187,47 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 
 		private class CallbackProxy : AndroidJavaProxy
 		{
-			private readonly ICheckoutPurchase _callback;
 			private readonly AndroidPlatform _platform;
 
-			public CallbackProxy(ICheckoutPurchase callback, AndroidPlatform platform) : base("com.appcharge.paymentlinks.interfaces.ICheckoutPurchase")
+			public CallbackProxy(AndroidPlatform platform) : base("com.appcharge.paymentlinks.interfaces.ICheckoutPurchase")
 			{
-				_callback = callback;
 				_platform = platform;
 			}
 
 			public void onInitialized()
 			{
-				_callback.OnInitialized();
+				_platform.Callback?.OnInitialized();
 				_platform.OnInitialized();
 			}
 
 			public void onInitializeFailed(AndroidJavaObject errorMessage)
 			{
-				_callback.OnInitializeFailed(ErrorMessageConverter.ToErrorMessage(errorMessage));
+				_platform.Callback?.OnInitializeFailed(ErrorMessageConverter.ToErrorMessage(errorMessage));
 			}
 
 			public void onPricePointsSuccess(AndroidJavaObject pricePoints)
 			{
-				_callback.OnPricePointsSuccess(PricePointsModelConverter.ToPricePointsModel(pricePoints));
+				_platform.Callback?.OnPricePointsSuccess(PricePointsModelConverter.ToPricePointsModel(pricePoints));
 			}
 
 			public void onPricePointsFail(AndroidJavaObject errorMessage)
 			{
-				_callback.OnPricePointsFail(ErrorMessageConverter.ToErrorMessage(errorMessage));
+				_platform.Callback?.OnPricePointsFail(ErrorMessageConverter.ToErrorMessage(errorMessage));
 			}
 
 			public void onPurchaseSuccess(AndroidJavaObject orderResponse)
 			{
-				_callback.OnPurchaseSuccess(OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
+				_platform.Callback?.OnPurchaseSuccess(OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
 			}
 
 			public void onPurchaseFailed(AndroidJavaObject errorMessage, AndroidJavaObject orderResponse)
 			{
-				_callback.OnPurchaseFailed(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
+				_platform.Callback?.OnPurchaseFailed(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
+			}
+
+			public void onPurchaseCanceled(AndroidJavaObject errorMessage, AndroidJavaObject orderResponse)
+			{
+				_platform.Callback?.OnPurchaseCanceled(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
 			}
 		}
 	}

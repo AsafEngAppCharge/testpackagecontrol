@@ -18,9 +18,8 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("The checkout public key, located in the Publisher Dashboard. In the sidebar menu, click Settings, then select the Integration tab and copy the Checkout Public Key value.")]
         public string CheckoutPublicKey;
 
-        //iOS Integration Settings
         [Tooltip("The browser mode to use for the checkout flow.")]
-        public iOSBrowserMode iOSBrowserMode = iOSBrowserMode.SFSVC;
+        public BrowserMode BrowserMode = BrowserMode.Internal;
 
         [Tooltip("The domain used to redirect players back to your game, without HTTP protocol. For example, my-best-game.com .")]
         public string AssociatedDomain = "";
@@ -79,10 +78,6 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("When enabled, skips adding the ACPaymentLinks.xcframework file to the Xcode project's Frameworks. Other framework configurations (build properties, search paths) will still be applied.")]
         public bool ExcludeAddXCFramework = false;
 
-        //Android Integration Settings
-        [Tooltip("The browser mode to use for the checkout flow.")]
-        public AndroidBrowserMode AndroidBrowserMode = AndroidBrowserMode.TWA;
-
         [Tooltip("Exclude the 'useAndroidX' property from the 'gradleTemplate.properties' file.")]
         public bool ExcludeAndroidX = false;
         [Tooltip("Exclude the 'enableJetifier' property from the 'gradleTemplate.properties' file.")]
@@ -90,6 +85,7 @@ namespace Appcharge.PaymentLinks.Config {
 
         [Tooltip("Exclude the 'androidx.core:core-ktx' dependency from the mainTemplate.gradle file.")]
         public bool ExcludeCoreKtx = false;
+
         [Tooltip("Exclude the 'androidx.activity:activity-ktx' dependency from the mainTemplate.gradle file.")]
         public bool ExcludeActivityKtx = false;
         [Tooltip("Exclude the 'com.google.androidbrowserhelper:androidbrowserhelper' dependency from the mainTemplate.gradle file.")]
@@ -121,9 +117,6 @@ namespace Appcharge.PaymentLinks.Config {
 
         [Tooltip("Exclude the `<data android:host=\"action\">` entry in the intent filter.")]
         public bool ExcludeCustomHost = false;
-
-        [Tooltip("Exclude the `<data android:scheme=\"https\">` entry in the intent filter.")]
-        public bool ExcludeHttpsSchemeInActivity = false;
 
         [Tooltip("Exclude the `<tools:ignore=\"DiscouragedApi\">` in the Checkout Activity.")]
         public bool ExcludeDiscouragedApiTool = false;

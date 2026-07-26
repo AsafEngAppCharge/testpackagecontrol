@@ -8,33 +8,28 @@ private var delegateRef: ACPaymentLinksDelegate?
 func UnitySendMessage(_ obj: UnsafePointer<CChar>, _ method: UnsafePointer<CChar>, _ msg: UnsafePointer<CChar>)
 
 @_cdecl("acbridge_initialize")
-public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>) {
+public func acbridge_initialize(configJsonCString: UnsafePointer<CChar>) {
     let configJson = String(cString: configJsonCString)
-    let customerId = String(cString: customerIdCString)
     do {
         let config = try JSONDecoder().decode(ACConfigModel.self, from: Data(configJson.utf8))
-        let unityDelegate = ACUnityPaymentLinksDelegate()
-        delegateRef = unityDelegate
+        if delegateRef == nil {
+            delegateRef = ACUnityPaymentLinksDelegate()
+        }
 
-        ACBridgeAPI.initialize(configModel: config, customerId: customerId, delegate: unityDelegate)
+        if let de = delegateRef {
+            ACBridgeAPI.initialize(configModel: config, delegate: de)
+        }
     } catch {
         print("Failed to decode config JSON: \(error)")
     }
 }
 
 @_cdecl("acbridge_openCheckout")
-public func acbridge_openCheckout(sessionTokenCString: UnsafePointer<CChar>, purchaseIdCString: UnsafePointer<CChar>, urlCString: UnsafePointer<CChar>) {
-    let token = String(cString: sessionTokenCString)
-    let purchaseId = String(cString: purchaseIdCString)
-    let url = String(cString: urlCString)
-    ACBridgeAPI.openCheckout(sessionToken: token, purchaseId: purchaseId, url: url)
-}
-
-@_cdecl("acbridge_openCheckoutParsed")
-public func acbridge_openCheckoutParsed(purchaseIdCString: UnsafePointer<CChar>, parsedUrlCString: UnsafePointer<CChar>) {
+public func acbridge_openCheckout(purchaseIdCString: UnsafePointer<CChar>, parsedUrlCString: UnsafePointer<CChar>, customerIdCString: UnsafePointer<CChar>) {
     let purchaseId = String(cString: purchaseIdCString)
     let parsedUrl = String(cString: parsedUrlCString)
-    ACBridgeAPI.openCheckout(purchaseId: purchaseId, parsedUrl: parsedUrl)
+    let customerId = String(cString: customerIdCString)
+    ACBridgeAPI.openCheckout(purchaseId: purchaseId, parsedUrl: parsedUrl, customerId: customerId)
 }
 
 @_cdecl("acbridge_handleDeepLink")
@@ -58,7 +53,7 @@ public func acbridge_freeCString(ptr: UnsafeMutablePointer<CChar>?) {
 @_cdecl("acbridge_setBrowserMode")
 public func acbridge_setBrowserMode(modeCString: UnsafePointer<CChar>) {
     let modeString = String(cString: modeCString).lowercased()
-    let browserMode: BrowserMode = (modeString == "external") ? .external : .sfsvc
+    let browserMode: BrowserMode = (modeString == "external") ? .external : .internal
     _ = ACBridgeAPI.setBrowserMode(browserMode)
 }
 
@@ -77,7 +72,26 @@ public func acbridge_getPricePoints() {
     ACBridgeAPI.getPricePoints()
 }
 
+
 class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
+    private struct PurchaseOutcomePayload: Encodable {
+        let errorJson: String
+        let orderJson: String
+    }
+
+    private func dispatchOnPurchase(error: ACErrorMessage, order: GameOrderResponse?, unityMethod: String) {
+        let errorJsonString = String(data: try! JSONEncoder().encode(error), encoding: .utf8)!
+        let orderJsonString: String
+        if let order = order, let orderId = order.orderId, !orderId.isEmpty {
+            orderJsonString = String(data: try! JSONEncoder().encode(order), encoding: .utf8)!
+        } else {
+            orderJsonString = "null"
+        }
+        let payload = PurchaseOutcomePayload(errorJson: errorJsonString, orderJson: orderJsonString)
+        let payloadString = String(data: try! JSONEncoder().encode(payload), encoding: .utf8)!
+        UnitySendMessage(UNITY_CALLBACK_HANDLER, unityMethod, payloadString)
+    }
+
     func onInitialized() {
         UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnInitialized", "")
     }
@@ -89,7 +103,7 @@ class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
                 UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnInitializeFailed", jsonString)
             }
         } catch {
-            print("[UnityBridge] Failed to encode error: \(error)")
+            print("[UnityBridge] Failed to encode init failure payload: \(error)")
         }
     }
 
@@ -100,23 +114,11 @@ class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
     }
 
     func onPurchaseFailed(error: ACErrorMessage, order: GameOrderResponse?) {
-        let errorJsonData = try! JSONEncoder().encode(error)
-        let errorJsonString = String(data: errorJsonData, encoding: .utf8)!
-        let orderJsonString: String
-        if let order = order, let orderId = order.orderId, !orderId.isEmpty {
-            let orderJsonData = try! JSONEncoder().encode(order)
-            orderJsonString = String(data: orderJsonData, encoding: .utf8)!
-        } else {
-            orderJsonString = "null"
-        }
-        struct PurchaseFailedPayload: Encodable {
-            let errorJson: String
-            let orderJson: String
-        }
-        let payload = PurchaseFailedPayload(errorJson: errorJsonString, orderJson: orderJsonString)
-        let payloadData = try! JSONEncoder().encode(payload)
-        let payloadString = String(data: payloadData, encoding: .utf8)!
-        UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPurchaseFailed", payloadString)
+        dispatchOnPurchase(error: error, order: order, unityMethod: "OnPurchaseFailed")
+    }
+
+    func onPurchaseCanceled(error: ACErrorMessage, order: GameOrderResponse?) {
+        dispatchOnPurchase(error: error, order: order, unityMethod: "OnPurchaseCanceled")
     }
 
     func onPricePointsSuccess(pricePoints: PricePoints) {

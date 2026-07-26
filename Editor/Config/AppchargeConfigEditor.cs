@@ -9,6 +9,7 @@ public class AppchargeConfigEditor : Editor
     // Publisher Info
     SerializedProperty environment;
     SerializedProperty checkoutPublicKey;
+    SerializedProperty browserMode;
     
     // Auto Integration
     SerializedProperty enableIntegrationOptions;
@@ -19,7 +20,6 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty enableIOSURLSchemeIntegration;
     SerializedProperty enableIOSFrameworkIntegration;
     SerializedProperty associatedDomain;
-    SerializedProperty iOSBrowserMode;
     
     // iOS Entitlements Integration Exclusions
     SerializedProperty excludeCreateEntitlementsFile;
@@ -33,14 +33,13 @@ public class AppchargeConfigEditor : Editor
     
     // iOS Framework Integration Exclusions
     SerializedProperty excludeSetSwiftStandardLibrariesForFramework;
-    SerializedProperty excludeAddFrameworkSearchPaths;
     SerializedProperty excludeSetLDRunpathSearchPaths;
     SerializedProperty excludeSetSwiftVersion;
     SerializedProperty excludeSetSwiftStandardLibrariesForMain;
     SerializedProperty excludeSetCodeSignEntitlements;
     SerializedProperty excludeSetCodeSignStyle;
     SerializedProperty excludeAddXCFramework;
-    
+
     // Android Integration Settings
     SerializedProperty excludeAndroidX;
     SerializedProperty excludeJetifier;
@@ -57,10 +56,9 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty excludeExportedAttribute;
     SerializedProperty excludeCustomScheme;
     SerializedProperty excludeCustomHost;
-    SerializedProperty excludeHttpsSchemeInActivity;
     SerializedProperty excludeDiscouragedApiTool;
     SerializedProperty excludeCheckoutService;
-    SerializedProperty AndroidBrowserMode;
+    
     // Debug Mode
     SerializedProperty enableDebugMode;
 
@@ -72,8 +70,7 @@ public class AppchargeConfigEditor : Editor
         
         // Auto Integration
         enableIntegrationOptions = serializedObject.FindProperty("EnableIntegrationOptions");
-        iOSBrowserMode = serializedObject.FindProperty("iOSBrowserMode");
-        AndroidBrowserMode = serializedObject.FindProperty("AndroidBrowserMode");
+        browserMode = serializedObject.FindProperty("BrowserMode");
         portraitOrientationLock = serializedObject.FindProperty("PortraitOrientationLock");
 
         // iOS Integration Settings
@@ -95,14 +92,13 @@ public class AppchargeConfigEditor : Editor
         
         // iOS Framework Integration Exclusions
         excludeSetSwiftStandardLibrariesForFramework = serializedObject.FindProperty("ExcludeSetSwiftStandardLibrariesForFramework");
-        excludeAddFrameworkSearchPaths = serializedObject.FindProperty("ExcludeAddFrameworkSearchPaths");
         excludeSetLDRunpathSearchPaths = serializedObject.FindProperty("ExcludeSetLDRunpathSearchPaths");
         excludeSetSwiftVersion = serializedObject.FindProperty("ExcludeSetSwiftVersion");
         excludeSetSwiftStandardLibrariesForMain = serializedObject.FindProperty("ExcludeSetSwiftStandardLibrariesForMain");
         excludeSetCodeSignEntitlements = serializedObject.FindProperty("ExcludeSetCodeSignEntitlements");
         excludeSetCodeSignStyle = serializedObject.FindProperty("ExcludeSetCodeSignStyle");
         excludeAddXCFramework = serializedObject.FindProperty("ExcludeAddXCFramework");
-        
+
         // Android Integration Settings
         excludeAndroidX = serializedObject.FindProperty("ExcludeAndroidX");
         excludeJetifier = serializedObject.FindProperty("ExcludeJetifier");
@@ -119,7 +115,6 @@ public class AppchargeConfigEditor : Editor
         excludeExportedAttribute = serializedObject.FindProperty("ExcludeExportedAttribute");
         excludeCustomScheme = serializedObject.FindProperty("ExcludeCustomScheme");
         excludeCustomHost = serializedObject.FindProperty("ExcludeCustomHost");
-        excludeHttpsSchemeInActivity = serializedObject.FindProperty("ExcludeHttpsSchemeInActivity");
         excludeDiscouragedApiTool = serializedObject.FindProperty("ExcludeDiscouragedApiTool");
         excludeCheckoutService = serializedObject.FindProperty("ExcludeCheckoutService");
         
@@ -148,7 +143,7 @@ public class AppchargeConfigEditor : Editor
                 if (isIOS)
                 {
                     EditorGUILayout.Space();
-                    EditorGUILayout.PropertyField(iOSBrowserMode);
+                    EditorGUILayout.PropertyField(browserMode);
                     EditorGUILayout.PropertyField(associatedDomain);
                     EditorGUILayout.PropertyField(portraitOrientationLock);
                     
@@ -158,7 +153,6 @@ public class AppchargeConfigEditor : Editor
                     {
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(excludeSetSwiftStandardLibrariesForFramework);
-                        EditorGUILayout.PropertyField(excludeAddFrameworkSearchPaths);
                         EditorGUILayout.PropertyField(excludeSetLDRunpathSearchPaths);
                         EditorGUILayout.PropertyField(excludeSetSwiftVersion);
                         EditorGUILayout.PropertyField(excludeSetSwiftStandardLibrariesForMain);
@@ -194,7 +188,7 @@ public class AppchargeConfigEditor : Editor
                 if (isAndroid)
                 {
                     EditorGUILayout.Space();
-                    EditorGUILayout.PropertyField(AndroidBrowserMode);
+                    EditorGUILayout.PropertyField(browserMode);
                     EditorGUILayout.PropertyField(excludeAndroidX);
                     EditorGUILayout.PropertyField(excludeJetifier);
                     EditorGUILayout.PropertyField(excludeCoreKtx);
@@ -217,7 +211,6 @@ public class AppchargeConfigEditor : Editor
                         EditorGUILayout.PropertyField(excludeAppchargeActivityIntentFilters);
                         EditorGUILayout.PropertyField(excludeCustomScheme);
                         EditorGUILayout.PropertyField(excludeCustomHost);
-                        EditorGUILayout.PropertyField(excludeHttpsSchemeInActivity);
                         EditorGUI.indentLevel--;
                     }
                 }

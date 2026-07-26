@@ -7,13 +7,14 @@ using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Models;
 using Appcharge.PaymentLinks.Platforms.Base;
 using Appcharge.PaymentLinks.Platforms.Editor.Models;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Appcharge.PaymentLinks.Platforms.Editor {
     public class EditorInit : BaseInit
     {
+        private static bool _initInProgress;
+
         private EditorPlatform _editorPlatform;
         
         public EditorInit(ICheckoutPlatform platform, EditorPlatform editorPlatform) : base(platform)
@@ -21,7 +22,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             _editorPlatform = editorPlatform;
         }
 
-        public override void Initialize(string customerId, ICheckoutPurchase callback)
+        public override void Initialize(ICheckoutPurchase callback)
         {
             var config = ConfigUtility.GetConfig();
             if (config == null) {
@@ -29,62 +30,62 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 return;
             }
 
-            Initialize(config.CheckoutPublicKey, config.Environment.ToString().ToLowerInvariant(), customerId, callback);
+            Initialize(config.CheckoutPublicKey, config.Environment.ToString().ToLowerInvariant(), callback);
         }
         
-        public override void Initialize(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
+        public override void Initialize(string checkoutToken, string environment, ICheckoutPurchase callback)
         {
+            if (_initInProgress)
+            {
+                callback.OnInitializeFailed(new ErrorMessage
+                {
+                    code = EditorErrorCodes.BootInitAlreadyInProgress,
+                    message = EditorErrorCodes.BootInitAlreadyInProgressMessage
+                });
+                return;
+            }
+
+            _initInProgress = true;
             _editorPlatform.CheckoutPublicKey = checkoutToken;
             _editorPlatform.Environment = environment;
-            EditorPlatform.SharedCoroutineRunner.StartCoroutine(InitializeCoroutine(checkoutToken, environment, customerId, callback));
+            EditorPlatform.SharedCoroutineRunner.StartCoroutine(InitializeCoroutine(checkoutToken, environment, callback));
         }
         
-        private IEnumerator InitializeCoroutine(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback)
+        private IEnumerator InitializeCoroutine(string checkoutToken, string environment, ICheckoutPurchase callback)
         {
-            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL) {
-                callback.OnInitialized();
-                yield break;
-            }
-            
-            var baseUrl = GetBaseUrl(environment);
-            var url = $"{baseUrl}/mobile/v4/boot";
-            
-            var queryParams = new Dictionary<string, string>
+            try
             {
-                {"ip", "127.0.0.1"},
-                {"environment", environment},
-                {"checkoutPublicKey", checkoutToken},
-                {"platform", "Editor"},
-                {"language", "en_US"},
-                {"screen", "Resolution: 1920x1080, dpi: 96"},
-                {"deviceModel", "Unity Editor"},
-                {"deviceManufacturer", "Unity Technologies"},
-                {"packageName", Application.identifier},
-                {"sdkV", SdkVersion.UnitySdkVersion},
-                {"sdkType", "Unity-Editor"},
-                {"deviceId", SystemInfo.deviceUniqueIdentifier},
-                {"customerId", customerId},
-                {"gaid", "Editor-GAID-12345"}
-            };
-            
-            var fullUrl = $"{url}?{BuildQueryString(queryParams)}";
-            
-            using (UnityWebRequest request = UnityWebRequest.Get(fullUrl))
-            {
-                request.SetRequestHeader("X-Checkout-Token", checkoutToken);
-                yield return request.SendWebRequest();
+                var baseUrl = GetBaseUrl(environment);
+                var url = $"{baseUrl}/mobile/v4/boot";
                 
-                if (request.result == UnityWebRequest.Result.Success)
+                var queryParams = new Dictionary<string, string>
                 {
-                    _editorPlatform.BootData = JsonUtility.FromJson<EditorBootResponse>(request.downloadHandler.text);
-                    _editorPlatform.CustomerId = customerId;
-                    callback.OnInitialized();
-                }
-                else
+                    {"apiLevel", "2"},
+                };
+                
+                var fullUrl = $"{url}?{BuildQueryString(queryParams)}";
+                
+                using (UnityWebRequest request = UnityWebRequest.Get(fullUrl))
                 {
-                    var errorMessage = new ErrorMessage { message = request.error, code = 2000 };
-                    callback.OnInitializeFailed(errorMessage);
+                    request.SetRequestHeader("X-Checkout-Token", checkoutToken);
+                    yield return request.SendWebRequest();
+                    
+                    if (request.result == UnityWebRequest.Result.Success)
+                    {
+                        _editorPlatform.BootData = JsonUtility.FromJson<EditorBootResponse>(request.downloadHandler.text);
+                        _editorPlatform.OrderValidationTimeout = _editorPlatform.BootData.orderValidationTimeout * 1000;
+                        Debug.Log("Initialization success");
+                        callback.OnInitialized();
+                    }
+                    else
+                    {
+                        callback.OnInitializeFailed(new ErrorMessage { message = request.error, code = EditorErrorCodes.BootInitializationError });
+                    }
                 }
+            }
+            finally
+            {
+                _initInProgress = false;
             }
         }
         

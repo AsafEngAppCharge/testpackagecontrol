@@ -114,24 +114,19 @@ namespace Appcharge.PaymentLinks {
             return new UnsupportedPlatform();
         }
 
-        public void Init(string customerId, ICheckoutPurchase callback)
+        public void Init(ICheckoutPurchase callback)
         {
             DefinePlatform();
-            _currentPlatform.Init(customerId, callback);
+            _currentPlatform.Init(callback);
         }
 
-        public void Init(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback) {
+        public void Init(string checkoutToken, string environment, ICheckoutPurchase callback) {
             DefinePlatform();
-            _currentPlatform.Init(checkoutToken, environment, customerId, callback);
+            _currentPlatform.Init(checkoutToken, environment, callback);
         }
 
-        public void OpenCheckout(string url, string sessionToken , string purchaseId)        
-        {
-            _currentPlatform.OpenCheckout(url, sessionToken, purchaseId);
-        }
-
-        public void OpenCheckout(string purchaseId, string parsedUrl) {
-            _currentPlatform.OpenCheckout(purchaseId, parsedUrl);
+        public void OpenCheckout(string purchaseId, string parsedUrl, string customerId) {
+            _currentPlatform.OpenCheckout(purchaseId, parsedUrl, customerId);
         }
 
         public string GetSdkVersion() {

@@ -19,23 +19,46 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             _editorPlatform = editorPlatform;
         }
 
-        /// <summary>
-        /// Opens checkout using the url and session token.
-        /// </summary>
-        /// <param name="url">The url to open the checkout</param>
-        /// <param name="sessionToken">The session token to open the checkout</param>
-        /// <param name="purchaseId">The purchase id to open the checkout</param>
-        public override void OpenCheckout(string url, string sessionToken, string purchaseId)
+        public override void OpenCheckout(string purchaseId, string parsedUrl, string customerId)
         {
-            string checkoutUrl = url + "/" + sessionToken + "?cot=" + _editorPlatform.CheckoutPublicKey;
+            var callback = _editorPlatform?.Callback;
+
+            if (string.IsNullOrWhiteSpace(customerId))
+            {
+                FailOpenCheckout(callback, EditorErrorCodes.InvalidArgumentCustomerId, EditorErrorCodes.InvalidArgumentCustomerIdMessage);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(purchaseId))
+            {
+                FailOpenCheckout(callback, EditorErrorCodes.InvalidArgumentPurchaseId, string.Format(EditorErrorCodes.InvalidArgumentPurchaseIdMessage, purchaseId ?? string.Empty));
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(parsedUrl))
+            {
+                FailOpenCheckout(callback, EditorErrorCodes.InvalidArgumentParsedUrl, EditorErrorCodes.InvalidArgumentParsedUrlMessage);
+                return;
+            }
+
+            string sessionToken = ExtractSessionTokenFromParsedUrl(parsedUrl);
+            if (string.IsNullOrEmpty(sessionToken))
+            {
+                FailOpenCheckout(callback, EditorErrorCodes.InvalidArgumentParsedUrl, EditorErrorCodes.InvalidArgumentParsedUrlMessage);
+                return;
+            }
+
+            string checkoutUrl = AddSdkParametersToParsedUrl(parsedUrl);
             
             Application.OpenURL(checkoutUrl);
+            
             if (_editorPlatform != null)
             {
+                _editorPlatform.CustomerId = customerId;
                 var existingRunners = Object.FindObjectsOfType<OrderValidationRunner>();
                 foreach (var runner in existingRunners)
                 {
-                    runner.StopValidation();
+                    runner.StopAndResetValidation();
                     Object.DestroyImmediate(runner.gameObject);
                 }
                 
@@ -47,50 +70,10 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             }
         }
 
-        /// <summary>
-        /// Opens checkout using the parsedUrl from the session creation response.
-        /// This method extracts the session token from parsedUrl and adds SDK parameters.
-        /// </summary>
-        /// <param name="purchaseId">The purchase ID from the session creation response</param>
-        /// <param name="parsedUrl">The parsedUrl from the session creation response</param>
-        public override void OpenCheckout(string purchaseId, string parsedUrl)
+        private static void FailOpenCheckout(ICheckoutPurchase callback, int code, string message)
         {
-            if (string.IsNullOrEmpty(parsedUrl))
-            {
-                Debug.LogError("parsedUrl cannot be null or empty");
-                return;
-            }
-
-            // Extract session token from parsedUrl
-            // The session token is between the last '/' and the '#boot' fragment
-            string sessionToken = ExtractSessionTokenFromParsedUrl(parsedUrl);
-            
-            if (string.IsNullOrEmpty(sessionToken))
-            {
-                Debug.LogError("Failed to extract session token from parsedUrl");
-                return;
-            }
-
-            // Construct the final URL by adding SDK parameters to parsedUrl
-            string checkoutUrl = AddSdkParametersToParsedUrl(parsedUrl);
-            
-            Application.OpenURL(checkoutUrl);
-            
-            if (_editorPlatform != null)
-            {
-                var existingRunners = Object.FindObjectsOfType<OrderValidationRunner>();
-                foreach (var runner in existingRunners)
-                {
-                    runner.StopValidation();
-                    Object.DestroyImmediate(runner.gameObject);
-                }
-                
-                EditorLoaderManager.Instance.ShowLoader(OnValidationCanceled);
-                
-                var coroutineRunner = new GameObject("OrderValidationRunner");
-                var validationRunner = coroutineRunner.AddComponent<OrderValidationRunner>();
-                validationRunner.StartValidation(_editorPlatform, sessionToken, purchaseId);
-            }
+            Debug.LogWarning(message);
+            callback?.OnPurchaseFailed(new ErrorMessage { code = code, message = message }, null);
         }
 
         /// <summary>
@@ -136,44 +119,47 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         }
 
         /// <summary>
-        /// Adds SDK parameters (cot, platform, browserType, redirectUrl) to the parsedUrl.
-        /// The parameters are inserted before the #boot fragment if present, or appended to the URL.
+        /// Adds checkout and origin query parameters to the parsedUrl.
+        /// Parameters are inserted before the #boot fragment if present, or appended to the URL.
         /// </summary>
-        /// <param name="parsedUrl">The parsedUrl to add parameters to</param>
-        /// <returns>The URL with SDK parameters added</returns>
         private string AddSdkParametersToParsedUrl(string parsedUrl)
         {
-            // Build the query parameters
-            string queryParams = $"cot={UnityWebRequest.EscapeURL(_editorPlatform.CheckoutPublicKey)}&platform=editor&browserType=editor&redirectUrl={UnityWebRequest.EscapeURL("acnative://action")}";
+            return AppendQueryParamsToUrl(parsedUrl, BuildCheckoutQueryParams());
+        }
 
-            // Check if parsedUrl already has query parameters
-            int queryIndex = parsedUrl.IndexOf('?');
-            int fragmentIndex = parsedUrl.IndexOf('#');
-            
+        private string BuildCheckoutQueryParams()
+        {
+            string sourceVersion = UnityWebRequest.EscapeURL(_platform.GetSdkVersion());
+            return $"cot={UnityWebRequest.EscapeURL(_editorPlatform.CheckoutPublicKey)}" +
+                   "&platform=editor" +
+                   "&browserType=editor" +
+                   $"&redirectUrl={UnityWebRequest.EscapeURL("acnative://action")}" +
+                   "&resource=pl_sdk" +
+                   $"&source_version={sourceVersion}" +
+                   $"&engine=unity";
+        }
+
+        private static string AppendQueryParamsToUrl(string url, string queryParams)
+        {
+            int queryIndex = url.IndexOf('?');
+            int fragmentIndex = url.IndexOf('#');
+
             if (queryIndex != -1)
             {
-                // If there are existing query parameters, append to them
                 if (fragmentIndex != -1 && fragmentIndex > queryIndex)
                 {
-                    // Query parameters exist and fragment comes after - append to query string before fragment
-                    return parsedUrl.Substring(0, fragmentIndex) + "&" + queryParams + parsedUrl.Substring(fragmentIndex);
+                    return url.Substring(0, fragmentIndex) + "&" + queryParams + url.Substring(fragmentIndex);
                 }
-                else
-                {
-                    // Query parameters exist but no fragment, or fragment is before query (unlikely)
-                    return parsedUrl + "&" + queryParams;
-                }
+
+                return url + "&" + queryParams;
             }
-            else if (fragmentIndex != -1)
+
+            if (fragmentIndex != -1)
             {
-                // No query parameters, but fragment exists - insert query before fragment
-                return parsedUrl.Substring(0, fragmentIndex) + "?" + queryParams + parsedUrl.Substring(fragmentIndex);
+                return url.Substring(0, fragmentIndex) + "?" + queryParams + url.Substring(fragmentIndex);
             }
-            else
-            {
-                // No query parameters and no fragment - append query
-                return parsedUrl + "?" + queryParams;
-            }
+
+            return url + "?" + queryParams;
         }
 
         private void OnValidationCanceled()
@@ -181,13 +167,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             var runners = Object.FindObjectsOfType<OrderValidationRunner>();
             foreach (var runner in runners)
             {
-                runner.StopValidation();
-                Object.DestroyImmediate(runner.gameObject);
-            }
-            
-            if (_editorPlatform?.Callback != null)
-            {
-                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3000, message = "Order validation canceled by user." }, null);
+                runner.FinalizeUserCanceled(_editorPlatform?.Callback);
             }
         }
     }
@@ -198,12 +178,13 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         private string _checkoutSessionToken;
         private string _purchaseId;
         private string _validateUrl;
-        private float _startTime;
-        private float _lastCheckTime;
-        private float _checkInterval = 1f;
-        private float _timeout = 600f;
-        private bool _isValidating = false;
+        private bool _isValidating;
         private bool _originalRunInBackground;
+        private bool _requestInFlight;
+        private float _checkInterval;
+        private float _lastCheckTime;
+        private float _validationTimeoutSeconds;
+        private float _chargePendingStartTime;
 
         public void StartValidation(EditorPlatform editorPlatform, string checkoutSessionToken, string purchaseId)
         {
@@ -213,21 +194,22 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 return;
             }
 
-            StopValidation();
+            StopAndResetValidation();
 
             _editorPlatform = editorPlatform;
             _checkoutSessionToken = checkoutSessionToken;
             _purchaseId = purchaseId;
             _validateUrl = $"{editorPlatform.BootData.appchargeUrl}{editorPlatform.BootData.getOrderPath}/{purchaseId}/player/{editorPlatform.CustomerId}";
-            _startTime = (float)EditorApplication.timeSinceStartup;
+            _checkInterval = editorPlatform.BootData.orderValidationRate / 1000f;
+            _validationTimeoutSeconds = editorPlatform.OrderValidationTimeout > 0
+                ? editorPlatform.OrderValidationTimeout / 1000f
+                : editorPlatform.BootData.orderValidationTimeout / 1000f;
             _lastCheckTime = 0f;
+            _chargePendingStartTime = 0f;
             _isValidating = true;
 
             _originalRunInBackground = EditorApplication.isPaused;
-            if (_originalRunInBackground)
-            {
-                EditorApplication.isPaused = false;
-            }
+            if (_originalRunInBackground) EditorApplication.isPaused = false;
 
             EditorApplication.update += ValidateOrderUpdate;
         }
@@ -240,75 +222,158 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                 return;
             }
 
-            var currentTime = (float)EditorApplication.timeSinceStartup;
-            var elapsed = currentTime - _startTime;
-            
-            if (elapsed > _timeout)
-            {
-                _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { message = "Order validation timed out."}, null);
-                FocusUnityEditor();
-                StopValidation();
-                StopAllCoroutines();
-                DestroyImmediate(gameObject);
+            if (_requestInFlight) 
                 return;
-            }
 
-            if (currentTime - _lastCheckTime >= _checkInterval)
-            {
-                _lastCheckTime = currentTime;
-                StartCoroutine(ValidateOrderRequest());
-            }
+            var currentTime = (float)EditorApplication.timeSinceStartup;
+
+            if (_lastCheckTime > 0f && currentTime - _lastCheckTime < _checkInterval) return;
+
+            _requestInFlight = true;
+            StartCoroutine(ValidateOrderRequest());
         }
 
         private IEnumerator ValidateOrderRequest()
         {
-            using (UnityWebRequest request = UnityWebRequest.Get(_validateUrl))
+            yield return ValidateOrderOnce();
+
+            _requestInFlight = false;
+            _lastCheckTime = (float)EditorApplication.timeSinceStartup;
+
+            if (!_isValidating) yield break;
+
+            if (ProcessOrderValidationResponse(_editorPlatform.Callback))
+                CleanValidation();
+        }
+
+        public void FinalizeUserCanceled(ICheckoutPurchase callback)
+        {
+            if (callback == null || !_isValidating) return;
+
+            StopAndResetValidation();
+            StartCoroutine(FinalizeUserCanceledRoutine(callback));
+        }
+
+        private IEnumerator FinalizeUserCanceledRoutine(ICheckoutPurchase callback)
+        {
+            yield return ValidateOrderOnce();
+
+            if (ProcessOrderValidationResponse(callback))
+            {
+                FinishFinalize();
+                yield break;
+            }
+
+            OnCanceledPayment(callback);
+            FinishFinalize();
+        }
+
+        private IEnumerator ValidateOrderOnce()
+        {
+            using (var request = UnityWebRequest.Get(_validateUrl))
             {
                 request.SetRequestHeader("X-Checkout-Token", _editorPlatform.CheckoutPublicKey);
                 request.SetRequestHeader("Authorization", $"Bearer {_checkoutSessionToken}");
-
-                yield return new WaitForSeconds(2f);
                 yield return request.SendWebRequest();
 
-                if (request.result == UnityWebRequest.Result.Success)
+                _validationSuccess = request.result == UnityWebRequest.Result.Success;
+                _validationHttpCode = request.responseCode;
+                _pollResponse = null;
+                if (_validationSuccess)
                 {
-                    try
-                    {
-                        var apiResponse = JsonUtility.FromJson<OrderValidationApiResponse>(request.downloadHandler.text);
-
-                        if (apiResponse.state == "charge_succeed")
-                        {                            
-                            var orderResponse = ConvertToOrderResponseModel(apiResponse);
-                            _editorPlatform.Callback.OnPurchaseSuccess(orderResponse);
-                        }
-                        else if (apiResponse.state == "charge_failed")
-                        {
-                            var orderResponse = ConvertToOrderResponseModel(apiResponse);
-                            _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3003, message = apiResponse.reason }, orderResponse);
-                        }
-                        else {
-                            StartCoroutine(ValidateOrderRequest());
-                            yield break;
-                        }
-                    }
-                    catch
-                    {
-                        _editorPlatform.Callback.OnPurchaseFailed(new ErrorMessage { code = 3004, message = "Order validation failed." }, null);
-                    }
+                    try { _pollResponse = JsonUtility.FromJson<OrderValidationApiResponse>(request.downloadHandler.text); }
+                    catch { _validationSuccess = false; }
                 }
-
-                CleanValidation();
             }
+        }
+
+        private bool _validationSuccess;
+        private long _validationHttpCode;
+        private OrderValidationApiResponse _pollResponse;
+
+        private bool ProcessOrderValidationResponse(ICheckoutPurchase callback)
+        {
+            if (_validationHttpCode == 404 || _pollResponse?.state == "order not found")
+            {
+                return false;
+            }
+
+            if (!_validationSuccess) return false;
+
+            var state = _pollResponse.state?.ToLowerInvariant();
+            var orderResponse = ConvertToOrderResponseModel(_pollResponse);
+
+            if (state == "created")
+            {
+                return false;
+            }
+
+            if (state == "payment_canceled")
+            {
+                callback.OnPurchaseCanceled(
+                    new ErrorMessage { code = EditorErrorCodes.ChargeCanceled, message = EditorErrorCodes.OrderValidationCanceledMessage }, orderResponse);
+                return true;
+            }
+
+            if (state == "charge_success" || state == "charge_succeed")
+            {
+                callback.OnPurchaseSuccess(orderResponse);
+                return true;
+            }
+
+            if (state == "charge_failed")
+            {
+                callback.OnPurchaseFailed(
+                    new ErrorMessage { code = EditorErrorCodes.ChargeFailed, message = _pollResponse.reason ?? EditorErrorCodes.ChargeFailedName }, orderResponse);
+                return true;
+            }
+
+            if (state == "payment_pending") {
+                return false;
+            }
+
+            if (state == "charge_pending")
+            {
+                var elapsedTime = (float)EditorApplication.timeSinceStartup;
+                if (_chargePendingStartTime <= 0f)
+                    _chargePendingStartTime = elapsedTime;
+
+                if (elapsedTime - _chargePendingStartTime < _validationTimeoutSeconds)
+                    return false;
+
+                callback.OnPurchaseFailed(
+                    new ErrorMessage { code = EditorErrorCodes.ValidateOrderTimeout, message = EditorErrorCodes.ValidateOrderTimeoutMessage }, orderResponse);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void FinishFinalize()
+        {
+            FocusUnityEditor();
+            StopAllCoroutines();
+            DestroyImmediate(gameObject);
+        }
+
+        public void OnCanceledPayment(ICheckoutPurchase callback)
+        {
+            if (callback == null) return;
+
+            var orderResponse = ConvertToOrderResponseModel(_pollResponse);
+            callback.OnPurchaseCanceled(
+                new ErrorMessage { code = EditorErrorCodes.ChargeCanceled, message = EditorErrorCodes.OrderValidationCanceledMessage }, orderResponse);
         }
 
         private void CleanValidation()
         {
             FocusUnityEditor();
-            StopValidation();
+            StopAndResetValidation();
+            StopAllCoroutines();
             DestroyImmediate(gameObject);
         }
 
-        public void StopValidation()
+        public void StopAndResetValidation()
         {
             if (_isValidating)
             {
@@ -321,12 +386,14 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
 
         private void OnDestroy()
         {
-            StopValidation();
+            StopAndResetValidation();
             EditorLoaderManager.Cleanup();
         }
 
         private OrderResponseModel ConvertToOrderResponseModel(OrderValidationApiResponse apiResponse)
         {
+            if (apiResponse == null || string.IsNullOrEmpty(apiResponse.orderId)) return null;
+
             var orderResponse = new OrderResponseModel
             {
                 currency = apiResponse.totalSumCurrency,
@@ -359,37 +426,21 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             return orderResponse;
         }
 
-
         private void FocusUnityEditor()
         {
             TryFocusWindow("Window/General/Console");
             TryFocusWindow("Window/General/Hierarchy");
             TryFocusWindow("Window/General/Project");
-            
-            bool gameFocused = TryFocusWindow("Window/General/Game");
-            
-            if (!gameFocused)
-            {
-                TryFocusWindow("Window/General/Simulator");
-            }
-            
+            if (!TryFocusWindow("Window/General/Game")) TryFocusWindow("Window/General/Simulator");
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
-                    }
-        
-        private bool TryFocusWindow(string menuPath)
-        {
-            try
-            {
-                EditorApplication.ExecuteMenuItem(menuPath);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
+        private static bool TryFocusWindow(string menuPath)
+        {
+            try { EditorApplication.ExecuteMenuItem(menuPath); return true; }
+            catch { return false; }
+        }
     }
 }
 #endif

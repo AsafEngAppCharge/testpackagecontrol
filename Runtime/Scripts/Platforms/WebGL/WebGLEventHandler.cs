@@ -26,7 +26,8 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
         }    
 
         public void OnInitialized() {
-            _callbacks.OnInitialized();
+            Debug.Log($"[WebGLEventHandler] OnInitialized go={gameObject.GetInstanceID()} callbacks={(_callbacks == null ? "NULL" : _callbacks.GetType().Name)}");
+            _callbacks?.OnInitialized();
         }
 
         public void OnInitializeFailed(string errorCode) {
@@ -38,19 +39,26 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
                 code = code,
                 message = "OnInitializeFailed"
             };
-            _callbacks.OnInitializeFailed(errorMessage);
+            _callbacks?.OnInitializeFailed(errorMessage);
         }
         
         public void OnPurchaseSuccess(string eventData)
         {
+            if (string.IsNullOrEmpty(eventData))
+            {
+                Debug.LogError("OnPurchaseSuccess: WebGL bridge sent null or empty order JSON.");
+                return;
+            }
+
             try
             {
                 OrderResponseModel orderResponseModel = JsonUtility.FromJson<OrderResponseModel>(eventData);
                 _callbacks.OnPurchaseSuccess(orderResponseModel);
+                Debug.Log("OnPurchaseSuccess: Successfully deserialized order JSON into OrderResponseModel: " + orderResponseModel.ToString());
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error deserializing 'data' into OrderResponseModel: {ex.Message}");
+                Debug.LogError($"Error deserializing order JSON into OrderResponseModel: {ex.Message}");
             }
         }
 

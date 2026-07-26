@@ -4,7 +4,7 @@ using System.Collections;
 using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Models;
 using Appcharge.PaymentLinks.Platforms.Base;
-using UnityEditor;
+using Appcharge.PaymentLinks.Platforms.Editor.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -20,11 +20,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
 
         public override void GetPricePoints()
         {
-            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL) {
-                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Price points are not supported on WebGL", code = 1001 });
-                return;
-            }
-
             if (Application.isPlaying)
             {
                 EditorPlatform.SharedCoroutineRunner.StartCoroutine(GetPricePointsCoroutine());
@@ -50,7 +45,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
                     }
                     catch (Exception ex)
                     {
-                        _platform.Callback.OnPricePointsFail(new ErrorMessage { message = ex.Message, code = 1001 });
+                        _platform.Callback.OnPricePointsFail(new ErrorMessage { message = ex.Message, code = EditorErrorCodes.GeneralServerError });
                     }
                 }
                 else
@@ -65,7 +60,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         {
             if (_editorPlatform.BootData == null || string.IsNullOrEmpty(_editorPlatform.BootData.pricePointsPath))
             {
-                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Platform not initialized", code = 1001 });
+                _platform.Callback.OnPricePointsFail(new ErrorMessage { message = "Platform not initialized", code = EditorErrorCodes.GeneralServerError });
                 return false;
             }
             return true;

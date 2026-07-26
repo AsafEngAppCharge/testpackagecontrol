@@ -10,7 +10,7 @@ namespace Appcharge.PaymentLinks.Platforms.Base {
             _platform = platform;
         }
 
-        public abstract void Initialize(string customerId, ICheckoutPurchase callback);
-        public abstract void Initialize(string checkoutToken, string environment, string customerId, ICheckoutPurchase callback);
+        public abstract void Initialize(ICheckoutPurchase callback);
+        public abstract void Initialize(string checkoutToken, string environment, ICheckoutPurchase callback);
     }
 }

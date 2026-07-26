@@ -35,7 +35,7 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
             return;
 
         _initPopup.SetActive(false);
-        PaymentLinksController.Instance.Init(_customerId, this);
+        PaymentLinksController.Instance.Init(this);
         LogMessage("Waiting for SDK to initialize.");
     }
 
@@ -43,10 +43,19 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     /// To open the checkout, you must obtain purchaseId and parsedUrl from your server.
     /// Do not modify the arguments. The SDK will handle the rest.
     /// (Create Checkout Session API: https://docs.appcharge.com/api-reference/checkout/checkout-session/create-checkout-session)
-    /// Using the response from the API, call PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
+    /// Using the response from the API, call PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl, customerId);
     /// </summary>
     public void OpenCheckout()
     {
+        if (_inputCustomerId != null && !string.IsNullOrEmpty(_inputCustomerId.text))
+            _customerId = _inputCustomerId.text.Trim();
+
+        if (string.IsNullOrWhiteSpace(_customerId))
+        {
+            LogMessage("Error: Customer ID is empty. Please enter a customer ID before opening checkout.");
+            return;
+        }
+
         string purchaseId = "";
         string parsedUrl = "";
 
@@ -56,7 +65,7 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
             return;
         }
 
-        PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl);
+        PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl, _customerId);
     }
 
     public void GetPricePoints()
@@ -72,14 +81,6 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
 
     private bool Validation()
     {
-        if (_inputCustomerId != null && !string.IsNullOrEmpty(_inputCustomerId.text))
-            _customerId = _inputCustomerId.text.Trim();
-
-        if (string.IsNullOrWhiteSpace(_customerId))
-        {
-            LogMessage("Error: Customer ID is empty. Please enter a customer ID before initializing.");
-            return false;
-        }
         if (_config == null)
         {
             LogMessage("Error: AppchargeConfig not found. Please create one via Appcharge > Configuration > AppchargeConfig.");
@@ -97,6 +98,12 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     {
         _btnOpenCheckout.interactable = true;
         LogMessage(string.Format("Purchase Success:\nOrderId: {0}\nPayment Method: {1}", order?.orderId, order?.paymentMethodName));
+    }
+
+    public void OnPurchaseCanceled(ErrorMessage error, OrderResponseModel order)
+    {
+        _btnOpenCheckout.interactable = true;
+        LogMessage(string.Format("Purchase Canceled:\nOrderId: {0}\nPayment Method: {1}", order?.orderId, order?.paymentMethodName));
     }
 
     public void OnPurchaseFailed(ErrorMessage error, OrderResponseModel order)

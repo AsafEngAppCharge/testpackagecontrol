@@ -415,15 +415,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 /// This function ensures that the SDK is initialized only once per runtime and avoids re-initialization.
 /// \param configModel A configuration model that includes the environment, public key, and other setup data.
 ///
-/// \param customerId A unique identifier representing the customer for whom the checkout flow is being initialized.
-///
 /// \param delegate A delegate that handles purchase-related callbacks from the checkout flow.
 ///
-+ (void)initializeWithConfigModel:(ACConfigModel * _Nonnull)configModel customerId:(NSString * _Nonnull)customerId delegate:(id <ACPaymentLinksDelegate> _Nonnull)delegate;
-/// Triggers fetching of pricing options (price points) from the backend.
-/// This method is asynchronous and delegates the task to the internal controller,
-/// which in turn informs the <code>purchaseDelegate</code> about success or failure.
-+ (void)getPricePoints;
++ (void)initializeWithConfigModel:(ACConfigModel * _Nonnull)configModel delegate:(id <ACPaymentLinksDelegate> _Nonnull)delegate;
 /// Opens the checkout flow using a deep link / parsed URL.
 /// This method extracts the checkout session token from <code>parsedUrl</code>, stores the runtime parameters,
 /// and starts the checkout flow. The flow will launch the appropriate browser behavior depending
@@ -432,16 +426,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 ///
 /// \param parsedUrl A deep link / parsed checkout URL that contains the checkout session token.
 ///
-+ (void)openCheckoutWithPurchaseId:(NSString * _Nonnull)purchaseId parsedUrl:(NSString * _Nonnull)parsedUrl;
-/// Opens the checkout flow for a given session.
-/// This method launches the appropriate browser flow depending on <code>useExternalBrowser</code>.
-/// \param sessionToken The token that represents the current checkout session.
+/// \param customerId A unique identifier representing the customer for whom the checkout flow.
 ///
-/// \param purchaseId The identifier of the purchase.
-///
-/// \param url The checkout URL (typically returned from the backend) to be loaded.
-///
-+ (void)openCheckoutWithSessionToken:(NSString * _Nonnull)sessionToken purchaseId:(NSString * _Nonnull)purchaseId url:(NSString * _Nonnull)url SWIFT_DEPRECATED_MSG("This method is deprecated and will be removed in a future SDK version. Use openCheckout(purchaseId: string, parsedUrl: string) instead.");
++ (void)openCheckoutWithPurchaseId:(NSString * _Nonnull)purchaseId parsedUrl:(NSString * _Nonnull)parsedUrl customerId:(NSString * _Nonnull)customerId;
 /// Handles deep links returned from the checkout process (e.g., after external browser redirect).
 /// Passes the deep link to the internal controller to complete or cancel the flow.
 /// \param url The URL captured from the application open URL handler.
@@ -452,7 +439,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSNumber * _Nullable p
 /// returns:
 /// A string containing the SDK version. If the controller is uninitialized, returns an empty string.
 + (NSString * _Nonnull)getSdkVersion SWIFT_WARN_UNUSED_RESULT;
-+ (void)openSubscriptionManagerWithUrl:(NSString * _Nonnull)url;
 @end
 
 /// Additional configuration for SDK initialization.
@@ -476,21 +462,20 @@ SWIFT_CLASS("_TtC14ACPaymentLinks14ACErrorMessage")
 - (NSString * _Nonnull)toJsonString SWIFT_WARN_UNUSED_RESULT;
 @end
 
-@class PricePoints;
 @class GameOrderResponse;
 SWIFT_PROTOCOL("_TtP14ACPaymentLinks22ACPaymentLinksDelegate_")
 @protocol ACPaymentLinksDelegate <NSObject>
 - (void)onInitialized;
 - (void)onInitializeFailedWithError:(ACErrorMessage * _Nonnull)error;
-- (void)onPricePointsSuccessWithPricePoints:(PricePoints * _Nonnull)pricePoints;
-- (void)onPricePointsFailedWithErrorMessage:(ACErrorMessage * _Nonnull)errorMessage;
 - (void)onPurchaseSuccessWithOrder:(GameOrderResponse * _Nonnull)order;
 - (void)onPurchaseFailedWithError:(ACErrorMessage * _Nonnull)error order:(GameOrderResponse * _Nullable)order;
+- (void)onPurchaseCanceledWithError:(ACErrorMessage * _Nonnull)error order:(GameOrderResponse * _Nullable)order;
 @end
 
 typedef SWIFT_ENUM(NSInteger, BrowserMode, open) {
   BrowserModeExternal = 0,
-  BrowserModeSfsvc = 1,
+  BrowserModeInternal = 1,
+  BrowserModeUnknown = -1,
 };
 
 SWIFT_CLASS("_TtC14ACPaymentLinks19CancelOrderResponse")
@@ -545,36 +530,6 @@ SWIFT_CLASS("_TtC14ACPaymentLinks18OrderResponseModel")
 @interface OrderResponseModel : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@class PricingPoint;
-@class PricingPointData;
-SWIFT_CLASS("_TtC14ACPaymentLinks11PricePoints")
-@interface PricePoints : NSObject
-@property (nonatomic, copy) NSArray<PricingPoint *> * _Nonnull pricingPoints;
-@property (nonatomic, strong) PricingPointData * _Nonnull pricingPointData;
-@end
-
-@interface PricePoints (SWIFT_EXTENSION(ACPaymentLinks))
-- (NSString * _Nonnull)toJsonString SWIFT_WARN_UNUSED_RESULT;
-@end
-
-SWIFT_CLASS("_TtC14ACPaymentLinks12PricingPoint")
-@interface PricingPoint : NSObject
-@property (nonatomic, copy) NSString * _Nonnull basePriceInUSD;
-@property (nonatomic, copy) NSString * _Nonnull localizedPrice;
-@property (nonatomic, copy) NSString * _Nonnull formattedPrice;
-@end
-
-SWIFT_CLASS("_TtC14ACPaymentLinks16PricingPointData")
-@interface PricingPointData : NSObject
-@property (nonatomic, copy) NSString * _Nonnull currencyCode;
-@property (nonatomic, copy) NSString * _Nonnull currencySymbol;
-@property (nonatomic, copy) NSString * _Nonnull fractionalSeparator;
-@property (nonatomic, copy) NSString * _Nonnull milSeparator;
-@property (nonatomic, copy) NSString * _Nonnull symbolPosition;
-@property (nonatomic) BOOL spacing;
-@property (nonatomic) NSInteger multiplier;
 @end
 
 SWIFT_CLASS("_TtC14ACPaymentLinks7Product")
