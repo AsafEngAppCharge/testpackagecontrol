@@ -6,7 +6,6 @@ namespace Appcharge.PaymentLinks.Interfaces {
         void Init(string checkoutToken, string environment, ICheckoutPurchase callback);
         void OpenCheckout(string purchaseId, string parsedUrl, string customerId);
         string GetSdkVersion();
-        void GetPricePoints();
         void ConfigurePlatform(string property, object value);
     }
 }

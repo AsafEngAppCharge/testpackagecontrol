@@ -42,18 +42,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
             _platform.Callback?.OnPurchaseFailed(error, order);
         }
 
-        public void OnPricePointsSuccess(string pricePointsJson)
-        {
-            var pricePoints = JsonUtility.FromJson<PricePointsModel>(pricePointsJson);
-            _platform.Callback?.OnPricePointsSuccess(pricePoints);
-        }
-
-        public void OnPricePointsFail(string errorJson)
-        {
-            var error = JsonUtility.FromJson<ErrorMessage>(errorJson);
-            _platform.Callback?.OnPricePointsFail(error);
-        }
-
         private (ErrorMessage error, OrderResponseModel order) ParsePurchasePayload(string payloadJson)
         {
             var payload = JsonUtility.FromJson<PurchaseFailedPayload>(payloadJson);

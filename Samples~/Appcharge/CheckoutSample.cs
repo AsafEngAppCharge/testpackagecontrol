@@ -9,7 +9,6 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
 {
     [SerializeField] private GameObject _initPopup;
     [SerializeField] private Button _btnOpenCheckout;
-    [SerializeField] private Button _btnGetPricePoints;
     [SerializeField] private Text _environmentText;
     [SerializeField] private Text _loggerText;
     [SerializeField] private InputField _inputCustomerId;
@@ -68,17 +67,6 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
         PaymentLinksController.Instance.OpenCheckout(purchaseId, parsedUrl, _customerId);
     }
 
-    public void GetPricePoints()
-    {
-        if (PaymentLinksController.Instance == null)
-        {
-            LogMessage("Error: PaymentLinksController not ready. Initialize the SDK first.");
-            return;
-        }
-
-        PaymentLinksController.Instance.GetPricePoints();
-    }
-
     private bool Validation()
     {
         if (_config == null)
@@ -115,23 +103,12 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     public void OnInitialized()
     {
         _btnOpenCheckout.interactable = true;
-        _btnGetPricePoints.interactable = true;
         LogMessage("SDK Initialized: " + (PaymentLinksController.Instance != null ? PaymentLinksController.Instance.GetSdkVersion() : "?"));
     }
 
     public void OnInitializeFailed(ErrorMessage error)
     {
         LogMessage(string.Format("Code: {0}\nMessage: {1}", error?.code, error?.message));
-    }
-
-    public void OnPricePointsSuccess(PricePointsModel pricePoints)
-    {
-        LogMessage("Price Points Success: " + (pricePoints?.pricingPoints?.Length ?? 0));
-    }
-
-    public void OnPricePointsFail(ErrorMessage error)
-    {
-        LogMessage(string.Format("Price Points Fail: {0}", error?.message ?? "unknown"));
     }
 
     public void ShowInitializationPopup(bool show)
@@ -151,7 +128,6 @@ public class CheckoutSample : MonoBehaviour, ICheckoutPurchase
     {
         if (_initPopup == null) Debug.LogWarning("[CheckoutSample] _initPopup is not assigned.");
         if (_btnOpenCheckout == null) Debug.LogWarning("[CheckoutSample] _btnOpenCheckout is not assigned.");
-        if (_btnGetPricePoints == null) Debug.LogWarning("[CheckoutSample] _btnGetPricePoints is not assigned.");
         if (_environmentText == null) Debug.LogWarning("[CheckoutSample] _environmentText is not assigned.");
         if (_loggerText == null) Debug.LogWarning("[CheckoutSample] _loggerText is not assigned.");
     }

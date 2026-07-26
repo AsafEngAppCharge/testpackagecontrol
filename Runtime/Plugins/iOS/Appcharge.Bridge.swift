@@ -67,11 +67,6 @@ public func acbridge_setDebugMode(debugMode: Bool) {
     ACBridgeAPI.setDebugMode = debugMode
 }
 
-@_cdecl("acbridge_getPricePoints")
-public func acbridge_getPricePoints() {
-    ACBridgeAPI.getPricePoints()
-}
-
 
 class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
     private struct PurchaseOutcomePayload: Encodable {
@@ -119,27 +114,5 @@ class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
 
     func onPurchaseCanceled(error: ACErrorMessage, order: GameOrderResponse?) {
         dispatchOnPurchase(error: error, order: order, unityMethod: "OnPurchaseCanceled")
-    }
-
-    func onPricePointsSuccess(pricePoints: PricePoints) {
-        do {
-            let jsonData = try JSONEncoder().encode(pricePoints)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPricePointsSuccess", jsonString)
-            }
-        } catch {
-            print("[UnityBridge] Failed to encode pricePoints: \(error)")
-        }
-    }
-
-    func onPricePointsFailed(errorMessage: ACErrorMessage) {
-        do {
-            let jsonData = try JSONEncoder().encode(errorMessage)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                UnitySendMessage(UNITY_CALLBACK_HANDLER, "OnPricePointsFail", jsonString)
-            }
-        } catch {
-            print("[UnityBridge] Failed to encode error message: \(errorMessage.message)")
-        }
     }
 }

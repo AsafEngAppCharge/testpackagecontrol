@@ -94,18 +94,6 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			return _bridgeApi.Call<string>("getSdkVersion");
 		}
 
-		public void GetPricePoints()
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
-
-			_bridgeApi.Call("getPricePoints");
-		}
-
 		public void ConfigurePlatform(string property, object value)
 		{
 			if (property.Equals("browserMode") && value is BrowserMode)
@@ -203,16 +191,6 @@ namespace Appcharge.PaymentLinks.Platforms.Android
 			public void onInitializeFailed(AndroidJavaObject errorMessage)
 			{
 				_platform.Callback?.OnInitializeFailed(ErrorMessageConverter.ToErrorMessage(errorMessage));
-			}
-
-			public void onPricePointsSuccess(AndroidJavaObject pricePoints)
-			{
-				_platform.Callback?.OnPricePointsSuccess(PricePointsModelConverter.ToPricePointsModel(pricePoints));
-			}
-
-			public void onPricePointsFail(AndroidJavaObject errorMessage)
-			{
-				_platform.Callback?.OnPricePointsFail(ErrorMessageConverter.ToErrorMessage(errorMessage));
 			}
 
 			public void onPurchaseSuccess(AndroidJavaObject orderResponse)

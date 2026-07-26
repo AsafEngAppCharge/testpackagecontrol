@@ -8,7 +8,5 @@ namespace Appcharge.PaymentLinks.Interfaces {
         void OnPurchaseFailed(ErrorMessage error, OrderResponseModel order);
         void OnInitialized();
         void OnInitializeFailed(ErrorMessage error);
-        void OnPricePointsSuccess(PricePointsModel pricePoints);
-        void OnPricePointsFail(ErrorMessage error);
     }
 }

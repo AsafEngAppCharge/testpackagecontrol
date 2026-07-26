@@ -73,26 +73,5 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             };
             _callbacks.OnPurchaseFailed(purchaseFailError, null);
         }
-
-        public void OnPricePointsSuccess(string eventData) {
-            try {
-                var pricePointsModel = JsonUtility.FromJson<PricePointsModel>(eventData);
-                _callbacks.OnPricePointsSuccess(pricePointsModel);
-            }
-            catch (Exception ex) {
-                Debug.LogError($"Error deserializing 'data' into PricePointsModel: {ex.Message}");
-            }
-        }
-
-        public void OnPricePointsFail(string errorCode) {
-            int code;
-            int.TryParse(errorCode, out code);
-            
-            ErrorMessage errorMessage = new ErrorMessage {
-                code = code,
-                message = "OnPricePointsFail"
-            };
-            _callbacks.OnPricePointsFail(errorMessage);
-        }
     }
 }

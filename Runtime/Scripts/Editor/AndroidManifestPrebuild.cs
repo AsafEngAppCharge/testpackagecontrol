@@ -55,8 +55,6 @@ namespace Appcharge.PaymentLinks.Editor {
                         manifestContent = FixCustomSchemeIfNeeded(manifestContent, gameNameLowerCase);
                     }
 
-                    manifestContent = FixCheckoutActivityIntentFilterIfNeeded(manifestContent);
-
                     if (!editorConfig.ExcludeAppchargeActivity)
                     {
                         manifestContent = AddAppchargeActivity(manifestContent, gameNameLowerCase, editorConfig);
@@ -111,34 +109,6 @@ namespace Appcharge.PaymentLinks.Editor {
             return manifestContent;
         }
 
-        private string FixCheckoutActivityIntentFilterIfNeeded(string manifestContent)
-        {
-            const string activityMarker = "com.appcharge.paymentlinks.CheckoutActivity";
-            if (!manifestContent.Contains(activityMarker))
-                return manifestContent;
-
-            int activityIndex = manifestContent.IndexOf(activityMarker, StringComparison.Ordinal);
-            int activityStart = manifestContent.LastIndexOf("<activity", activityIndex, StringComparison.Ordinal);
-            if (activityStart < 0)
-                return manifestContent;
-
-            int activityEnd = manifestContent.IndexOf("</activity>", activityIndex, StringComparison.Ordinal);
-            if (activityEnd < 0)
-                return manifestContent;
-            activityEnd += "</activity>".Length;
-
-            string activityBlock = manifestContent.Substring(activityStart, activityEnd - activityStart);
-            string updatedBlock = activityBlock;
-            updatedBlock = Regex.Replace(updatedBlock, @"<intent-filter\s+android:autoVerify\s*=\s*""true""\s*>", "<intent-filter>", RegexOptions.IgnoreCase);
-            updatedBlock = Regex.Replace(updatedBlock, @"<data\s+android:scheme\s*=\s*""https""\s*/>\s*", string.Empty, RegexOptions.IgnoreCase);
-
-            if (updatedBlock == activityBlock)
-                return manifestContent;
-
-            _appchargePrebuildEditor.LogToFile("Updated CheckoutActivity intent-filter for smart deep link handling (removed autoVerify and https scheme).");
-            return manifestContent.Substring(0, activityStart) + updatedBlock + manifestContent.Substring(activityEnd);
-        }
-
         private string AddAppchargeActivity(string manifestContent, string gameNameLowerCase, AppchargeConfig editorConfig)
         {
             if (manifestContent.Contains("com.appcharge.paymentlinks.CheckoutActivity"))
@@ -152,13 +122,15 @@ namespace Appcharge.PaymentLinks.Editor {
             {
                 string customScheme = editorConfig.ExcludeCustomScheme ? "" : $"<data android:scheme=\"acnative-{gameNameLowerCase}\" />";
                 string customHost = editorConfig.ExcludeCustomHost ? "" : "<data android:host=\"action\" />";
+                string httpsScheme = editorConfig.ExcludeHttpsSchemeInActivity ? "" : "<data android:scheme=\"https\" />";
                 intentFilters = $@"
-                    <intent-filter>
+                    <intent-filter android:autoVerify=""true"">
                         <action android:name=""android.intent.action.VIEW"" />
                         <category android:name=""android.intent.category.DEFAULT"" />
                         <category android:name=""android.intent.category.BROWSABLE"" />
                         {customScheme}
                         {customHost}
+                        {httpsScheme}
                     </intent-filter>";
             }
 

@@ -9,7 +9,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor.Models {
         
         // Backward compatibility properties - map to new structure
         public string appchargeUrl => paths?.baseUrl ?? string.Empty;
-        public string pricePointsPath => paths?.pricePointsPath ?? string.Empty;
         public string getOrderPath => paths?.getOrderPath ?? string.Empty;
         public string cancelPath => paths?.cancelPath ?? string.Empty;
         public string wvUrl => paths?.wrapperUrl ?? string.Empty;
@@ -30,7 +29,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor.Models {
     {
         public string baseUrl;
         public string cancelPath;
-        public string pricePointsPath;
         public string getOrderPath;
         public string manageSubscriptionsPath;
         public string wrapperUrl;

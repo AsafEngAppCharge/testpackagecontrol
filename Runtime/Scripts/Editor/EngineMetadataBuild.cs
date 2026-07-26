@@ -8,7 +8,7 @@ using UnityEditor;
 namespace Appcharge.PaymentLinks.Editor
 {
     /// <summary>
-    /// Single source for engine metadata injected at build time into Android (buildConfigField, manifestPlaceholders / meta-data) and iOS (ACPaymentLinks.plist).
+    /// Single source for engine metadata injected at build time into Android (buildConfigField) and iOS (ACPaymentLinks.plist).
     /// Native plugins read these; Unity runtime no longer passes them to init.
     /// </summary>
     public static class EngineMetadataBuild

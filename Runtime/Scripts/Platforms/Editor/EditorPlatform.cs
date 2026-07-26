@@ -36,7 +36,6 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
             _init = new EditorInit(this, this);
             _openCheckout = new EditorOpenCheckout(this, this);
             _sdkVersion = new EditorSdkVersion(this, this);
-            _pricePoints = new EditorPricePoints(this, this);
         }
 
         public override void ConfigurePlatform(string property, object value) { }

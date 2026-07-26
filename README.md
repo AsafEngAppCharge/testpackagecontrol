@@ -1,11 +1,10 @@
 # Appcharge Payment Links SDK (Unity)
 A lightweight Unity SDK for integrating **Appcharge Payment Links** into your game.
-Use it to open a secure checkout, handle purchase callbacks, and fetch price points with minimal setup.
+Use it to open a secure checkout and handle purchase callbacks with minimal setup.
 ---
 ## Features
 - :link: Open Appcharge checkout directly from your Unity game
 - :credit_card: Receive purchase success / failure callbacks
-- :moneybag: Fetch available price points
 - :jigsaw: Easy integration using `ICheckoutPurchase`
 - :package: Distributed as a Unity Package Manager (UPM) package
 ---
@@ -39,11 +38,6 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         {
             PaymentLinksController.Instance.OpenCheckout(response.purchaseId, response.parsedUrl, CustomerId);
         }
-        // Fetch price points
-        public void GetPricePoints()
-        {
-            PaymentLinksController.Instance.GetPricePoints();
-        }
         // --- ICheckoutPurchase callbacks ---
         public void OnPurchaseSuccess(OrderResponseModel order)
         {
@@ -60,14 +54,6 @@ Create a MonoBehaviour that receives callbacks from the SDK:
         public void OnInitializeFailed(ErrorMessage error)
         {
             Debug.LogError($"Init Failed: Code={error.code}, Message={error.message}");
-        }
-        public void OnPricePointsSuccess(PricePointsModel pricePoints)
-        {
-            Debug.Log($"Price Points Success: {pricePoints.pricingPoints.Length} price points received");
-        }
-        public void OnPricePointsFail(ErrorMessage error)
-        {
-            Debug.LogError($"Price Points Fail: {error.message}");
         }
     }
 ```
@@ -89,25 +75,16 @@ Pass the customer ID when opening checkout (not during init):
 ### **4. Handle purchase callbacks**
 - `OnPurchaseSuccess(OrderResponseModel order)`
 - `OnPurchaseFailed(ErrorMessage error, OrderResponseModel order)`
-### **5. Fetch price points**
-```C#
-    PaymentLinksController.Instance.GetPricePoints();
-```
-Callbacks:
-- `OnPricePointsSuccess(PricePointsModel pricePoints)`
-- `OnPricePointsFail(ErrorMessage error)`
 ---
 ## SDK API Overview
 ### **PaymentLinksController**
 - Init(ICheckoutPurchase callback)
 - Init(string checkoutToken, string environment, ICheckoutPurchase callback)
 - OpenCheckout(string purchaseId, string parsedUrl, string customerId)
-- GetPricePoints()
 - GetSdkVersion()
 ### **Models**
 - CheckoutResponse
 - OrderResponseModel
-- PricePointsModel
 - ErrorMessage
 ### **Interface**
 - ICheckoutPurchase

@@ -23,9 +23,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
         private static extern string acbridge_getSdkVersion();
 
         [DllImport("__Internal")]
-        private static extern void acbridge_getPricePoints();
-
-        [DllImport("__Internal")]
         private static extern void acbridge_setPortraitOrientationLock(bool portraitOrientationLock);
 
         [DllImport("__Internal")]
@@ -39,7 +36,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
         private static void acbridge_openCheckout(string purchaseId, string parsedUrl, string customerId) { }
         private static void acbridge_handleDeepLink(string url) { }
         private static string acbridge_getSdkVersion() { return SdkVersion.UnitySdkVersion; }
-        private static void acbridge_getPricePoints() { }
         private static void acbridge_setPortraitOrientationLock(bool portraitOrientationLock) { }
         private static void acbridge_setDebugMode(bool debugMode) { }
         private static void acbridge_setBrowserMode(string mode) { }
@@ -152,10 +148,6 @@ namespace Appcharge.PaymentLinks.Platforms.iOS {
 
         public string GetSdkVersion() {
             return acbridge_getSdkVersion();
-        }
-                                   
-        public void GetPricePoints() {
-            acbridge_getPricePoints();
         }
 
         public void ConfigurePlatform(string property, object value) {

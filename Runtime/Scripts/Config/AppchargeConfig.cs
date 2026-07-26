@@ -86,6 +86,9 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude the 'androidx.core:core-ktx' dependency from the mainTemplate.gradle file.")]
         public bool ExcludeCoreKtx = false;
 
+        [Tooltip("When enabled, skips adding buildFeatures { buildConfig = true } to mainTemplate.gradle on Unity 6 and above. Required for BuildConfig fields (e.g. ENGINE_* buildConfigField) to compile with Unity 6's Gradle plugin.")]
+        public bool ExcludeBuildConfig = false;
+
         [Tooltip("Exclude the 'androidx.activity:activity-ktx' dependency from the mainTemplate.gradle file.")]
         public bool ExcludeActivityKtx = false;
         [Tooltip("Exclude the 'com.google.androidbrowserhelper:androidbrowserhelper' dependency from the mainTemplate.gradle file.")]
@@ -117,6 +120,9 @@ namespace Appcharge.PaymentLinks.Config {
 
         [Tooltip("Exclude the `<data android:host=\"action\">` entry in the intent filter.")]
         public bool ExcludeCustomHost = false;
+
+        [Tooltip("Exclude the `<data android:scheme=\"https\">` entry in the intent filter.")]
+        public bool ExcludeHttpsSchemeInActivity = false;
 
         [Tooltip("Exclude the `<tools:ignore=\"DiscouragedApi\">` in the Checkout Activity.")]
         public bool ExcludeDiscouragedApiTool = false;

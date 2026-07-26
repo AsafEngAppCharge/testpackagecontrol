@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using Appcharge.PaymentLinks.Config;
 using UnityEngine;
 
@@ -18,6 +19,9 @@ namespace Appcharge.PaymentLinks.Editor {
                 {
                     string originalGradle = File.ReadAllText(_path);
                     string gradleTemplate = originalGradle;
+
+                    if (!_appchargeConfig.ExcludeBuildConfig && IsUnity6000OrNewer())
+                        gradleTemplate = CheckBuildConfigFeature(gradleTemplate);
 
                     var dependenciesToAdd = new List<(string, string)>
                     {
@@ -124,6 +128,62 @@ namespace Appcharge.PaymentLinks.Editor {
             {
                 _appchargePrebuildEditor.LogToFile($"Error updating mainTemplate.gradle: {ex.Message}", true);
             }    
+        }
+
+        private static bool IsUnity6000OrNewer()
+        {
+            string unityVersion = Application.unityVersion;
+            int dotIndex = unityVersion.IndexOf('.');
+            string majorPart = dotIndex > 0 ? unityVersion.Substring(0, dotIndex) : unityVersion;
+            return int.TryParse(majorPart, out int major) && major >= 6000;
+        }
+
+        private static bool IsBuildConfigTrue(string gradleTemplate)
+        {
+            return Regex.IsMatch(gradleTemplate, @"buildConfig\s*=\s*true", RegexOptions.IgnoreCase);
+        }
+
+        private static bool IsBuildConfigFalse(string gradleTemplate)
+        {
+            return Regex.IsMatch(gradleTemplate, @"buildConfig\s*=\s*false", RegexOptions.IgnoreCase);
+        }
+
+
+        private string CheckBuildConfigFeature(string gradleTemplate)
+        {
+            if (IsBuildConfigFalse(gradleTemplate))
+            {
+                const string message =
+                    "mainTemplate.gradle has buildConfig = false. On Unity 6+, Appcharge SDK requires buildConfig enabled " +
+                    "for ENGINE_* buildConfigField entries to compile. The Gradle file was not modified.";
+                _appchargePrebuildEditor.LogToFile("Warning: " + message, false);
+                Debug.LogWarning("[Appcharge] " + message);
+                return gradleTemplate;
+            }
+
+            if (IsBuildConfigTrue(gradleTemplate))
+                return gradleTemplate;
+
+            const string buildFeaturesMarker = "buildFeatures {";
+            int buildFeaturesIndex = gradleTemplate.IndexOf(buildFeaturesMarker, StringComparison.Ordinal);
+            if (buildFeaturesIndex >= 0)
+            {
+                int insertAfterOpen = buildFeaturesIndex + buildFeaturesMarker.Length;
+                _appchargePrebuildEditor.LogToFile("Added buildConfig = true to existing buildFeatures block in mainTemplate.gradle for Unity 6+.");
+                return gradleTemplate.Insert(insertAfterOpen, "\n        buildConfig = true");
+            }
+
+            const string androidMarker = "android {";
+            int androidIndex = gradleTemplate.IndexOf(androidMarker, StringComparison.Ordinal);
+            if (androidIndex < 0)
+            {
+                _appchargePrebuildEditor.LogToFile("Warning: 'android {' block not found in mainTemplate.gradle. Cannot add buildFeatures.buildConfig.", false);
+                return gradleTemplate;
+            }
+
+            int insertAfterAndroidOpen = androidIndex + androidMarker.Length;
+            _appchargePrebuildEditor.LogToFile("Added buildFeatures { buildConfig = true } to mainTemplate.gradle for Unity 6+.");
+            return gradleTemplate.Insert(insertAfterAndroidOpen, "\n    buildFeatures {\n        buildConfig = true\n    }");
         }
 
         private int FindBlockEnd(string text, int blockStart)

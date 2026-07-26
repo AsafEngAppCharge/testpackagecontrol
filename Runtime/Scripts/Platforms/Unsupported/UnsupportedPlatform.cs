@@ -30,12 +30,6 @@ namespace Appcharge.PaymentLinks.Platforms.Unsupported {
             return "0.0.0";
         }
 
-        
-        public void GetPricePoints()
-        {
-            Debug.LogWarning("Unsupported platform: GetPricePoints");        
-        }
-        
         public void ConfigurePlatform(string property, object value)
         {
             Debug.LogWarning("Unsupported platform: ConfigurePlatform");        

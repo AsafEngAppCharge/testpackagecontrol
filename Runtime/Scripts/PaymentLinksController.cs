@@ -133,10 +133,6 @@ namespace Appcharge.PaymentLinks {
             return _currentPlatform.GetSdkVersion();
         }
 
-        public void GetPricePoints() {
-            _currentPlatform.GetPricePoints();
-        }
-
         public void SetConfiguration(string property, object value) {
             _currentPlatform.ConfigurePlatform(property, value);
         }
