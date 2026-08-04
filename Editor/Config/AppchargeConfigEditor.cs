@@ -44,7 +44,6 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty excludeAndroidX;
     SerializedProperty excludeJetifier;
     SerializedProperty excludeCoreKtx;
-    SerializedProperty excludeBuildConfig;
     SerializedProperty excludeActivityKtx;
     SerializedProperty excludeAndroidBrowserHelper;
     SerializedProperty excludeAndroidXBrowser;
@@ -57,12 +56,14 @@ public class AppchargeConfigEditor : Editor
     SerializedProperty excludeExportedAttribute;
     SerializedProperty excludeCustomScheme;
     SerializedProperty excludeCustomHost;
-    SerializedProperty excludeHttpsSchemeInActivity;
     SerializedProperty excludeDiscouragedApiTool;
     SerializedProperty excludeCheckoutService;
     
     // Debug Mode
     SerializedProperty enableDebugMode;
+
+    // Thread Dispatcher
+    SerializedProperty enableMainThreadDispatcher;
 
     void OnEnable()
     {
@@ -105,7 +106,6 @@ public class AppchargeConfigEditor : Editor
         excludeAndroidX = serializedObject.FindProperty("ExcludeAndroidX");
         excludeJetifier = serializedObject.FindProperty("ExcludeJetifier");
         excludeCoreKtx = serializedObject.FindProperty("ExcludeCoreKtx");
-        excludeBuildConfig = serializedObject.FindProperty("ExcludeBuildConfig");
         excludeActivityKtx = serializedObject.FindProperty("ExcludeActivityKtx");
         excludeAndroidBrowserHelper = serializedObject.FindProperty("ExcludeAndroidBrowserHelper");
         excludeAndroidXBrowser = serializedObject.FindProperty("ExcludeAndroidXBrowser");
@@ -118,25 +118,35 @@ public class AppchargeConfigEditor : Editor
         excludeExportedAttribute = serializedObject.FindProperty("ExcludeExportedAttribute");
         excludeCustomScheme = serializedObject.FindProperty("ExcludeCustomScheme");
         excludeCustomHost = serializedObject.FindProperty("ExcludeCustomHost");
-        excludeHttpsSchemeInActivity = serializedObject.FindProperty("ExcludeHttpsSchemeInActivity");
         excludeDiscouragedApiTool = serializedObject.FindProperty("ExcludeDiscouragedApiTool");
         excludeCheckoutService = serializedObject.FindProperty("ExcludeCheckoutService");
         
         // Debug Mode
         enableDebugMode = serializedObject.FindProperty("EnableDebugMode");
+
+        // Thread Dispatcher
+        enableMainThreadDispatcher = serializedObject.FindProperty("EnableMainThreadDispatcher");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
+        bool isWebGL = EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL;
+        bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
+        bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
+
+        if (isWebGL)
+        {
+            EditorGUILayout.HelpBox("WebGL configurations are automatically set by Appcharge", MessageType.Info);
+            serializedObject.ApplyModifiedProperties();
+            return;
+        }
+
         EditorGUILayout.LabelField("Publisher Info", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(environment);
         EditorGUILayout.PropertyField(checkoutPublicKey);
         EditorGUILayout.Space();
-       
-        bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
-        bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
         if (isAndroid || isIOS) {
             if (enableIntegrationOptions.boolValue)
@@ -196,7 +206,6 @@ public class AppchargeConfigEditor : Editor
                     EditorGUILayout.PropertyField(excludeAndroidX);
                     EditorGUILayout.PropertyField(excludeJetifier);
                     EditorGUILayout.PropertyField(excludeCoreKtx);
-                    EditorGUILayout.PropertyField(excludeBuildConfig);
                     EditorGUILayout.PropertyField(excludeActivityKtx);
                     EditorGUILayout.PropertyField(excludeAndroidBrowserHelper);
                     EditorGUILayout.PropertyField(excludeAndroidXBrowser);
@@ -216,7 +225,6 @@ public class AppchargeConfigEditor : Editor
                         EditorGUILayout.PropertyField(excludeAppchargeActivityIntentFilters);
                         EditorGUILayout.PropertyField(excludeCustomScheme);
                         EditorGUILayout.PropertyField(excludeCustomHost);
-                        EditorGUILayout.PropertyField(excludeHttpsSchemeInActivity);
                         EditorGUI.indentLevel--;
                     }
                 }
@@ -224,6 +232,7 @@ public class AppchargeConfigEditor : Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(enableIntegrationOptions);
+            EditorGUILayout.PropertyField(enableMainThreadDispatcher);
             EditorGUILayout.PropertyField(enableDebugMode);
         }
 

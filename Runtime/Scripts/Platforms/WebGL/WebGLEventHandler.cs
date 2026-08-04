@@ -26,7 +26,6 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
         }    
 
         public void OnInitialized() {
-            Debug.Log($"[WebGLEventHandler] OnInitialized go={gameObject.GetInstanceID()} callbacks={(_callbacks == null ? "NULL" : _callbacks.GetType().Name)}");
             _callbacks?.OnInitialized();
         }
 

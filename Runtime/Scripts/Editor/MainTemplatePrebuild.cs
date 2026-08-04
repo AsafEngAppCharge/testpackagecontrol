@@ -18,10 +18,7 @@ namespace Appcharge.PaymentLinks.Editor {
                 if (File.Exists(_path))
                 {
                     string originalGradle = File.ReadAllText(_path);
-                    string gradleTemplate = originalGradle;
-
-                    if (!_appchargeConfig.ExcludeBuildConfig && IsUnity6000OrNewer())
-                        gradleTemplate = CheckBuildConfigFeature(gradleTemplate);
+                    string gradleTemplate = RemoveEngineBuildConfigFields(originalGradle);
 
                     var dependenciesToAdd = new List<(string, string)>
                     {
@@ -63,15 +60,6 @@ namespace Appcharge.PaymentLinks.Editor {
                     {
                         int insertAfterOpen = dcIndex + defaultConfigMarker.Length;
                         string injection = "";
-                        if (!gradleTemplate.Contains("buildConfigField \"String\", \"ENGINE_NAME\""))
-                        {
-                            string engineName = EscapeGradleString(EngineMetadataBuild.EngineName);
-                            string engineVersion = EscapeGradleString(Application.unityVersion);
-                            string sdkVersion = EscapeGradleString(EngineMetadataBuild.EngineSdkVersion);
-                            injection += "\n        buildConfigField \"String\", \"ENGINE_NAME\", \"" + engineName + "\"" +
-                                "\n        buildConfigField \"String\", \"ENGINE_VERSION_NAME\", \"" + engineVersion + "\"" +
-                                "\n        buildConfigField \"String\", \"ENGINE_SDK_VERSION\", \"" + sdkVersion + "\"";
-                        }
                         if (!gradleTemplate.Contains("manifestPlaceholders[\"ENGINE_NAME\"]"))
                         {
                             string n = GroovyDoubleQuotedString(EngineMetadataBuild.EngineName);
@@ -130,62 +118,6 @@ namespace Appcharge.PaymentLinks.Editor {
             }    
         }
 
-        private static bool IsUnity6000OrNewer()
-        {
-            string unityVersion = Application.unityVersion;
-            int dotIndex = unityVersion.IndexOf('.');
-            string majorPart = dotIndex > 0 ? unityVersion.Substring(0, dotIndex) : unityVersion;
-            return int.TryParse(majorPart, out int major) && major >= 6000;
-        }
-
-        private static bool IsBuildConfigTrue(string gradleTemplate)
-        {
-            return Regex.IsMatch(gradleTemplate, @"buildConfig\s*=\s*true", RegexOptions.IgnoreCase);
-        }
-
-        private static bool IsBuildConfigFalse(string gradleTemplate)
-        {
-            return Regex.IsMatch(gradleTemplate, @"buildConfig\s*=\s*false", RegexOptions.IgnoreCase);
-        }
-
-
-        private string CheckBuildConfigFeature(string gradleTemplate)
-        {
-            if (IsBuildConfigFalse(gradleTemplate))
-            {
-                const string message =
-                    "mainTemplate.gradle has buildConfig = false. On Unity 6+, Appcharge SDK requires buildConfig enabled " +
-                    "for ENGINE_* buildConfigField entries to compile. The Gradle file was not modified.";
-                _appchargePrebuildEditor.LogToFile("Warning: " + message, false);
-                Debug.LogWarning("[Appcharge] " + message);
-                return gradleTemplate;
-            }
-
-            if (IsBuildConfigTrue(gradleTemplate))
-                return gradleTemplate;
-
-            const string buildFeaturesMarker = "buildFeatures {";
-            int buildFeaturesIndex = gradleTemplate.IndexOf(buildFeaturesMarker, StringComparison.Ordinal);
-            if (buildFeaturesIndex >= 0)
-            {
-                int insertAfterOpen = buildFeaturesIndex + buildFeaturesMarker.Length;
-                _appchargePrebuildEditor.LogToFile("Added buildConfig = true to existing buildFeatures block in mainTemplate.gradle for Unity 6+.");
-                return gradleTemplate.Insert(insertAfterOpen, "\n        buildConfig = true");
-            }
-
-            const string androidMarker = "android {";
-            int androidIndex = gradleTemplate.IndexOf(androidMarker, StringComparison.Ordinal);
-            if (androidIndex < 0)
-            {
-                _appchargePrebuildEditor.LogToFile("Warning: 'android {' block not found in mainTemplate.gradle. Cannot add buildFeatures.buildConfig.", false);
-                return gradleTemplate;
-            }
-
-            int insertAfterAndroidOpen = androidIndex + androidMarker.Length;
-            _appchargePrebuildEditor.LogToFile("Added buildFeatures { buildConfig = true } to mainTemplate.gradle for Unity 6+.");
-            return gradleTemplate.Insert(insertAfterAndroidOpen, "\n    buildFeatures {\n        buildConfig = true\n    }");
-        }
-
         private int FindBlockEnd(string text, int blockStart)
         {
             if (blockStart < 0) return -1;
@@ -202,10 +134,13 @@ namespace Appcharge.PaymentLinks.Editor {
             return -1;
         }
 
-        private static string EscapeGradleString(string value)
+        private static string RemoveEngineBuildConfigFields(string gradleTemplate)
         {
-            if (string.IsNullOrEmpty(value)) return "\\\"\\\"";
-            return "\\\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\\\"";
+            return Regex.Replace(
+                gradleTemplate,
+                @"^\s*(?://\s*)?buildConfigField\s+""String"",\s*""ENGINE_(?:NAME|VERSION_NAME|SDK_VERSION)""[^\n]*\r?\n",
+                string.Empty,
+                RegexOptions.Multiline);
         }
 
         private static string GroovyDoubleQuotedString(string value)

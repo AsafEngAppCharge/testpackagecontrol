@@ -1,8 +1,8 @@
 #if UNITY_WEBGL
 using System.Runtime.InteropServices;
 using UnityEngine;
-using Appcharge.PaymentLinks.Interfaces;
 using Appcharge.PaymentLinks.Config;
+using Appcharge.PaymentLinks.Interfaces;
 
 namespace Appcharge.PaymentLinks.Platforms.WebGL {
     public class WebGLPlatform : ICheckoutPlatform
@@ -11,7 +11,7 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
         private static extern void AC_LoadCore();
 
         [DllImport("__Internal")]
-        private static extern void AC_Init(string sdkVersion, string checkoutPublicKey);
+        private static extern void AC_Init(string sdkVersion);
 
         [DllImport("__Internal")]
         private static extern void AC_OpenCheckout(string purchaseId, string parsedUrl, string customerId);
@@ -26,23 +26,16 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             AC_LoadCore();
         }
 
-        public void Init(ICheckoutPurchase callback)
-        {
-            var config = ConfigUtility.GetConfig();
-            if (config == null)
-            {
-                Debug.LogError("AppchargeConfig not found.");
-                return;
-            }
+        public void Init(ICheckoutPurchase callback) => InitInternal(callback);
 
-            Init(config.CheckoutPublicKey, config.Environment.ToString().ToLowerInvariant(), callback);
-        }
+        public void Init(string checkoutToken, string environment, ICheckoutPurchase callback) =>
+            InitInternal(callback);
 
-        public void Init(string checkoutToken, string environment, ICheckoutPurchase callback)
+        private void InitInternal(ICheckoutPurchase callback)
         {
             Callback = callback;
             InitEventHandler(callback);
-            AC_Init(SdkVersion.UnitySdkVersion, checkoutToken);
+            AC_Init(SdkVersion.UnitySdkVersion);
         }
 
         private void InitEventHandler(ICheckoutPurchase callback) {

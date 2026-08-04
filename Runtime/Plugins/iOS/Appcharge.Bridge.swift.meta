@@ -76,7 +76,7 @@ PluginImporter:
         AddToEmbeddedBinaries: false
         CPU: AnyCPU
         CompileFlags: 
-        FrameworkDependencies: Twitter;
+        FrameworkDependencies: 
   - first:
       tvOS: tvOS
     second:

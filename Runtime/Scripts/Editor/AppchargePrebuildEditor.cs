@@ -1,7 +1,10 @@
+using System;
 using System.IO;
 using Appcharge.PaymentLinks.Config;
+#if UNITY_EDITOR
+using UnityEditor.Build;
+#endif
 using UnityEngine;
-
 namespace Appcharge.PaymentLinks.Editor
 {
     public class AppchargePrebuildEditor
@@ -47,8 +50,13 @@ namespace Appcharge.PaymentLinks.Editor
                 if (_appchargeConfig.EnableDebugMode)
                     _logger.PrintLog();
             }
-            catch
+            catch (Exception ex)
             {
+#if UNITY_EDITOR
+                throw new BuildFailedException($"Appcharge prebuild failed: {ex.Message}");
+#else
+                Debug.LogError($"Appcharge prebuild failed: {ex.Message}");
+#endif
             }
         }
 

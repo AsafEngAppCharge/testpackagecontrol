@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
+using Appcharge.PaymentLinks.Config;
 using Appcharge.PaymentLinks.Interfaces;
+using Appcharge.PaymentLinks.Threading;
 using Appcharge.PaymentLinks.Platforms.Unsupported;
 using Appcharge.PaymentLinks.Platforms.iOS;
 using Appcharge.PaymentLinks.Platforms.Android;
@@ -117,12 +120,12 @@ namespace Appcharge.PaymentLinks {
         public void Init(ICheckoutPurchase callback)
         {
             DefinePlatform();
-            _currentPlatform.Init(callback);
+            _currentPlatform.Init(WrapCallback(callback));
         }
 
         public void Init(string checkoutToken, string environment, ICheckoutPurchase callback) {
             DefinePlatform();
-            _currentPlatform.Init(checkoutToken, environment, callback);
+            _currentPlatform.Init(checkoutToken, environment, WrapCallback(callback));
         }
 
         public void OpenCheckout(string purchaseId, string parsedUrl, string customerId) {
@@ -134,7 +137,31 @@ namespace Appcharge.PaymentLinks {
         }
 
         public void SetConfiguration(string property, object value) {
+            if (property.Equals("enableMainThreadDispatcher", StringComparison.OrdinalIgnoreCase) && value is bool enabled) {
+                MainThreadDispatcher.Enabled = enabled;
+                return;
+            }
+
+            DefinePlatform();
             _currentPlatform.ConfigurePlatform(property, value);
+        }
+
+        private static ICheckoutPurchase WrapCallback(ICheckoutPurchase callback) {
+            if (callback == null) {
+                return null;
+            }
+
+            ApplyMainThreadDispatcherFromConfig();
+            MainThreadDispatcher.EnsureExists();
+            return new MainThreadCheckoutPurchase(callback);
+        }
+
+        private static void ApplyMainThreadDispatcherFromConfig() {
+            try {
+                MainThreadDispatcher.Enabled = ConfigUtility.GetConfig().EnableMainThreadDispatcher;
+            } catch (Exception) {
+                MainThreadDispatcher.Enabled = true;
+            }
         }
 
         private ICheckoutPlatform CreateEditorPlatform()
