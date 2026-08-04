@@ -133,15 +133,17 @@ public class AppchargeConfigEditor : Editor
         serializedObject.Update();
 
         bool isWebGL = EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL;
-        bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
-        bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
         if (isWebGL)
         {
-            EditorGUILayout.HelpBox("WebGL configurations are automatically set by Appcharge", MessageType.Info);
+            EditorGUILayout.LabelField("General Auto Integration Settings", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(enableMainThreadDispatcher);
             serializedObject.ApplyModifiedProperties();
             return;
         }
+
+        bool isIOS = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
+        bool isAndroid = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
         EditorGUILayout.LabelField("Publisher Info", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(environment);
