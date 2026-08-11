@@ -112,7 +112,7 @@ namespace Appcharge.PaymentLinks.Config {
         [Tooltip("Exclude the `android:exported` attribute in the Checkout Activity.")]
         public bool ExcludeExportedAttribute = false;
 
-        [Tooltip("Exclude the `<data android:scheme=\"acnative-{gameNameLowerCase}\">` entry in the intent filter.")]
+        [Tooltip("Exclude the acnative URL scheme (`acnative-{packageSuffix}`) from the Checkout Activity intent filter in AndroidManifest.xml. The suffix is the last segment of your Android package name (Application Identifier).")]
         public bool ExcludeCustomScheme = false;
 
         [Tooltip("Exclude the `<data android:host=\"action\">` entry in the intent filter.")]
@@ -129,10 +129,10 @@ namespace Appcharge.PaymentLinks.Config {
         public bool EnableIntegrationOptions = true;
 
         [Tooltip("Enable this to print a summary of the automatic integration changes after the build."
-        + " \nFor debugging purposes.")]
+        + " Integration details are also written to Logs/Appcharge/AppchargeIntegrationLogs.log.")]
         public bool EnableDebugMode = false;
 
-        [Tooltip("When enabled, the SDK callbacks are dispatched on Unity's main thread. Disable to preserve legacy behavior.")]
+        [Tooltip("When enabled, the SDK API calls and callbacks are dispatched using Unity's main thread. Disable to preserve legacy behavior.")]
         public bool EnableMainThreadDispatcher = true;
     }
 }

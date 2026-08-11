@@ -119,40 +119,68 @@ namespace Appcharge.PaymentLinks {
 
         public void Init(ICheckoutPurchase callback)
         {
-            DefinePlatform();
-            _currentPlatform.Init(WrapCallback(callback));
+            DispatchOnMainThread(InitOnMainThread);
+
+            void InitOnMainThread() {
+                ApplyMainThreadDispatcherFromConfig();
+                DefinePlatform();
+                _currentPlatform.Init(WrapPublisherCallback(callback));
+            }
         }
 
         public void Init(string checkoutToken, string environment, ICheckoutPurchase callback) {
-            DefinePlatform();
-            _currentPlatform.Init(checkoutToken, environment, WrapCallback(callback));
+            DispatchOnMainThread(InitOnMainThread);
+
+            void InitOnMainThread() {
+                ApplyMainThreadDispatcherFromConfig();
+                DefinePlatform();
+                _currentPlatform.Init(checkoutToken, environment, WrapPublisherCallback(callback));
+            }
         }
 
         public void OpenCheckout(string purchaseId, string parsedUrl, string customerId) {
-            _currentPlatform.OpenCheckout(purchaseId, parsedUrl, customerId);
+            DispatchOnMainThread(OpenCheckoutOnMainThread);
+
+            void OpenCheckoutOnMainThread() {
+                _currentPlatform.OpenCheckout(purchaseId, parsedUrl, customerId);
+            }
         }
 
         public string GetSdkVersion() {
-            return _currentPlatform.GetSdkVersion();
+            return DispatchOnMainThread(GetSdkVersionOnMainThread);
+
+            string GetSdkVersionOnMainThread() {
+                return _currentPlatform.GetSdkVersion();
+            }
         }
 
         public void SetConfiguration(string property, object value) {
-            if (property.Equals("enableMainThreadDispatcher", StringComparison.OrdinalIgnoreCase) && value is bool enabled) {
-                MainThreadDispatcher.Enabled = enabled;
-                return;
-            }
+            DispatchOnMainThread(SetConfigurationOnMainThread);
 
-            DefinePlatform();
-            _currentPlatform.ConfigurePlatform(property, value);
+            void SetConfigurationOnMainThread() {
+                if (property.Equals("enableMainThreadDispatcher", StringComparison.OrdinalIgnoreCase) && value is bool enabled) {
+                    MainThreadDispatcher.Enabled = enabled;
+                    return;
+                }
+
+                DefinePlatform();
+                _currentPlatform.ConfigurePlatform(property, value);
+            }
         }
 
-        private static ICheckoutPurchase WrapCallback(ICheckoutPurchase callback) {
+        private static void DispatchOnMainThread(Action action) {
+            MainThreadDispatcher.RunSync(action);
+        }
+
+        private static T DispatchOnMainThread<T>(Func<T> func) {
+            return MainThreadDispatcher.RunSync(func);
+        }
+
+        private static ICheckoutPurchase WrapPublisherCallback(ICheckoutPurchase callback) {
             if (callback == null) {
                 return null;
             }
 
-            ApplyMainThreadDispatcherFromConfig();
-            MainThreadDispatcher.EnsureExists();
             return new MainThreadCheckoutPurchase(callback);
         }
 

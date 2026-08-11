@@ -8,17 +8,13 @@ namespace Appcharge.PaymentLinks.Threading {
         private static MainThreadDispatcher _instance;
         private static int _mainThreadId;
         private static readonly Queue<Action> _queue = new Queue<Action>();
+        private static readonly List<Action> _pendingActions = new List<Action>();
         private static readonly object _lock = new object();
 
         public static bool Enabled { get; set; } = true;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Initialize() {
-            _mainThreadId = Thread.CurrentThread.ManagedThreadId;
-        }
-
-        public static void EnsureExists() {
-            if (_instance != null) {
+        public static void EnsureGameObjectExists() {
+            if (_instance != null || !IsMainThread()) {
                 return;
             }
 
@@ -38,33 +34,81 @@ namespace Appcharge.PaymentLinks.Threading {
                 return;
             }
 
-            EnsureExists();
+            EnsureGameObjectExists();
             lock (_lock) {
                 _queue.Enqueue(action);
             }
         }
 
-        private static bool IsMainThread() {
-            return Thread.CurrentThread.ManagedThreadId == _mainThreadId;
+        public static void RunSync(Action action) {
+            RunSync<object>(() => {
+                action();
+                return null;
+            });
+        }
+
+        public static T RunSync<T>(Func<T> func) {
+            if (func == null) {
+                return default;
+            }
+
+            if (!Enabled || IsMainThread()) {
+                return func();
+            }
+
+            EnsureGameObjectExists();
+
+            T result = default;
+            Exception caught = null;
+            var waitHandle = new ManualResetEventSlim(false);
+            lock (_lock) {
+                _queue.Enqueue(() => {
+                    try {
+                        result = func();
+                    } catch (Exception ex) {
+                        caught = ex;
+                    } finally {
+                        waitHandle.Set();
+                    }
+                });
+            }
+
+            waitHandle.Wait();
+            waitHandle.Dispose();
+
+            if (caught != null) {
+                throw caught;
+            }
+
+            return result;
         }
 
         private void Update() {
-            while (true) {
-                Action action = null;
-                lock (_lock) {
-                    if (_queue.Count == 0) {
-                        break;
-                    }
-
-                    action = _queue.Dequeue();
+            lock (_lock) {
+                while (_queue.Count > 0) {
+                    _pendingActions.Add(_queue.Dequeue());
                 }
+            }
 
+            for (int i = 0; i < _pendingActions.Count; i++) {
                 try {
-                    action?.Invoke();
+                    _pendingActions[i]?.Invoke();
                 } catch (Exception ex) {
                     Debug.LogException(ex);
                 }
             }
+
+            _pendingActions.Clear();
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void InitializeMainThread() {
+            _mainThreadId = Thread.CurrentThread.ManagedThreadId;
+            EnsureGameObjectExists();
+        }
+
+        private static bool IsMainThread() {
+            return Thread.CurrentThread.ManagedThreadId == _mainThreadId;
         }
     }
 }
