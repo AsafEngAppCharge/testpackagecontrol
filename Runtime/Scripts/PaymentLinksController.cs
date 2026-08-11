@@ -186,9 +186,12 @@ namespace Appcharge.PaymentLinks {
 
         private static void ApplyMainThreadDispatcherFromConfig() {
             try {
-                MainThreadDispatcher.Enabled = ConfigUtility.GetConfig().EnableMainThreadDispatcher;
+                var config = ConfigUtility.GetConfig();
+                MainThreadDispatcher.Enabled = config.EnableMainThreadDispatcher;
+                MainThreadDispatcher.DebugLogging = config.EnableDebugMode;
             } catch (Exception) {
                 MainThreadDispatcher.Enabled = true;
+                MainThreadDispatcher.DebugLogging = false;
             }
         }
 
