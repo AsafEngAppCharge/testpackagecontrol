@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.RegularExpressions;
+using Appcharge.PaymentLinks.Config;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,9 +16,7 @@ namespace Appcharge.PaymentLinks.Editor
     {
         public const string EngineName = "unity";
 
-        private const string FallbackSdkVersion = "2.6.0";
-
-        /// <summary>Read from package.json version; falls back to FallbackSdkVersion if unreadable.</summary>
+        /// <summary>Read from package.json version; falls back to SdkVersion.UnitySdkVersion if unreadable.</summary>
         public static string EngineSdkVersion
         {
             get
@@ -34,10 +33,8 @@ namespace Appcharge.PaymentLinks.Editor
                     }
                     catch { }
                 }
-                return FallbackSdkVersion;
-#else
-                return FallbackSdkVersion;
 #endif
+                return SdkVersion.UnitySdkVersion;
             }
         }
 

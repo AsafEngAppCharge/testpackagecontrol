@@ -1,4 +1,4 @@
-## [2.6.0] - 2026-07-15
+## [3.0.0] - 2026-09-22
 
 ### Updated
 - Improved WebGL platform support.

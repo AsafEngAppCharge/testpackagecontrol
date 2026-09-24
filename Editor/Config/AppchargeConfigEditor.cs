@@ -136,8 +136,12 @@ public class AppchargeConfigEditor : Editor
 
         if (isWebGL)
         {
-            EditorGUILayout.LabelField("General Auto Integration Settings", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Publisher Info", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(environment);
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Configuration Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(enableMainThreadDispatcher);
+            EditorGUILayout.PropertyField(enableDebugMode);
             serializedObject.ApplyModifiedProperties();
             return;
         }
@@ -151,19 +155,24 @@ public class AppchargeConfigEditor : Editor
         EditorGUILayout.Space();
 
         if (isAndroid || isIOS) {
+            EditorGUILayout.LabelField("Configuration Settings", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(enableMainThreadDispatcher);
+            EditorGUILayout.PropertyField(enableDebugMode);
+            EditorGUILayout.PropertyField(browserMode);
+
+            if (isIOS) {
+                EditorGUILayout.PropertyField(associatedDomain);
+                EditorGUILayout.PropertyField(portraitOrientationLock);
+                EditorGUILayout.Space();
+            }
+
+            EditorGUILayout.LabelField("Integration Settings", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(enableIntegrationOptions);
+
             if (enableIntegrationOptions.boolValue)
             {
-                EditorGUILayout.LabelField("Platform Auto Integration Settings", EditorStyles.boldLabel);
-                EditorGUILayout.HelpBox("The following settings are automatically applied during the build process.\nIn order to manually configure the settings, you can disable each setting individually or turn off the auto integration option.", MessageType.Info);
-                
                 if (isIOS)
                 {
-                    EditorGUILayout.Space();
-                    EditorGUILayout.PropertyField(browserMode);
-                    EditorGUILayout.PropertyField(associatedDomain);
-                    EditorGUILayout.PropertyField(portraitOrientationLock);
-                    
-                    EditorGUILayout.Space();
                     EditorGUILayout.PropertyField(enableIOSFrameworkIntegration);
                     if (enableIOSFrameworkIntegration.boolValue)
                     {
@@ -203,8 +212,6 @@ public class AppchargeConfigEditor : Editor
 
                 if (isAndroid)
                 {
-                    EditorGUILayout.Space();
-                    EditorGUILayout.PropertyField(browserMode);
                     EditorGUILayout.PropertyField(excludeAndroidX);
                     EditorGUILayout.PropertyField(excludeJetifier);
                     EditorGUILayout.PropertyField(excludeCoreKtx);
@@ -231,14 +238,10 @@ public class AppchargeConfigEditor : Editor
                     }
                 }
             }
-
-            EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(enableIntegrationOptions);
-            EditorGUILayout.PropertyField(enableMainThreadDispatcher);
-            EditorGUILayout.PropertyField(enableDebugMode);
         }
 
         serializedObject.ApplyModifiedProperties();
     }
+
 }
 #endif

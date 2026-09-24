@@ -8,6 +8,7 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
     public class WebGLEventHandler : MonoBehaviour
     {
         private ICheckoutPurchase _callbacks;
+        private WebGLCheckoutData _checkoutData = new WebGLCheckoutData();
 
         private void Awake()
         {
@@ -23,22 +24,20 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             }
 
             _callbacks = callbacks;
-        }    
+        }
+
+        public void SetCheckoutData(string purchaseId, string parsedUrl, string customerId)
+        {
+            _checkoutData.Set(purchaseId, parsedUrl, customerId);
+        }
 
         public void OnInitialized() {
             _callbacks?.OnInitialized();
         }
 
-        public void OnInitializeFailed(string errorCode) {
-            int code;
-            int.TryParse(errorCode, out code);
-            
-            ErrorMessage errorMessage = new ErrorMessage
-            {
-                code = code,
-                message = "OnInitializeFailed"
-            };
-            _callbacks?.OnInitializeFailed(errorMessage);
+        public void OnInitializeFailed(string json) {
+            var error = JsonUtility.FromJson<ErrorMessage>(json);
+            _callbacks?.OnInitializeFailed(error);
         }
         
         public void OnPurchaseSuccess(string eventData)
@@ -52,8 +51,8 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             try
             {
                 OrderResponseModel orderResponseModel = JsonUtility.FromJson<OrderResponseModel>(eventData);
-                _callbacks.OnPurchaseSuccess(orderResponseModel);
-                Debug.Log("OnPurchaseSuccess: Successfully deserialized order JSON into OrderResponseModel: " + orderResponseModel.ToString());
+                orderResponseModel = _checkoutData.Enrich(orderResponseModel);
+                _callbacks?.OnPurchaseSuccess(orderResponseModel);
             }
             catch (Exception ex)
             {
@@ -61,16 +60,28 @@ namespace Appcharge.PaymentLinks.Platforms.WebGL {
             }
         }
 
-        public void OnPurchaseFailed(string errorCode) {
-            int code;
-            int.TryParse(errorCode, out code);
-            
-            ErrorMessage purchaseFailError = new ErrorMessage
+        public void OnPurchaseCanceled(string payloadJson)
+        {
+            DispatchPurchaseResult(payloadJson, (error, order) => _callbacks?.OnPurchaseCanceled(error, order));
+        }
+
+        public void OnPurchaseFailed(string payloadJson)
+        {
+            DispatchPurchaseResult(payloadJson, (error, order) => _callbacks?.OnPurchaseFailed(error, order));
+        }
+
+        private void DispatchPurchaseResult(string payloadJson, Action<ErrorMessage, OrderResponseModel> dispatch)
+        {
+            try
             {
-                code = code,
-                message = "OnPurchaseFailed"
-            };
-            _callbacks.OnPurchaseFailed(purchaseFailError, null);
+                var (error, order) = PurchaseResultPayloadParser.Parse(payloadJson);
+                order = _checkoutData.Enrich(order);
+                dispatch(error, order);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error handling WebGL purchase result payload: {ex.Message}");
+            }
         }
     }
 }

@@ -12,9 +12,6 @@ namespace Appcharge.PaymentLinks.Threading {
         private static readonly object _lock = new object();
 
         public static bool Enabled { get; set; } = true;
-        public static bool DebugLogging { get; set; }
-
-        private const string LogTag = "[Appcharge MainThread]";
 
         public static void EnsureGameObjectExists() {
             if (_instance != null || !IsMainThread()) {
@@ -25,7 +22,6 @@ namespace Appcharge.PaymentLinks.Threading {
             gameObject.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(gameObject);
             _instance = gameObject.AddComponent<MainThreadDispatcher>();
-            LogDebug("EnsureGameObjectExists: dispatcher GameObject created");
         }
 
         public static void Run(Action action) {
@@ -33,19 +29,11 @@ namespace Appcharge.PaymentLinks.Threading {
                 return;
             }
 
-            if (!Enabled) {
-                LogDebug("Run: dispatcher disabled, executing inline");
+            if (!Enabled || IsMainThread()) {
                 action();
                 return;
             }
 
-            if (IsMainThread()) {
-                LogDebug("Run: on main thread, executing inline");
-                action();
-                return;
-            }
-
-            LogDebug("Run: off main thread, enqueueing");
             EnsureGameObjectExists();
             lock (_lock) {
                 _queue.Enqueue(action);
@@ -64,17 +52,10 @@ namespace Appcharge.PaymentLinks.Threading {
                 return default;
             }
 
-            if (!Enabled) {
-                LogDebug("RunSync: dispatcher disabled, executing inline");
+            if (!Enabled || IsMainThread()) {
                 return func();
             }
 
-            if (IsMainThread()) {
-                LogDebug("RunSync: on main thread, executing inline");
-                return func();
-            }
-
-            LogDebug("RunSync: off main thread, enqueueing and blocking");
             EnsureGameObjectExists();
 
             T result = default;
@@ -83,7 +64,6 @@ namespace Appcharge.PaymentLinks.Threading {
             lock (_lock) {
                 _queue.Enqueue(() => {
                     try {
-                        LogDebug("RunSync: executing queued work on main thread");
                         result = func();
                     } catch (Exception ex) {
                         caught = ex;
@@ -110,13 +90,8 @@ namespace Appcharge.PaymentLinks.Threading {
                 }
             }
 
-            if (_pendingActions.Count > 0) {
-                LogDebug($"Update: draining {_pendingActions.Count} queued action(s) on main thread");
-            }
-
             for (int i = 0; i < _pendingActions.Count; i++) {
                 try {
-                    LogDebug($"Update: executing queued action {_pendingActions.Count - i} remaining");
                     _pendingActions[i]?.Invoke();
                 } catch (Exception ex) {
                     Debug.LogException(ex);
@@ -129,20 +104,11 @@ namespace Appcharge.PaymentLinks.Threading {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void InitializeMainThread() {
             _mainThreadId = Thread.CurrentThread.ManagedThreadId;
-            LogDebug("InitializeMainThread: main thread id captured");
             EnsureGameObjectExists();
         }
 
         private static bool IsMainThread() {
             return Thread.CurrentThread.ManagedThreadId == _mainThreadId;
-        }
-
-        private static void LogDebug(string message) {
-            if (!DebugLogging) {
-                return;
-            }
-
-            Debug.Log($"{LogTag} {message} | threadId={Thread.CurrentThread.ManagedThreadId}, mainThreadId={_mainThreadId}, onMainThread={IsMainThread()}");
         }
     }
 }

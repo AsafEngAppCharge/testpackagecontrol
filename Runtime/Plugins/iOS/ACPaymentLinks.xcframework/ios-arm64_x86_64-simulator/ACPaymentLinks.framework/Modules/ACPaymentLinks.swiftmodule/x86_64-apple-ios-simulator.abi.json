@@ -10302,6 +10302,48 @@
           },
           {
             "kind": "Var",
+            "name": "logRequestOnSuccessOnly",
+            "printedName": "logRequestOnSuccessOnly",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestP03logE13OnSuccessOnlySbvp",
+            "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestP03logE13OnSuccessOnlySbvp",
+            "moduleName": "ACPaymentLinks",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestP03logE13OnSuccessOnlySbvg",
+                "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestP03logE13OnSuccessOnlySbvg",
+                "moduleName": "ACPaymentLinks",
+                "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACBaseNetworkRequest>",
+                "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACBaseNetworkRequest>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
             "name": "isUsePathMonitor",
             "printedName": "isUsePathMonitor",
             "children": [
@@ -12052,6 +12094,43 @@
             "declKind": "EnumElement",
             "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO25bootInitAlreadyInProgressyA2CmF",
             "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO25bootInitAlreadyInProgressyA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "bootConfigurationFile",
+            "printedName": "bootConfigurationFile",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ACCheckoutErrorCode",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ACCheckoutErrorCode",
+                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO21bootConfigurationFileyA2CmF",
+            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO21bootConfigurationFileyA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -14741,14 +14820,14 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 5699,
+      "offset": 5697,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Config\/ACConfigManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 5854,
+      "offset": 5852,
       "length": 5,
       "value": "false"
     },
@@ -15658,56 +15737,35 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 286,
-      "length": 13,
-      "value": "\"sdk_version\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 329,
-      "length": 13,
-      "value": "\"engine_name\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 375,
-      "length": 16,
-      "value": "\"engine_version\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 422,
-      "length": 14,
-      "value": "\"package_name\""
-    },
-    {
-      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 469,
+      "offset": 190,
       "length": 10,
-      "value": "\"platform\""
+      "value": "\"checkout\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "StringLiteral",
-      "offset": 507,
-      "length": 10,
-      "value": "\"apiLevel\""
+      "offset": 235,
+      "length": 5,
+      "value": "\"ios\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
       "kind": "BooleanLiteral",
-      "offset": 645,
+      "offset": 616,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
+      "kind": "BooleanLiteral",
+      "offset": 869,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/CancelOrder\/CancelOrderRequest.swift",
       "kind": "BooleanLiteral",
-      "offset": 460,
+      "offset": 508,
       "length": 5,
       "value": "false"
     },
@@ -15734,8 +15792,43 @@
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 439,
+      "length": 13,
+      "value": "\"sdk_version\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 482,
+      "length": 13,
+      "value": "\"engine_name\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 528,
+      "length": 16,
+      "value": "\"engine_version\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 575,
+      "length": 14,
+      "value": "\"package_name\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 622,
+      "length": 10,
+      "value": "\"platform\""
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/OrderStatus\/OrderStatusRequest.swift",
       "kind": "BooleanLiteral",
-      "offset": 592,
+      "offset": 868,
       "length": 4,
       "value": "true"
     },
@@ -15840,210 +15933,217 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 319,
+      "offset": 296,
       "length": 4,
       "value": "1000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 354,
+      "offset": 331,
       "length": 4,
       "value": "1001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 391,
+      "offset": 368,
       "length": 4,
       "value": "1007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 453,
+      "offset": 430,
       "length": 4,
       "value": "2000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 484,
+      "offset": 461,
       "length": 4,
       "value": "2001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 510,
+      "offset": 487,
       "length": 4,
       "value": "2002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 548,
+      "offset": 525,
       "length": 4,
       "value": "2004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 590,
+      "offset": 567,
       "length": 4,
       "value": "2005"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 640,
+      "offset": 605,
+      "length": 4,
+      "value": "2006"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
+      "kind": "IntegerLiteral",
+      "offset": 659,
       "length": 4,
       "value": "3000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 682,
+      "offset": 701,
       "length": 4,
       "value": "3002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 713,
+      "offset": 732,
       "length": 4,
       "value": "3003"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 745,
+      "offset": 764,
       "length": 4,
       "value": "3004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 778,
+      "offset": 797,
       "length": 4,
       "value": "3005"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 817,
+      "offset": 836,
       "length": 4,
       "value": "3006"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 858,
+      "offset": 877,
       "length": 4,
       "value": "3007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 920,
+      "offset": 939,
       "length": 4,
       "value": "4000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 960,
+      "offset": 979,
       "length": 4,
       "value": "4002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1025,
+      "offset": 1044,
       "length": 4,
       "value": "8000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1068,
+      "offset": 1087,
       "length": 4,
       "value": "8001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1102,
+      "offset": 1121,
       "length": 4,
       "value": "8002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1155,
+      "offset": 1174,
       "length": 4,
       "value": "9001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1194,
+      "offset": 1213,
       "length": 4,
       "value": "9998"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1223,
+      "offset": 1242,
       "length": 4,
       "value": "9999"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6912,
+      "offset": 7067,
       "length": 17,
       "value": "\"Decoding Failed\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6954,
+      "offset": 7109,
       "length": 14,
       "value": "\"Unauthorized\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 6990,
+      "offset": 7145,
       "length": 11,
       "value": "\"Forbidden\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7022,
+      "offset": 7177,
       "length": 20,
       "value": "\"Resource not found\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7074,
+      "offset": 7229,
       "length": 23,
       "value": "\"Internal server error\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7120,
+      "offset": 7275,
       "length": 24,
       "value": "\"No internet connection\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7164,
+      "offset": 7319,
       "length": 15,
       "value": "\"Unknown error\""
     }

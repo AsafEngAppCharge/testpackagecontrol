@@ -98,21 +98,82 @@ namespace Appcharge.PaymentLinks.Editor {
                 manifest.AppendChild(queries);
         }
 
+        internal static void FixAcnativeSchemeValues(XmlDocument document, string gameNameLowerCase, Action<string> log)
+        {
+            string correctScheme = $"acnative-{gameNameLowerCase}";
+            foreach (XmlNode node in document.GetElementsByTagName("data"))
+            {
+                var data = node as XmlElement;
+                if (data == null)
+                    continue;
+
+                string scheme = GetAndroidAttribute(data, "scheme");
+                if (string.IsNullOrEmpty(scheme) || !scheme.StartsWith("acnative-", StringComparison.Ordinal))
+                    continue;
+
+                string suffix = scheme.Substring("acnative-".Length);
+                if (suffix == gameNameLowerCase)
+                    continue;
+
+                SetAndroidAttribute(data, "scheme", correctScheme);
+                log?.Invoke($"Fixed custom scheme from '{scheme}' to '{correctScheme}' to match package name");
+            }
+        }
+
+        /// <summary>Matches master FixCheckoutActivityIntentFilterIfNeeded (25685): strip autoVerify and https on CheckoutActivity intent-filters only.</summary>
+        internal static void FixCheckoutActivitySmartDeepLinkIfNeeded(XmlDocument document, Action<string> log)
+        {
+            var application = GetManifest(document)["application"];
+            if (application == null)
+                return;
+
+            var activity = FindActivityByName(application, CheckoutActivityClass);
+            if (activity == null)
+                return;
+
+            bool changed = false;
+            foreach (XmlNode node in activity.ChildNodes)
+            {
+                var intentFilter = node as XmlElement;
+                if (intentFilter == null || intentFilter.Name != "intent-filter")
+                    continue;
+
+                if (!string.IsNullOrEmpty(GetAndroidAttribute(intentFilter, "autoVerify")))
+                {
+                    intentFilter.RemoveAttribute("autoVerify", AndroidNamespace);
+                    changed = true;
+                }
+
+                changed |= RemoveDataElements(intentFilter, scheme: "https", host: null);
+            }
+
+            if (changed)
+                log?.Invoke("Updated CheckoutActivity intent-filter for smart deep link handling (removed autoVerify and https scheme).");
+        }
+
         internal static void EnsureCheckoutActivity(XmlDocument document, AppchargeConfig config, string gameNameLowerCase, Action<string> log)
         {
             var application = GetOrCreateApplication(document);
-            bool replaced = RemoveCheckoutActivities(application, log);
+            if (FindActivityByName(application, CheckoutActivityClass) != null)
+                return;
 
             var activity = CreateCheckoutActivityElement(document, config);
             application.AppendChild(activity);
-            log?.Invoke(replaced
-                ? "Replaced CheckoutActivity in AndroidManifest.xml"
-                : "Added CheckoutActivity to AndroidManifest.xml");
+            log?.Invoke("Added CheckoutActivity to AndroidManifest.xml");
 
             if (config.ExcludeAppchargeActivityIntentFilters)
                 return;
 
             AppendNewCheckoutActivityIntentFilter(document, activity, config, gameNameLowerCase);
+        }
+
+        internal static void MigrateLegacyCheckoutActivityIfNeeded(XmlDocument document, Action<string> log)
+        {
+            var application = GetManifest(document)["application"];
+            if (application == null)
+                return;
+
+            MigrateLegacyCheckoutActivity(application, log);
         }
 
         internal static void EnsureCheckoutServiceAndPermissions(XmlDocument document)
@@ -143,23 +204,14 @@ namespace Appcharge.PaymentLinks.Editor {
             AppendMetaData(document, application, "com.appcharge.paymentlinks.ENGINE_SDK_VERSION", "${ENGINE_SDK_VERSION}");
         }
 
-        private static bool RemoveCheckoutActivities(XmlElement application, Action<string> log)
+        private static void MigrateLegacyCheckoutActivity(XmlElement application, Action<string> log)
         {
-            bool removed = false;
-            removed |= RemoveActivityByName(application, CheckoutActivityClass, log);
-            removed |= RemoveActivityByName(application, LegacyCheckoutActivityClass, log);
-            return removed;
-        }
+            var legacy = FindActivityByName(application, LegacyCheckoutActivityClass);
+            if (legacy == null)
+                return;
 
-        private static bool RemoveActivityByName(XmlElement application, string activityClassName, Action<string> log)
-        {
-            var activity = FindActivityByName(application, activityClassName);
-            if (activity == null)
-                return false;
-
-            application.RemoveChild(activity);
-            log?.Invoke($"Removed existing activity '{activityClassName}' from AndroidManifest.xml");
-            return true;
+            SetAndroidAttribute(legacy, "name", CheckoutActivityClass);
+            log?.Invoke($"Updated legacy activity name from {LegacyCheckoutActivityClass} to {CheckoutActivityClass}");
         }
 
         private static XmlElement CreateCheckoutActivityElement(XmlDocument document, AppchargeConfig config)
@@ -224,6 +276,27 @@ namespace Appcharge.PaymentLinks.Editor {
             }
 
             activity.AppendChild(intentFilter);
+        }
+
+        private static bool RemoveDataElements(XmlElement intentFilter, string scheme, string host)
+        {
+            var toRemove = new System.Collections.Generic.List<XmlNode>();
+            foreach (XmlNode node in intentFilter.ChildNodes)
+            {
+                var data = node as XmlElement;
+                if (data == null || data.Name != "data")
+                    continue;
+
+                if (scheme != null && GetAndroidAttribute(data, "scheme") == scheme)
+                    toRemove.Add(node);
+                else if (host != null && GetAndroidAttribute(data, "host") == host)
+                    toRemove.Add(node);
+            }
+
+            foreach (var node in toRemove)
+                intentFilter.RemoveChild(node);
+
+            return toRemove.Count > 0;
         }
 
         private static void AppendMetaData(XmlDocument document, XmlElement application, string name, string value)

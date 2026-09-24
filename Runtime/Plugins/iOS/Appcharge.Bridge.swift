@@ -69,7 +69,7 @@ public func acbridge_setDebugMode(debugMode: Bool) {
 
 
 class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
-    private struct PurchaseOutcomePayload: Encodable {
+    private struct PurchaseResultPayload: Encodable {
         let errorJson: String
         let orderJson: String
     }
@@ -82,7 +82,7 @@ class ACUnityPaymentLinksDelegate: NSObject, ACPaymentLinksDelegate {
         } else {
             orderJsonString = "null"
         }
-        let payload = PurchaseOutcomePayload(errorJson: errorJsonString, orderJson: orderJsonString)
+        let payload = PurchaseResultPayload(errorJson: errorJsonString, orderJson: orderJsonString)
         let payloadString = String(data: try! JSONEncoder().encode(payload), encoding: .utf8)!
         UnitySendMessage(UNITY_CALLBACK_HANDLER, unityMethod, payloadString)
     }

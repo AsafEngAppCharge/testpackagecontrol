@@ -12,7 +12,43 @@ namespace Appcharge.PaymentLinks {
     public class PaymentLinksController {
         private static PaymentLinksController _Instance;
         private static ICheckoutPlatform _currentPlatform;
-        private static bool _definedPlatform = false;
+
+        private static ICheckoutPlatform Platform {
+            get {
+                if (_currentPlatform != null) {
+                    return _currentPlatform;
+                }
+
+                switch (Application.platform) {
+                    #if UNITY_IOS
+                    case RuntimePlatform.IPhonePlayer:
+                        _currentPlatform = new iOSPlatform();
+                        break;
+                    #endif
+                    #if UNITY_ANDROID
+                    case RuntimePlatform.Android:
+                        _currentPlatform = new AndroidPlatform();
+                        break;
+                    #endif
+                    #if UNITY_WEBGL
+                    case RuntimePlatform.WebGLPlayer:
+                        _currentPlatform = new WebGLPlatform();
+                        break;
+                    #endif
+                    case RuntimePlatform.WindowsEditor:
+                    case RuntimePlatform.OSXEditor:
+                    case RuntimePlatform.LinuxEditor:
+                        _currentPlatform = CreateEditorPlatform();
+                        break;
+                    default:
+                        _currentPlatform = new UnsupportedPlatform();
+                        break;
+                }
+
+                return _currentPlatform;
+            }
+        }
+
         private PaymentLinksController() {
         }
 
@@ -23,11 +59,6 @@ namespace Appcharge.PaymentLinks {
                 if (_Instance == null)
                 {
                     _Instance = new PaymentLinksController();
-                    #if UNITY_WEBGL
-                        if (Application.platform == RuntimePlatform.WebGLPlayer) {
-                            WebGLPlatform.LoadRemoteLib();
-                        }
-                    #endif
                 }
                 return _Instance;
             }
@@ -39,92 +70,13 @@ namespace Appcharge.PaymentLinks {
             _ = Instance;
         }
 
-        private void DefinePlatform() {
-            if (_definedPlatform) {
-                return;
-            }
-
-            switch (Application.platform) {
-                    #if UNITY_IOS
-                case RuntimePlatform.IPhonePlayer:
-                    _currentPlatform = new iOSPlatform();
-                    break;
-                    #endif
-                    #if UNITY_ANDROID
-                case RuntimePlatform.Android:
-                    _currentPlatform = new AndroidPlatform();
-                    break;
-                    #endif
-                    #if UNITY_WEBGL
-                case RuntimePlatform.WebGLPlayer:
-                    _currentPlatform = new WebGLPlatform();
-                    break;
-                    #endif
-                case RuntimePlatform.WindowsEditor:
-                case RuntimePlatform.OSXEditor:
-                case RuntimePlatform.LinuxEditor:
-                    _currentPlatform = CreateEditorPlatform();
-                    break;
-                default:
-                    if (_currentPlatform == null) {
-                        _currentPlatform = new UnsupportedPlatform();
-                    }
-                    break;
-            }
-
-            _definedPlatform = true;
-        }
-
-        private ICheckoutPlatform CreatePlatformByName(string assemblyQualifiedName)
-        {
-            // Try to create the platform-specific instance at runtime
-            System.Type platformType = System.Type.GetType(assemblyQualifiedName);
-            
-            // If Type.GetType fails, search through all loaded assemblies
-            if (platformType == null)
-            {
-                System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-                foreach (System.Reflection.Assembly assembly in assemblies)
-                {
-                    try
-                    {
-                        platformType = assembly.GetType(assemblyQualifiedName.Split(',')[0]);
-                        if (platformType != null)
-                            break;
-                    }
-                    catch (System.Exception)
-                    {
-                        // Continue searching
-                    }
-                }
-            }
-            
-            if (platformType != null)
-            {
-                try
-                {
-                    return System.Activator.CreateInstance(platformType) as ICheckoutPlatform;
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogWarning($"Failed to create platform {assemblyQualifiedName}: {ex.Message}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find type: {assemblyQualifiedName}. Falling back to UnsupportedPlatform.");
-            }
-            return new UnsupportedPlatform();
-        }
-
         public void Init(ICheckoutPurchase callback)
         {
             DispatchOnMainThread(InitOnMainThread);
 
             void InitOnMainThread() {
                 ApplyMainThreadDispatcherFromConfig();
-                DefinePlatform();
-                _currentPlatform.Init(WrapPublisherCallback(callback));
+                Platform.Init(WrapPublisherCallback(callback));
             }
         }
 
@@ -133,8 +85,7 @@ namespace Appcharge.PaymentLinks {
 
             void InitOnMainThread() {
                 ApplyMainThreadDispatcherFromConfig();
-                DefinePlatform();
-                _currentPlatform.Init(checkoutToken, environment, WrapPublisherCallback(callback));
+                Platform.Init(checkoutToken, environment, WrapPublisherCallback(callback));
             }
         }
 
@@ -142,7 +93,7 @@ namespace Appcharge.PaymentLinks {
             DispatchOnMainThread(OpenCheckoutOnMainThread);
 
             void OpenCheckoutOnMainThread() {
-                _currentPlatform.OpenCheckout(purchaseId, parsedUrl, customerId);
+                Platform.OpenCheckout(purchaseId, parsedUrl, customerId);
             }
         }
 
@@ -150,7 +101,7 @@ namespace Appcharge.PaymentLinks {
             return DispatchOnMainThread(GetSdkVersionOnMainThread);
 
             string GetSdkVersionOnMainThread() {
-                return _currentPlatform.GetSdkVersion();
+                return Platform.GetSdkVersion();
             }
         }
 
@@ -163,8 +114,7 @@ namespace Appcharge.PaymentLinks {
                     return;
                 }
 
-                DefinePlatform();
-                _currentPlatform.ConfigurePlatform(property, value);
+                Platform.ConfigurePlatform(property, value);
             }
         }
 
@@ -186,16 +136,13 @@ namespace Appcharge.PaymentLinks {
 
         private static void ApplyMainThreadDispatcherFromConfig() {
             try {
-                var config = ConfigUtility.GetConfig();
-                MainThreadDispatcher.Enabled = config.EnableMainThreadDispatcher;
-                MainThreadDispatcher.DebugLogging = config.EnableDebugMode;
+                MainThreadDispatcher.Enabled = ConfigUtility.GetConfig().EnableMainThreadDispatcher;
             } catch (Exception) {
                 MainThreadDispatcher.Enabled = true;
-                MainThreadDispatcher.DebugLogging = false;
             }
         }
 
-        private ICheckoutPlatform CreateEditorPlatform()
+        private static ICheckoutPlatform CreateEditorPlatform()
         {
             var editorPlatformType = System.Type.GetType("Appcharge.PaymentLinks.Platforms.Editor.EditorPlatform, Appcharge.PaymentLinks.Platforms.Editor");
             if (editorPlatformType != null)
