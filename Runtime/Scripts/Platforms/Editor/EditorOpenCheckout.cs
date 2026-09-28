@@ -130,8 +130,7 @@ namespace Appcharge.PaymentLinks.Platforms.Editor {
         private string BuildCheckoutQueryParams()
         {
             string sourceVersion = UnityWebRequest.EscapeURL(_platform.GetSdkVersion());
-            return $"cot={UnityWebRequest.EscapeURL(_editorPlatform.CheckoutPublicKey)}" +
-                   "&platform=editor" +
+            return "platform=editor" +
                    "&browserType=editor" +
                    $"&redirectUrl={UnityWebRequest.EscapeURL("acnative://action")}" +
                    "&resource=pl_sdk" +

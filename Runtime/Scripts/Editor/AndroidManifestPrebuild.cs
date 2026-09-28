@@ -34,11 +34,6 @@ namespace Appcharge.PaymentLinks.Editor {
                 if (!editorConfig.ExcludeQueriesBlock)
                     AndroidManifestXmlEditor.EnsureQueriesViewHttpsIntent(document);
 
-                if (!editorConfig.ExcludeCustomScheme)
-                    AndroidManifestXmlEditor.FixAcnativeSchemeValues(document, gameNameLowerCase, LogInfo);
-
-                AndroidManifestXmlEditor.FixCheckoutActivitySmartDeepLinkIfNeeded(document, LogInfo);
-
                 if (!editorConfig.ExcludeAppchargeActivity)
                     AndroidManifestXmlEditor.EnsureCheckoutActivity(document, editorConfig, gameNameLowerCase, LogInfo);
 
@@ -46,8 +41,6 @@ namespace Appcharge.PaymentLinks.Editor {
                     AndroidManifestXmlEditor.EnsureCheckoutServiceAndPermissions(document);
 
                 AndroidManifestXmlEditor.EnsureEngineMetadata(document);
-
-                AndroidManifestXmlEditor.MigrateLegacyCheckoutActivityIfNeeded(document, LogInfo);
 
                 AndroidManifestXmlEditor.Save(document, _path);
                 _appchargePrebuildEditor.LogToFile("Final AndroidManifest.xml content:\n" + File.ReadAllText(_path));
