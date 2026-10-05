@@ -316,9 +316,13 @@ public protocol ACBaseNetworkRequest {
   var logRequestOnSuccessOnly: Swift.Bool { get }
   var isUsePathMonitor: Swift.Bool { get set }
   var keyDecodingStrategy: Foundation.JSONDecoder.KeyDecodingStrategy { get }
+  var cachePolicy: Foundation.URLRequest.CachePolicy { get }
 }
 extension ACPaymentLinks.ACBaseNetworkRequest {
   public var keyDecodingStrategy: Foundation.JSONDecoder.KeyDecodingStrategy {
+    get
+  }
+  public var cachePolicy: Foundation.URLRequest.CachePolicy {
     get
   }
 }
@@ -355,6 +359,7 @@ public enum NetworkError : Swift.Error {
 public enum ACCheckoutErrorCode : Swift.Int, Swift.Error {
   case serverError
   case generalServerError
+  case generalServerCannotFindHostError
   case tokenValidationError
   case bootInitialization
   case bootEnviroment

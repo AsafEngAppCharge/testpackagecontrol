@@ -10477,6 +10477,48 @@
           },
           {
             "kind": "Var",
+            "name": "cachePolicy",
+            "printedName": "cachePolicy",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CachePolicy",
+                "printedName": "Foundation.NSURLRequest.CachePolicy",
+                "usr": "c:@E@NSURLRequestCachePolicy"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestP11cachePolicySo017NSURLRequestCacheG0Vvp",
+            "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestP11cachePolicySo017NSURLRequestCacheG0Vvp",
+            "moduleName": "ACPaymentLinks",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CachePolicy",
+                    "printedName": "Foundation.NSURLRequest.CachePolicy",
+                    "usr": "c:@E@NSURLRequestCachePolicy"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestP11cachePolicySo017NSURLRequestCacheG0Vvg",
+                "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestP11cachePolicySo017NSURLRequestCacheG0Vvg",
+                "moduleName": "ACPaymentLinks",
+                "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACBaseNetworkRequest>",
+                "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACBaseNetworkRequest>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
             "name": "keyDecodingStrategy",
             "printedName": "keyDecodingStrategy",
             "children": [
@@ -10508,6 +10550,47 @@
                 "declKind": "Accessor",
                 "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestPAAE19keyDecodingStrategy10Foundation11JSONDecoderC03KeygH0Ovg",
                 "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestPAAE19keyDecodingStrategy10Foundation11JSONDecoderC03KeygH0Ovg",
+                "moduleName": "ACPaymentLinks",
+                "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACBaseNetworkRequest>",
+                "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACBaseNetworkRequest>",
+                "isFromExtension": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "cachePolicy",
+            "printedName": "cachePolicy",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CachePolicy",
+                "printedName": "Foundation.NSURLRequest.CachePolicy",
+                "usr": "c:@E@NSURLRequestCachePolicy"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestPAAE11cachePolicySo017NSURLRequestCacheG0Vvp",
+            "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestPAAE11cachePolicySo017NSURLRequestCacheG0Vvp",
+            "moduleName": "ACPaymentLinks",
+            "isFromExtension": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CachePolicy",
+                    "printedName": "Foundation.NSURLRequest.CachePolicy",
+                    "usr": "c:@E@NSURLRequestCachePolicy"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14ACPaymentLinks20ACBaseNetworkRequestPAAE11cachePolicySo017NSURLRequestCacheG0Vvg",
+                "mangledName": "$s14ACPaymentLinks20ACBaseNetworkRequestPAAE11cachePolicySo017NSURLRequestCacheG0Vvg",
                 "moduleName": "ACPaymentLinks",
                 "genericSig": "<τ_0_0 where τ_0_0 : ACPaymentLinks.ACBaseNetworkRequest>",
                 "sugared_genericSig": "<Self where Self : ACPaymentLinks.ACBaseNetworkRequest>",
@@ -11869,6 +11952,43 @@
             "declKind": "EnumElement",
             "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO013generalServerD0yA2CmF",
             "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO013generalServerD0yA2CmF",
+            "moduleName": "ACPaymentLinks"
+          },
+          {
+            "kind": "Var",
+            "name": "generalServerCannotFindHostError",
+            "printedName": "generalServerCannotFindHostError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ACPaymentLinks.ACCheckoutErrorCode.Type) -> ACPaymentLinks.ACCheckoutErrorCode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ACCheckoutErrorCode",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                    "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ACPaymentLinks.ACCheckoutErrorCode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ACCheckoutErrorCode",
+                        "printedName": "ACPaymentLinks.ACCheckoutErrorCode",
+                        "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14ACPaymentLinks19ACCheckoutErrorCodeO027generalServerCannotFindHostD0yA2CmF",
+            "mangledName": "$s14ACPaymentLinks19ACCheckoutErrorCodeO027generalServerCannotFindHostD0yA2CmF",
             "moduleName": "ACPaymentLinks"
           },
           {
@@ -15731,8 +15851,8 @@
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Impl\/ACNetworkRetrySystem.swift",
       "kind": "IntegerLiteral",
       "offset": 2297,
-      "length": 2,
-      "value": "90"
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Network\/Requests\/Boot\/BootRequest.swift",
@@ -15947,203 +16067,210 @@
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 389,
+      "offset": 401,
+      "length": 4,
+      "value": "1002"
+    },
+    {
+      "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
+      "kind": "IntegerLiteral",
+      "offset": 438,
       "length": 4,
       "value": "1007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 451,
+      "offset": 500,
       "length": 4,
       "value": "2000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 482,
+      "offset": 531,
       "length": 4,
       "value": "2001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 508,
+      "offset": 557,
       "length": 4,
       "value": "2002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 546,
+      "offset": 595,
       "length": 4,
       "value": "2004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 588,
+      "offset": 637,
       "length": 4,
       "value": "2005"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 626,
+      "offset": 675,
       "length": 4,
       "value": "2006"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 680,
+      "offset": 729,
       "length": 4,
       "value": "3000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 722,
+      "offset": 771,
       "length": 4,
       "value": "3002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 753,
+      "offset": 802,
       "length": 4,
       "value": "3003"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 785,
+      "offset": 834,
       "length": 4,
       "value": "3004"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 818,
+      "offset": 867,
       "length": 4,
       "value": "3005"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 857,
+      "offset": 906,
       "length": 4,
       "value": "3006"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 898,
+      "offset": 947,
       "length": 4,
       "value": "3007"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 960,
+      "offset": 1009,
       "length": 4,
       "value": "4000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1000,
+      "offset": 1049,
       "length": 4,
       "value": "4002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1065,
+      "offset": 1114,
       "length": 4,
       "value": "8000"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1108,
+      "offset": 1157,
       "length": 4,
       "value": "8001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1142,
+      "offset": 1191,
       "length": 4,
       "value": "8002"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1195,
+      "offset": 1244,
       "length": 4,
       "value": "9001"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1234,
+      "offset": 1283,
       "length": 4,
       "value": "9998"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "IntegerLiteral",
-      "offset": 1263,
+      "offset": 1312,
       "length": 4,
       "value": "9999"
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7550,
+      "offset": 7930,
       "length": 17,
       "value": "\"Decoding Failed\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7592,
+      "offset": 7972,
       "length": 14,
       "value": "\"Unauthorized\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7628,
+      "offset": 8008,
       "length": 11,
       "value": "\"Forbidden\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7660,
+      "offset": 8040,
       "length": 20,
       "value": "\"Resource not found\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7712,
+      "offset": 8092,
       "length": 23,
       "value": "\"Internal server error\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7758,
+      "offset": 8138,
       "length": 24,
       "value": "\"No internet connection\""
     },
     {
       "filePath": "\/Users\/asafenglander\/git\/ios-checkout-sdk\/ACPaymentLinks\/Utils\/ErrorHandler.swift",
       "kind": "StringLiteral",
-      "offset": 7802,
+      "offset": 8182,
       "length": 15,
       "value": "\"Unknown error\""
     }
