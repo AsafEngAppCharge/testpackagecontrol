@@ -1,4 +1,4 @@
-## [3.0.0] - 2026-09-27
+## [3.0.0] - 2026-10-04
 
 ### Added
 - Unity Thread Dispatcher option.

@@ -10,6 +10,9 @@
     "email": "support@appcharge.com",
     "url": "https://appcharge.com"
   },
+  "dependencies": {
+    "com.acu.common.poc": "0.0.4"
+  },
   "samples": [
     {
       "displayName": "Sample",
