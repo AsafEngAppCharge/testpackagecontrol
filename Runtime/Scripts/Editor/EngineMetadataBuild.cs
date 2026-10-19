@@ -3,7 +3,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Appcharge.AppDirect.Config;
 using UnityEngine;
-using UnityEditor;
 
 namespace Appcharge.AppDirect.Editor
 {
