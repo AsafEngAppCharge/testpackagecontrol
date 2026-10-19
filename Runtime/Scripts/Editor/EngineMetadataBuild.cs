@@ -3,9 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Appcharge.AppDirect.Config;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 namespace Appcharge.AppDirect.Editor
 {
@@ -20,7 +18,6 @@ namespace Appcharge.AppDirect.Editor
         {
             get
             {
-#if UNITY_EDITOR
                 string path = GetPackageJsonPath();
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
@@ -35,12 +32,10 @@ namespace Appcharge.AppDirect.Editor
                     {
                     }
                 }
-#endif
                 return SdkVersion.UnitySdkVersion;
             }
         }
 
-#if UNITY_EDITOR
         public static string GetPackageRoot()
         {
             var info = PackageInfoForAssembly();
@@ -67,6 +62,5 @@ namespace Appcharge.AppDirect.Editor
         {
             return UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(EngineMetadataBuild).Assembly);
         }
-#endif
     }
 }

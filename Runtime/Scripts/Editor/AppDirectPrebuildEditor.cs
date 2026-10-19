@@ -1,9 +1,7 @@
 using System;
 using System.IO;
 using Appcharge.AppDirect.Config;
-#if UNITY_EDITOR
 using UnityEditor.Build;
-#endif
 using UnityEngine;
 
 namespace Appcharge.AppDirect.Editor
@@ -44,11 +42,7 @@ namespace Appcharge.AppDirect.Editor
             }
             catch (Exception ex)
             {
-#if UNITY_EDITOR
                 throw new BuildFailedException("AppDirect prebuild failed: " + ex.Message);
-#else
-                Debug.LogError("AppDirect prebuild failed: " + ex.Message);
-#endif
             }
         }
 

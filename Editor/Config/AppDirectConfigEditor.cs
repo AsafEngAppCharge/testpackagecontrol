@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using Appcharge.AppDirect.Config;
 using UnityEditor;
 using UnityEngine;
@@ -44,4 +43,3 @@ namespace Appcharge.AppDirect.PackageEditor
         }
     }
 }
-#endif
