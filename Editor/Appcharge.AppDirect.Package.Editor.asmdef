@@ -1,0 +1,19 @@
+{
+    "name": "Appcharge.AppDirect.Package.Editor",
+    "rootNamespace": "Appcharge.AppDirect.PackageEditor",
+    "references": [
+        "Appcharge.AppDirect.Config",
+        "Appcharge.AppDirect.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

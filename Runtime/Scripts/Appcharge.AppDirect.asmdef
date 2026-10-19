@@ -1,0 +1,21 @@
+{
+    "name": "Appcharge.AppDirect",
+    "rootNamespace": "Appcharge.AppDirect",
+    "references": [
+        "Appcharge.AppDirect.Interfaces",
+        "Appcharge.AppDirect.Models",
+        "Appcharge.AppDirect.Config",
+        "Appcharge.AppDirect.Threading",
+        "Appcharge.AppDirect.Platforms.Android",
+        "Appcharge.AppDirect.Platforms.Unsupported"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

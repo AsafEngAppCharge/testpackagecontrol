@@ -4,29 +4,31 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace Appcharge.PaymentLinks.Config {
-    public class ConfigUtility
+namespace Appcharge.AppDirect.Config
+{
+    public static class ConfigUtility
     {
-        private static AppchargeConfig _appchargeConfig;
-        public static AppchargeConfig GetConfig() {
-            if (_appchargeConfig == null) {
-                #if UNITY_EDITOR
-                _appchargeConfig = AssetDatabase.LoadAssetAtPath<AppchargeConfig>("Assets/Resources/Appcharge/AppchargeConfig.asset");
-                
-                if (_appchargeConfig == null)
-                {
-                    _appchargeConfig = Resources.Load<AppchargeConfig>("Appcharge/AppchargeConfig");
-                }
-                #else
-                _appchargeConfig = Resources.Load<AppchargeConfig>("Appcharge/AppchargeConfig");
-                #endif
+        public const string AssetPath = "Assets/Resources/Appcharge/AppDirectConfig.asset";
+        public const string ResourcesPath = "Appcharge/AppDirectConfig";
 
-                if (_appchargeConfig == null) {
-                    throw new Exception("AppchargeConfig not found. Please create an AppchargeConfig file at 'Assets/Resources/Appcharge/AppchargeConfig.asset'.");
-                }
-            }
+        private static AppDirectConfig _config;
 
-            return _appchargeConfig;
+        public static AppDirectConfig GetConfig()
+        {
+            if (_config != null)
+                return _config;
+
+#if UNITY_EDITOR
+            _config = AssetDatabase.LoadAssetAtPath<AppDirectConfig>(AssetPath);
+            if (_config == null)
+                _config = Resources.Load<AppDirectConfig>(ResourcesPath);
+#else
+            _config = Resources.Load<AppDirectConfig>(ResourcesPath);
+#endif
+            if (_config == null)
+                throw new Exception("AppDirectConfig not found. Create one at '" + AssetPath + "'.");
+
+            return _config;
         }
     }
 }

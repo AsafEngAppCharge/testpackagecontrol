@@ -1,37 +1,21 @@
-using Appcharge.PaymentLinks.Editor;
+using Appcharge.AppDirect.Editor;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
 
-public class AndroidPostProcess : IPreprocessBuildWithReport
+namespace Appcharge.AppDirect.PackageEditor
 {
-    #region Variables
-    public int callbackOrder => 0;
-    public static AndroidPostProcess Instance { get; private set; }
-    private AppchargePrebuildEditor _appchargePrebuildEditor;
-    #endregion
-
-    #region Constructor 
-    public AndroidPostProcess()
+    public sealed class AndroidPostProcess : IPreprocessBuildWithReport
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-    #endregion
+        public int callbackOrder => 1;
 
-    #region Reporters
-    public void OnPreprocessBuild(BuildReport report)
-    {
-        _appchargePrebuildEditor = new AppchargePrebuildEditor();
-        
-        if (report.summary.platform == BuildTarget.Android)
+        public void OnPreprocessBuild(BuildReport report)
         {
-            _appchargePrebuildEditor.OnPreprocessBuild();
+            if (report.summary.platform != BuildTarget.Android)
+                return;
+
+            new AppDirectPrebuildEditor().OnPreprocessBuild();
             AssetDatabase.Refresh();
         }
     }
-    #endregion
 }

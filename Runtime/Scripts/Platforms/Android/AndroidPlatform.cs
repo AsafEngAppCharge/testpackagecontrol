@@ -1,212 +1,201 @@
-using Appcharge.PaymentLinks.Config;
-using Appcharge.PaymentLinks.Interfaces;
-using Appcharge.PaymentLinks.Models;
+using System;
+using Appcharge.AppDirect.Config;
+using Appcharge.AppDirect.Interfaces;
+using Appcharge.AppDirect.Models;
 using UnityEngine;
 
-namespace Appcharge.PaymentLinks.Platforms.Android
+namespace Appcharge.AppDirect.Platforms.Android
 {
-	public class AndroidPlatform : ICheckoutPlatform
-	{
-		private AndroidJavaObject _bridgeApi;
-		private AndroidJavaObject _mainActivity;
-		private AndroidErrorHandler _errorHandler;
-		public ICheckoutPurchase Callback { get; set; }
-		private CallbackProxy _callbackProxy;
-		private BrowserMode _browserMode = BrowserMode.Internal;
-		private bool _debugMode = false;
-		private bool _portraitOrientationLock = false;
+    public class AndroidPlatform : IAppDirectPlatform
+    {
+        private AndroidJavaObject _bridgeApi;
+        private AndroidJavaObject _mainActivity;
+        public IAppDirectCallback Callback { get; set; }
+        private CallbackProxy _callbackProxy;
 
-		private void EnsureInitialized()
-		{
-			if (_errorHandler == null)
-			{
-				_errorHandler = new AndroidErrorHandler();
-				_errorHandler.Initialize();
-			}
+        private void EnsureInitialized()
+        {
+            if (_bridgeApi != null && _mainActivity != null)
+                return;
 
-			if (_bridgeApi != null && _mainActivity != null) 
-				return;
+            using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                _mainActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                _bridgeApi = new AndroidJavaObject("com.appcharge.appdirect.api.BridgeAPI");
+            }
+        }
 
-			using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-			{
-				_mainActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-				_bridgeApi = new AndroidJavaObject("com.appcharge.paymentlinks.BridgeAPI");
-			}
-		}
+        // Unity's player thread is not the Android main looper; ProcessLifecycleOwner.addObserver requires it.
+        private void RunOnAndroidUiThread(Action action)
+        {
+            EnsureInitialized();
+            if (_mainActivity == null || action == null)
+            {
+                Debug.LogError("Cannot run on Android UI thread.");
+                return;
+            }
 
-		public void Init(ICheckoutPurchase callback)
-		{
-			AppchargeConfig editorConfig = ConfigUtility.GetConfig();
+            _mainActivity.Call("runOnUiThread", new AndroidJavaRunnable(action));
+        }
+
+        public void Initialize(string customerId, IAppDirectCallback callback)
+        {
+			AppDirectConfig editorConfig = ConfigUtility.GetConfig();
 			if (editorConfig == null)
 			{
 				Debug.LogError("AppchargeConfig not found.");
 				return;
 			}
 
-			_browserMode = editorConfig.BrowserMode;
-			Init(editorConfig.CheckoutPublicKey, editorConfig.Environment.ToString().ToLowerInvariant(), callback);
-		}
+            Initialize(editorConfig.CheckoutPublicKey, customerId, editorConfig.Environment, callback);
+        }
 
-		public void Init(string checkoutToken, string environment, ICheckoutPurchase callback)
-		{
-			EnsureInitialized();
-			
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+        public void Initialize(string checkoutPublicKey, string customerId, AppDirectEnvironment environment, IAppDirectCallback callback)
+        {
+            EnsureInitialized();
 
-			AppchargeConfig editorConfig = ConfigUtility.GetConfig();
-			if (editorConfig != null)
-			{
-				_browserMode = editorConfig.BrowserMode;
-			}
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			Callback = callback;
-			_callbackProxy ??= new CallbackProxy(this);
+            Callback = callback;
+            _callbackProxy ??= new CallbackProxy(this);
 
-			var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutToken, environment);
-			_bridgeApi.Call("init", _mainActivity, configJavaObject, _callbackProxy);
-		}
+            RunOnAndroidUiThread(() =>
+            {
+                using (var configJavaObject = ConfigModelConverter.ToAndroidJavaObject(checkoutPublicKey, customerId, environment))
+                {
+                    _bridgeApi.Call("initialize", _mainActivity, configJavaObject, _callbackProxy);
+                }
+            });
+        }
 
-		public void OpenCheckout(string purchaseId, string parsedUrl, string customerId)
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+        public void CheckForUpdate()
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			_bridgeApi.Call("openCheckout", purchaseId, parsedUrl, customerId);
-		}
+            _bridgeApi.Call("checkForUpdate");
+        }
 
-		public string GetSdkVersion()
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return string.Empty;
-			}
+        public void Download()
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			return _bridgeApi.Call<string>("getSdkVersion");
-		}
+            _bridgeApi.Call("download");
+        }
 
-		public void ConfigurePlatform(string property, object value)
-		{
-			if (property.Equals("browserMode") && value is BrowserMode)
-			{
-				SetBrowserMode((BrowserMode)value);
-			}
+        public void Install()
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			if (property.Equals("debugMode") && value is bool)
-			{
-				SetDebugMode((bool)value);
-			}
+            _bridgeApi.Call("install");
+        }
 
-			if (property.Equals("portraitOrientationLock") && value is bool)
-			{
-				SetPortraitOrientationLock((bool)value);
-			}
+        public void DownloadAndInstall()
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			if (property.Equals("setCheckoutServiceMode") && value is bool)
-			{
-				SetCheckoutServiceMode((bool)value);
-			}
-		}
+            _bridgeApi.Call("downloadAndInstall");
+        }
 
-		private void SetBrowserMode(BrowserMode mode)
-		{
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+        public string GetSdkVersion()
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return string.Empty;
+            }
 
-			_browserMode = mode;
-			string modeString = mode.ToString().ToLowerInvariant();
-			_bridgeApi.Call<string>("setBrowserMode", modeString);
-		}
+            return _bridgeApi.Call<string>("getSdkVersion");
+        }
 
-		private void SetDebugMode(bool debugMode) {
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+        public void OnAppFocusChanged(bool hasFocus)
+        {
+            EnsureInitialized();
+            if (_bridgeApi == null)
+            {
+                Debug.LogError("BridgeAPI is not initialized.");
+                return;
+            }
 
-			_debugMode = debugMode;
-			_bridgeApi.Call<bool>("setDebugMode", debugMode);
-		}
+            _bridgeApi.Call("onAppFocusChanged", hasFocus);
+        }
 
-		private void SetPortraitOrientationLock(bool portraitOrientationLock) {
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+        public void ConfigurePlatform(string property, object value)
+        {
+        }
 
-			_portraitOrientationLock = portraitOrientationLock;
-			_bridgeApi.Call<bool>("setPortraitOrientationLock", portraitOrientationLock);
-		}
+        private class CallbackProxy : AndroidJavaProxy
+        {
+            private readonly AndroidPlatform _platform;
 
-		private void SetCheckoutServiceMode(bool checkoutServiceMode) {
-			EnsureInitialized();
-			if (_bridgeApi == null)
-			{
-				Debug.LogError("BridgeAPI is not initialized.");
-				return;
-			}
+            public CallbackProxy(AndroidPlatform platform) : base("com.appcharge.appdirect.api.callback.AppDirectCallback")
+            {
+                _platform = platform;
+            }
 
-			_bridgeApi.Call<bool>("setCheckoutServiceMode", checkoutServiceMode);
-		}
+            public void onInitialized()
+            {
+                _platform.Callback?.OnInitialized();
+            }
 
-		public void OnInitialized()
-		{
-			SetBrowserMode(_browserMode);
-			SetDebugMode(_debugMode);
-			SetPortraitOrientationLock(_portraitOrientationLock);
-		}
+            public void onUpdateCheckCompleted(AndroidJavaObject info)
+            {
+                _platform.Callback?.OnUpdateCheckCompleted(UpdateInfoConverter.ToUpdateInfo(info));
+            }
 
-		private class CallbackProxy : AndroidJavaProxy
-		{
-			private readonly AndroidPlatform _platform;
+            public void onDownloadStarted()
+            {
+                _platform.Callback?.OnDownloadStarted();
+            }
 
-			public CallbackProxy(AndroidPlatform platform) : base("com.appcharge.paymentlinks.interfaces.ICheckoutPurchase")
-			{
-				_platform = platform;
-			}
+            public void onDownloadProgress(float progress)
+            {
+                _platform.Callback?.OnDownloadProgress(progress);
+            }
 
-			public void onInitialized()
-			{
-				_platform.Callback?.OnInitialized();
-				_platform.OnInitialized();
-			}
+            public void onDownloadCompleted()
+            {
+                _platform.Callback?.OnDownloadCompleted();
+            }
 
-			public void onInitializeFailed(AndroidJavaObject errorMessage)
-			{
-				_platform.Callback?.OnInitializeFailed(ErrorMessageConverter.ToErrorMessage(errorMessage));
-			}
+            public void onInstallationSuccess()
+            {
+                _platform.Callback?.OnInstallationSuccess();
+            }
 
-			public void onPurchaseSuccess(AndroidJavaObject orderResponse)
-			{
-				_platform.Callback?.OnPurchaseSuccess(OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
-			}
+            public void onUpdateInstallationFallback()
+            {
+                _platform.Callback?.OnUpdateInstallationFallback();
+            }
 
-			public void onPurchaseFailed(AndroidJavaObject errorMessage, AndroidJavaObject orderResponse)
-			{
-				_platform.Callback?.OnPurchaseFailed(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
-			}
-
-			public void onPurchaseCanceled(AndroidJavaObject errorMessage, AndroidJavaObject orderResponse)
-			{
-				_platform.Callback?.OnPurchaseCanceled(ErrorMessageConverter.ToErrorMessage(errorMessage), OrderResponseModelConverter.ToOrderResponseModel(orderResponse));
-			}
-		}
-	}
+            public void onError(int errorCode)
+            {
+                _platform.Callback?.OnError(errorCode);
+            }
+        }
+    }
 }

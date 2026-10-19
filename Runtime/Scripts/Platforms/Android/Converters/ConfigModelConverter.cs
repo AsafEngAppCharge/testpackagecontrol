@@ -1,18 +1,19 @@
+using Appcharge.AppDirect.Models;
 using UnityEngine;
 
-namespace Appcharge.PaymentLinks.Platforms.Android {
-	public static class ConfigModelConverter
-	{
-		public static AndroidJavaObject ToAndroidJavaObject(string checkoutPublicKey, string environment)
-		{
-			using (var configModelClass = new AndroidJavaClass("com.appcharge.paymentlinks.models.ConfigModel"))
-			{
-				return new AndroidJavaObject(
-					"com.appcharge.paymentlinks.models.ConfigModel",
-					checkoutPublicKey,
-					environment
-				);
-			}
-		}
-	}
+namespace Appcharge.AppDirect.Platforms.Android
+{
+    public static class ConfigModelConverter
+    {
+        public static AndroidJavaObject ToAndroidJavaObject(string checkoutPublicKey, string customerId, AppDirectEnvironment environment)
+        {
+            Debug.Log("ToAndroidJavaObject raw values: " + checkoutPublicKey + " " + customerId + " " + environment);
+            Debug.Log("ToAndroidJavaObject int env: " + (int)environment);
+            return new AndroidJavaObject(
+                "com.appcharge.appdirect.domain.model.ConfigModel",
+                checkoutPublicKey,
+                customerId,
+                (int)environment);
+        }
+    }
 }

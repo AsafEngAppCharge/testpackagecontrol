@@ -1,12 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Appcharge.PaymentLinks.Config;
+using Appcharge.AppDirect.Config;
 
-namespace Appcharge.PaymentLinks.Editor {
-    public class GradleTemplatePrebuild : Prebuilder
+namespace Appcharge.AppDirect.Editor
+{
+    public sealed class GradleTemplatePrebuild : Prebuilder
     {
-        public GradleTemplatePrebuild(string path, AppchargePrebuildEditor appchargePrebuildEditor, AppchargeConfig appchargeConfig) : base(path, appchargePrebuildEditor, appchargeConfig)
+        private const string UseAndroidXPrefix = "android.useAndroidX";
+        private const string EnableJetifierPrefix = "android.enableJetifier";
+        private const string UseAndroidXTrue = "android.useAndroidX=true";
+        private const string EnableJetifierTrue = "android.enableJetifier=true";
+
+        public GradleTemplatePrebuild(string path, AppDirectPrebuildEditor prebuildEditor, AppDirectConfig config)
+            : base(path, prebuildEditor, config)
         {
         }
 
@@ -14,47 +21,32 @@ namespace Appcharge.PaymentLinks.Editor {
         {
             try
             {
-                if (File.Exists(_path))
+                if (!File.Exists(_path))
                 {
-                    string[] lines = File.ReadAllLines(_path);
-
-                    string useAndroidX = "android.useAndroidX=true";
-                    string enableJetifier = "android.enableJetifier=true";
-
-                    AppchargeConfig editorConfig = _appchargeConfig;
-
-                    List<string> modifiedLines = new();
-
-                    foreach (string line in lines)
-                    {
-                        if (!line.Trim().StartsWith("android.useAndroidX") && !line.Trim().StartsWith("android.enableJetifier"))
-                        {
-                            modifiedLines.Add(line);
-                        }
-                    }
-
-                    if (!editorConfig.ExcludeAndroidX)
-                    {
-                        modifiedLines.Add(useAndroidX);
-                    }
-
-                    if (!editorConfig.ExcludeJetifier)
-                    {
-                        modifiedLines.Add(enableJetifier);
-                    }
-
-                    File.WriteAllLines(_path, modifiedLines);
-                    string finalContent = File.ReadAllText(_path);
-                    _appchargePrebuildEditor.LogToFile("Final gradle.properties content:\n" + finalContent);
+                    _prebuildEditor.LogToFile("gradleTemplate.properties file not found at " + _path, false);
+                    return;
                 }
-                else
+
+                string[] lines = File.ReadAllLines(_path);
+                var modified = new List<string>();
+                foreach (string line in lines)
                 {
-                    _appchargePrebuildEditor.LogToFile("gradle.properties file not found at " + _path, false);
+                    string trimmed = line.Trim();
+                    if (!trimmed.StartsWith(UseAndroidXPrefix) && !trimmed.StartsWith(EnableJetifierPrefix))
+                        modified.Add(line);
                 }
+
+                if (!_config.ExcludeAndroidX)
+                    modified.Add(UseAndroidXTrue);
+                if (!_config.ExcludeJetifier)
+                    modified.Add(EnableJetifierTrue);
+
+                File.WriteAllLines(_path, modified);
+                _prebuildEditor.LogToFile("Final gradle.properties content:\n" + File.ReadAllText(_path));
             }
             catch (Exception ex)
             {
-                _appchargePrebuildEditor.LogToFile($"Error updating gradle.properties: {ex.Message}", true);
+                _prebuildEditor.LogToFile("Error updating gradle.properties: " + ex.Message, true);
             }
         }
     }

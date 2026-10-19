@@ -1,31 +1,30 @@
 using System.IO;
-using Appcharge.PaymentLinks.Config;
+using Appcharge.AppDirect.Config;
 using UnityEngine;
 
-namespace Appcharge.PaymentLinks.Editor {
+namespace Appcharge.AppDirect.Editor
+{
     public abstract class Prebuilder
     {
         protected string _path;
         protected string _backupPath;
-        protected AppchargePrebuildEditor _appchargePrebuildEditor;
-        protected AppchargeConfig _appchargeConfig;
-        private const string _backupPathExtension = ".bak";
-        private const string _metaPathExtension = ".meta";
-        private string _fileName;
+        protected AppDirectPrebuildEditor _prebuildEditor;
+        protected AppDirectConfig _config;
+        private const string BackupPathExtension = ".bak";
+        private readonly string _fileName;
 
-        public Prebuilder(string path, AppchargePrebuildEditor appchargePrebuildEditor, AppchargeConfig appchargeConfig)
+        protected Prebuilder(string path, AppDirectPrebuildEditor prebuildEditor, AppDirectConfig config)
         {
             _path = path;
-            _appchargePrebuildEditor = appchargePrebuildEditor;
-            _appchargeConfig = appchargeConfig;
+            _prebuildEditor = prebuildEditor;
+            _config = config;
             _fileName = Path.GetFileName(_path);
         }
 
         public virtual void Backup()
         {
             string projectRoot = Directory.GetParent(Application.dataPath).FullName;
-            _backupPath = Path.Combine(projectRoot, "Appcharge", _fileName + _backupPathExtension);
-
+            _backupPath = Path.Combine(projectRoot, "AppDirect", _fileName + BackupPathExtension);
             string directoryPath = Path.GetDirectoryName(_backupPath);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
@@ -37,21 +36,6 @@ namespace Appcharge.PaymentLinks.Editor {
             }
 
             File.Copy(_path, _backupPath, overwrite: true);
-        }
-
-        public virtual void Restore()
-        {
-            if (_backupPath != null && File.Exists(_backupPath))
-            {
-                File.Copy(_backupPath, _path, overwrite: true);
-                File.Delete(_backupPath);
-
-                string metaFilePath = _backupPath + _metaPathExtension;
-                if (File.Exists(metaFilePath))
-                    File.Delete(metaFilePath);
-
-                Debug.Log("Restored original " + _fileName + " file.");
-            }
         }
 
         public abstract void Update();

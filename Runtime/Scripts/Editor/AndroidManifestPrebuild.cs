@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 using System.Xml;
-using Appcharge.PaymentLinks.Config;
-using UnityEngine;
+using Appcharge.AppDirect.Config;
 
-namespace Appcharge.PaymentLinks.Editor {
-    public class AndroidManifestPrebuild : Prebuilder
+namespace Appcharge.AppDirect.Editor
+{
+    public sealed class AndroidManifestPrebuild : Prebuilder
     {
-        public AndroidManifestPrebuild(string path, AppchargePrebuildEditor appchargePrebuildEditor, AppchargeConfig appchargeConfig)
-            : base(path, appchargePrebuildEditor, appchargeConfig)
+        public AndroidManifestPrebuild(string path, AppDirectPrebuildEditor prebuildEditor, AppDirectConfig config)
+            : base(path, prebuildEditor, config)
         {
         }
 
@@ -18,40 +18,22 @@ namespace Appcharge.PaymentLinks.Editor {
             {
                 if (!File.Exists(_path))
                 {
-                    _appchargePrebuildEditor.LogToFile("AndroidManifest.xml file not found at path: " + _path + "\n", false);
+                    _prebuildEditor.LogToFile("AndroidManifest.xml file not found at path: " + _path, false);
                     return;
                 }
 
-                string packageName = Application.identifier;
-                string gameNameLowerCase = packageName.Split('.')[^1];
-                AppchargeConfig editorConfig = _appchargeConfig;
-
                 XmlDocument document = AndroidManifestXmlEditor.Load(_path);
-
-                if (!editorConfig.ExcludeInternetPermission)
-                    AndroidManifestXmlEditor.EnsureUsesPermission(document, "android.permission.INTERNET");
-
-                if (!editorConfig.ExcludeQueriesBlock)
-                    AndroidManifestXmlEditor.EnsureQueriesViewHttpsIntent(document);
-
-                if (!editorConfig.ExcludeAppchargeActivity)
-                    AndroidManifestXmlEditor.EnsureCheckoutActivity(document, editorConfig, gameNameLowerCase, LogInfo);
-
-                if (!editorConfig.ExcludeCheckoutService)
-                    AndroidManifestXmlEditor.EnsureCheckoutServiceAndPermissions(document);
+                if (_config.EnsureNativeManifestEntries)
+                    AndroidManifestXmlEditor.EnsureNativeInstallEntries(document);
 
                 AndroidManifestXmlEditor.EnsureEngineMetadata(document);
-
                 AndroidManifestXmlEditor.Save(document, _path);
-                _appchargePrebuildEditor.LogToFile("Final AndroidManifest.xml content:\n" + File.ReadAllText(_path));
+                _prebuildEditor.LogToFile("Final AndroidManifest.xml content:\n" + File.ReadAllText(_path));
             }
             catch (Exception ex)
             {
-                _appchargePrebuildEditor.LogToFile($"Error updating AndroidManifest.xml: {ex.Message}");
-                throw;
+                _prebuildEditor.LogToFile("Error updating AndroidManifest.xml: " + ex.Message, true);
             }
         }
-
-        private void LogInfo(string message) => _appchargePrebuildEditor.LogToFile(message);
     }
 }

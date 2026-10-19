@@ -1,0 +1,16 @@
+{
+    "name": "Appcharge.AppDirect.Config",
+    "rootNamespace": "Appcharge.AppDirect.Config",
+    "references": [
+        "Appcharge.AppDirect.Models"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

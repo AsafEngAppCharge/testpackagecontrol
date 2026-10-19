@@ -1,38 +1,48 @@
-using Appcharge.PaymentLinks.Interfaces;
-using Appcharge.PaymentLinks.Models;
+using Appcharge.AppDirect.Interfaces;
+using Appcharge.AppDirect.Models;
 using UnityEngine;
 
-namespace Appcharge.PaymentLinks.Platforms.Unsupported {
-    public class UnsupportedPlatform : ICheckoutPlatform
+namespace Appcharge.AppDirect.Platforms.Unsupported
+{
+    public sealed class UnsupportedPlatform : IAppDirectPlatform
     {
-        public ICheckoutPurchase Callback { get; set; }
+        public IAppDirectCallback Callback { get; set; }
 
-        public void Init(ICheckoutPurchase callback)
+        public void Initialize(string customerId, IAppDirectCallback callback)
         {
-            Debug.LogWarning("Unsupported platform: Init");        
-            callback.OnInitializeFailed(new ErrorMessage { message = "Unsupported platform" });
+            Initialize(null, customerId, default, callback);
         }
 
-        public void Init(string checkoutToken, string environment, ICheckoutPurchase callback)
+        public void Initialize(string checkoutPublicKey, string customerId, AppDirectEnvironment environment, IAppDirectCallback callback)
         {
-            Debug.LogWarning("Unsupported platform: Init");        
-            callback.OnInitializeFailed(new ErrorMessage { message = "Unsupported platform" });
+            Callback = callback;
+            Debug.LogWarning("AppDirect is Android-only. Initialize is unavailable on this platform.");
+            callback?.OnError((int)AppDirectErrorCode.UnknownError);
         }
 
-        public void OpenCheckout(string purchaseId, string parsedUrl, string customerId)
-        {
-            Debug.LogWarning("Unsupported platform: OpenCheckout");        
-        }
-        
+        public void CheckForUpdate() => Unavailable("CheckForUpdate");
+        public void Download() => Unavailable("Download");
+        public void Install() => Unavailable("Install");
+        public void DownloadAndInstall() => Unavailable("DownloadAndInstall");
+
         public string GetSdkVersion()
         {
-            Debug.LogWarning("Unsupported platform: GetSdkVersion");
+            Debug.LogWarning("AppDirect is Android-only. GetSdkVersion is unavailable on this platform.");
             return "0.0.0";
+        }
+
+        public void OnAppFocusChanged(bool hasFocus)
+        {
         }
 
         public void ConfigurePlatform(string property, object value)
         {
-            Debug.LogWarning("Unsupported platform: ConfigurePlatform");        
+        }
+
+        private void Unavailable(string method)
+        {
+            Debug.LogWarning("AppDirect is Android-only. " + method + " is unavailable on this platform.");
+            Callback?.OnError((int)AppDirectErrorCode.UnknownError);
         }
     }
 }

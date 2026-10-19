@@ -1,32 +1,22 @@
 using System;
 using System.Xml;
-using Appcharge.PaymentLinks.Config;
-using UnityEngine;
 
-namespace Appcharge.PaymentLinks.Editor {
-    internal static class AndroidManifestXmlEditor
+namespace Appcharge.AppDirect.Editor
+{
+    public static class AndroidManifestXmlEditor
     {
-        internal const string AndroidNamespace = "http://schemas.android.com/apk/res/android";
-        internal const string ToolsNamespace = "http://schemas.android.com/tools";
+        public const string AndroidNamespace = "http://schemas.android.com/apk/res/android";
+        public const string FileProviderClass = "androidx.core.content.FileProvider";
+        public const string InstallPermissionActivityClass = "com.appcharge.appdirect.internal.InstallPermissionActivity";
 
-        internal const string CheckoutActivityClass = "com.appcharge.paymentlinks.CheckoutActivity";
-        internal const string LegacyCheckoutActivityClass = "com.appcharge.core.CheckoutActivity";
-        internal const string CheckoutServiceClass = "com.appcharge.paymentlinks.CheckoutService";
-
-        internal const string EngineNameMetaData = "com.appcharge.paymentlinks.ENGINE_NAME";
-
-        internal const string ActionView = "android.intent.action.VIEW";
-        internal const string CategoryDefault = "android.intent.category.DEFAULT";
-        internal const string CategoryBrowsable = "android.intent.category.BROWSABLE";
-
-        internal static XmlDocument Load(string path)
+        public static XmlDocument Load(string path)
         {
             var document = new XmlDocument { PreserveWhitespace = false };
             document.Load(path);
             return document;
         }
 
-        internal static void Save(XmlDocument document, string path)
+        public static void Save(XmlDocument document, string path)
         {
             var settings = new XmlWriterSettings
             {
@@ -38,25 +28,10 @@ namespace Appcharge.PaymentLinks.Editor {
                 Encoding = new System.Text.UTF8Encoding(false)
             };
             using (var writer = XmlWriter.Create(path, settings))
-            {
                 document.Save(writer);
-            }
         }
 
-        internal static XmlElement GetManifest(XmlDocument document) =>
-            document.DocumentElement ?? throw new InvalidOperationException("Android manifest has no root element.");
-
-        internal static XmlElement GetOrCreateApplication(XmlDocument document)
-        {
-            var manifest = GetManifest(document);
-            var application = manifest["application"];
-            if (application != null)
-                return application;
-
-            throw new InvalidOperationException("Android manifest is missing a required <application> element.");
-        }
-
-        internal static void EnsureUsesPermission(XmlDocument document, string permission)
+        public static void EnsureUsesPermission(XmlDocument document, string permission)
         {
             if (HasUsesPermission(document, permission))
                 return;
@@ -64,7 +39,6 @@ namespace Appcharge.PaymentLinks.Editor {
             var manifest = GetManifest(document);
             var permissionElement = document.CreateElement("uses-permission");
             SetAndroidAttribute(permissionElement, "name", permission);
-
             var application = manifest["application"];
             if (application != null)
                 manifest.InsertBefore(permissionElement, application);
@@ -72,7 +46,7 @@ namespace Appcharge.PaymentLinks.Editor {
                 manifest.AppendChild(permissionElement);
         }
 
-        internal static void EnsureQueriesViewHttpsIntent(XmlDocument document)
+        public static void EnsureQueriesViewHttpsIntent(XmlDocument document)
         {
             var manifest = GetManifest(document);
             if (manifest["queries"] != null)
@@ -80,15 +54,15 @@ namespace Appcharge.PaymentLinks.Editor {
 
             var queries = document.CreateElement("queries");
             var intent = document.CreateElement("intent");
-
             var action = document.CreateElement("action");
-            SetAndroidAttribute(action, "name", ActionView);
+            SetAndroidAttribute(action, "name", "android.intent.action.VIEW");
             intent.AppendChild(action);
-
+            var category = document.CreateElement("category");
+            SetAndroidAttribute(category, "name", "android.intent.category.BROWSABLE");
+            intent.AppendChild(category);
             var data = document.CreateElement("data");
             SetAndroidAttribute(data, "scheme", "https");
             intent.AppendChild(data);
-
             queries.AppendChild(intent);
 
             var application = manifest["application"];
@@ -98,169 +72,83 @@ namespace Appcharge.PaymentLinks.Editor {
                 manifest.AppendChild(queries);
         }
 
-        internal static void EnsureCheckoutActivity(XmlDocument document, AppchargeConfig config, string gameNameLowerCase, Action<string> log)
+        public static void EnsureFileProvider(XmlDocument document)
         {
             var application = GetOrCreateApplication(document);
-            bool replaced = RemoveCheckoutActivities(application, log);
-
-            var activity = CreateCheckoutActivityElement(document, config);
-            application.AppendChild(activity);
-            log?.Invoke(replaced
-                ? "Replaced CheckoutActivity in AndroidManifest.xml"
-                : "Added CheckoutActivity to AndroidManifest.xml");
-
-            if (config.ExcludeAppchargeActivityIntentFilters)
+            if (FindChildByAndroidName(application, "provider", FileProviderClass) != null)
                 return;
 
-            AppendNewCheckoutActivityIntentFilter(document, activity, config, gameNameLowerCase);
+            var provider = document.CreateElement("provider");
+            SetAndroidAttribute(provider, "name", FileProviderClass);
+            SetAndroidAttribute(provider, "authorities", "${applicationId}.fileProvider");
+            SetAndroidAttribute(provider, "exported", "false");
+            SetAndroidAttribute(provider, "grantUriPermissions", "true");
+            var meta = document.CreateElement("meta-data");
+            SetAndroidAttribute(meta, "name", "android.support.FILE_PROVIDER_PATHS");
+            SetAndroidAttribute(meta, "resource", "@xml/paths");
+            provider.AppendChild(meta);
+            application.AppendChild(provider);
         }
 
-        internal static void EnsureCheckoutServiceAndPermissions(XmlDocument document)
-        {
-            EnsureUsesPermission(document, "android.permission.FOREGROUND_SERVICE");
-            EnsureUsesPermission(document, "android.permission.POST_NOTIFICATIONS");
-
-            var application = GetOrCreateApplication(document);
-            if (FindChildByAndroidName(application, "service", CheckoutServiceClass) != null)
-                return;
-
-            var service = document.CreateElement("service");
-            SetAndroidAttribute(service, "name", CheckoutServiceClass);
-            SetAndroidAttribute(service, "exported", "false");
-            SetAndroidAttribute(service, "foregroundServiceType", "shortService");
-            application.AppendChild(service);
-        }
-
-        /// <summary>Values resolved at merge time via manifestPlaceholders in mainTemplate.gradle (MainTemplatePrebuild).</summary>
-        internal static void EnsureEngineMetadata(XmlDocument document)
+        public static void EnsureInstallPermissionActivity(XmlDocument document)
         {
             var application = GetOrCreateApplication(document);
-            if (FindMetaDataByName(application, EngineNameMetaData) != null)
+            if (FindChildByAndroidName(application, "activity", InstallPermissionActivityClass) != null)
                 return;
 
-            AppendMetaData(document, application, EngineNameMetaData, "${ENGINE_NAME}");
-            AppendMetaData(document, application, "com.appcharge.paymentlinks.ENGINE_VERSION_NAME", "${ENGINE_VERSION_NAME}");
-            AppendMetaData(document, application, "com.appcharge.paymentlinks.ENGINE_SDK_VERSION", "${ENGINE_SDK_VERSION}");
-        }
-
-        private static bool RemoveCheckoutActivities(XmlElement application, Action<string> log)
-        {
-            bool removed = false;
-            removed |= RemoveActivityByName(application, CheckoutActivityClass, log);
-            removed |= RemoveActivityByName(application, LegacyCheckoutActivityClass, log);
-            return removed;
-        }
-
-        private static bool RemoveActivityByName(XmlElement application, string activityClassName, Action<string> log)
-        {
-            var activity = FindActivityByName(application, activityClassName);
-            if (activity == null)
-                return false;
-
-            application.RemoveChild(activity);
-            log?.Invoke($"Removed existing activity '{activityClassName}' from AndroidManifest.xml");
-            return true;
-        }
-
-        private static XmlElement CreateCheckoutActivityElement(XmlDocument document, AppchargeConfig config)
-        {
             var activity = document.CreateElement("activity");
-            SetAndroidAttribute(activity, "name", CheckoutActivityClass);
-            ApplyCheckoutActivityAttributes(activity, config);
-            return activity;
+            SetAndroidAttribute(activity, "name", InstallPermissionActivityClass);
+            SetAndroidAttribute(activity, "exported", "false");
+            SetAndroidAttribute(activity, "theme", "@android:style/Theme.Translucent.NoTitleBar");
+            application.AppendChild(activity);
         }
 
-        private static void ApplyCheckoutActivityAttributes(XmlElement activity, AppchargeConfig config)
+        public static void EnsureEngineMetadata(XmlDocument document)
         {
-            SetAndroidAttribute(activity, "name", CheckoutActivityClass);
-            SetAndroidAttribute(activity, "theme", "@style/UnityThemeSelector");
-            SetAndroidAttribute(activity, "launchMode", "singleTask");
-            SetAndroidAttribute(activity, "configChanges", "orientation|screenSize");
-            SetAndroidAttribute(activity, "screenOrientation", "unspecified");
-
-            if (config.ExcludeExportedAttribute)
-                activity.RemoveAttribute("exported", AndroidNamespace);
-            else
-                SetAndroidAttribute(activity, "exported", "true");
-
-            if (config.ExcludeDiscouragedApiTool)
-                activity.RemoveAttribute("ignore", ToolsNamespace);
-            else
-                activity.SetAttribute("ignore", ToolsNamespace, "DiscouragedApi");
+            var application = GetOrCreateApplication(document);
+            EnsureMetaData(document, application, EngineMetadataBuild.EngineNameMetaData, "${ENGINE_NAME}");
+            EnsureMetaData(document, application, EngineMetadataBuild.EngineVersionMetaData, "${ENGINE_VERSION_NAME}");
+            EnsureMetaData(document, application, EngineMetadataBuild.EngineSdkVersionMetaData, "${ENGINE_SDK_VERSION}");
         }
 
-        private static void AppendNewCheckoutActivityIntentFilter(
-            XmlDocument document,
-            XmlElement activity,
-            AppchargeConfig config,
-            string gameNameLowerCase)
+        public static void EnsureNativeInstallEntries(XmlDocument document)
         {
-            var intentFilter = document.CreateElement("intent-filter");
-
-            var action = document.CreateElement("action");
-            SetAndroidAttribute(action, "name", ActionView);
-            intentFilter.AppendChild(action);
-
-            var categoryDefault = document.CreateElement("category");
-            SetAndroidAttribute(categoryDefault, "name", CategoryDefault);
-            intentFilter.AppendChild(categoryDefault);
-
-            var categoryBrowsable = document.CreateElement("category");
-            SetAndroidAttribute(categoryBrowsable, "name", CategoryBrowsable);
-            intentFilter.AppendChild(categoryBrowsable);
-
-            if (!config.ExcludeCustomScheme)
-            {
-                var schemeData = document.CreateElement("data");
-                SetAndroidAttribute(schemeData, "scheme", $"acnative-{gameNameLowerCase}");
-                intentFilter.AppendChild(schemeData);
-            }
-
-            if (!config.ExcludeCustomHost)
-            {
-                var hostData = document.CreateElement("data");
-                SetAndroidAttribute(hostData, "host", "action");
-                intentFilter.AppendChild(hostData);
-            }
-
-            activity.AppendChild(intentFilter);
+            EnsureUsesPermission(document, "android.permission.INTERNET");
+            EnsureUsesPermission(document, "android.permission.ACCESS_NETWORK_STATE");
+            EnsureUsesPermission(document, "android.permission.REQUEST_INSTALL_PACKAGES");
+            EnsureUsesPermission(document, "android.permission.FOREGROUND_SERVICE");
+            EnsureUsesPermission(document, "android.permission.FOREGROUND_SERVICE_DATA_SYNC");
+            EnsureQueriesViewHttpsIntent(document);
+            EnsureFileProvider(document);
+            EnsureInstallPermissionActivity(document);
         }
 
-        private static void AppendMetaData(XmlDocument document, XmlElement application, string name, string value)
+        private static void EnsureMetaData(XmlDocument document, XmlElement application, string name, string value)
         {
+            if (FindMetaDataByName(application, name) != null)
+                return;
+
             var metaData = document.CreateElement("meta-data");
             SetAndroidAttribute(metaData, "name", name);
             SetAndroidAttribute(metaData, "value", value);
             application.AppendChild(metaData);
         }
 
-        private static XmlElement FindMetaDataByName(XmlElement application, string name)
+        private static XmlElement GetManifest(XmlDocument document)
         {
-            foreach (XmlNode node in application.ChildNodes)
-            {
-                var metaData = node as XmlElement;
-                if (metaData != null && metaData.Name == "meta-data" &&
-                    GetAndroidAttribute(metaData, "name") == name)
-                    return metaData;
-            }
-
-            return null;
+            return document.DocumentElement ?? throw new InvalidOperationException("Android manifest has no root element.");
         }
 
-        private static XmlElement FindActivityByName(XmlElement application, string activityClassName) =>
-            FindChildByAndroidName(application, "activity", activityClassName);
-
-        private static XmlElement FindChildByAndroidName(XmlElement parent, string localName, string androidName)
+        private static XmlElement GetOrCreateApplication(XmlDocument document)
         {
-            foreach (XmlNode node in parent.ChildNodes)
-            {
-                var element = node as XmlElement;
-                if (element != null && element.Name == localName &&
-                    GetAndroidAttribute(element, "name") == androidName)
-                    return element;
-            }
+            var manifest = GetManifest(document);
+            var application = manifest["application"];
+            if (application != null)
+                return application;
 
-            return null;
+            application = document.CreateElement("application");
+            manifest.AppendChild(application);
+            return application;
         }
 
         private static bool HasUsesPermission(XmlDocument document, string permission)
@@ -268,18 +156,38 @@ namespace Appcharge.PaymentLinks.Editor {
             foreach (XmlNode node in GetManifest(document).ChildNodes)
             {
                 var element = node as XmlElement;
-                if (element != null && element.Name == "uses-permission" &&
-                    GetAndroidAttribute(element, "name") == permission)
+                if (element != null && element.Name == "uses-permission" && GetAndroidAttribute(element, "name") == permission)
                     return true;
             }
 
             return false;
         }
 
-        private static string GetAndroidAttribute(XmlElement element, string localName) =>
-            element.GetAttribute(localName, AndroidNamespace);
+        private static XmlElement FindMetaDataByName(XmlElement application, string name)
+        {
+            return FindChildByAndroidName(application, "meta-data", name);
+        }
 
-        private static void SetAndroidAttribute(XmlElement element, string localName, string value) =>
+        private static XmlElement FindChildByAndroidName(XmlElement parent, string localName, string androidName)
+        {
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                var element = node as XmlElement;
+                if (element != null && element.Name == localName && GetAndroidAttribute(element, "name") == androidName)
+                    return element;
+            }
+
+            return null;
+        }
+
+        private static string GetAndroidAttribute(XmlElement element, string localName)
+        {
+            return element.GetAttribute(localName, AndroidNamespace);
+        }
+
+        private static void SetAndroidAttribute(XmlElement element, string localName, string value)
+        {
             element.SetAttribute(localName, AndroidNamespace, value);
+        }
     }
 }

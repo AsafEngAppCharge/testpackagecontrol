@@ -1,8 +1,8 @@
-namespace Appcharge.PaymentLinks.Config
+namespace Appcharge.AppDirect.Config
 {
-    /// <summary>Unity SDK version. Synced from package.json at prebuild (keep package.json as source of truth).</summary>
+    /// <summary>Unity package version. Synced from package.json at prebuild.</summary>
     public static class SdkVersion
     {
-        public const string UnitySdkVersion = "3.0.0";
+        public const string UnitySdkVersion = "1.0.0";
     }
 }
