@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Appcharge.AppDirect.Config
 {
-    public static class ConfigUtility
+    public class ConfigUtility
     {
         public const string AssetPath = "Assets/Resources/Appcharge/AppDirectConfig.asset";
         public const string ResourcesPath = "Appcharge/AppDirectConfig";
